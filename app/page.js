@@ -1,65 +1,192 @@
-import Image from "next/image";
+'use client';
+import Image from 'next/image';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; }
+        .nav-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; }
+        .hero-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: #00C27C;
+          color: white;
+          font-size: 17px;
+          font-weight: 600;
+          padding: 16px 32px;
+          border-radius: 14px;
+          text-decoration: none;
+          transition: background 0.15s, transform 0.1s;
+        }
+        .hero-btn:hover { background: #00a368; transform: translateY(-1px); }
+        .feature-card {
+          background: white;
+          border-radius: 16px;
+          padding: 28px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+          transition: transform 0.15s;
+        }
+        .feature-card:hover { transform: translateY(-2px); }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        @media (max-width: 768px) {
+          .hero-grid { flex-direction: column !important; text-align: center; }
+          .freddie-img { margin: 0 auto; }
+          .features-grid { grid-template-columns: 1fr !important; }
+          .hero-headline { font-size: 36px !important; }
+          .stat-row { flex-direction: column !important; gap: 16px !important; }
+          .nav-links { display: none; }
+        }
+      `}</style>
+
+      {/* Nav */}
+      <nav style={{ background: '#0f1c2d', padding: '0 32px', height: '60px', display: 'flex', alignItems: 'center', position: 'sticky', top: 0, zIndex: 100 }}>
+        <div className="nav-inner">
+          <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
+            FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
+          </div>
+          <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            <a href="/freddie" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>Analyze a Deal</a>
+            <a href="/partners" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>Partners</a>
+            <a href="/freddie" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 16px', borderRadius: '8px' }}>Try Free →</a>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+      </nav>
+
+      {/* Hero */}
+      <section style={{ background: '#0f1c2d', padding: '80px 32px 100px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '60px' }} className="hero-grid">
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,194,124,0.12)', border: '1px solid rgba(0,194,124,0.25)', borderRadius: '20px', padding: '6px 14px', marginBottom: '24px' }}>
+              <div style={{ width: '6px', height: '6px', background: '#00C27C', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
+              <span style={{ fontSize: '12px', color: '#00C27C', fontWeight: '500', letterSpacing: '0.5px' }}>100% Free · No Credit Card</span>
+            </div>
+            <h1 className="hero-headline" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontSize: '52px', fontStyle: 'italic', color: 'white', lineHeight: '1.1', letterSpacing: '-1px', marginBottom: '20px' }}>
+              The Free AI Deal Analyzer That Helps You <span style={{ color: '#00C27C' }}>Close More Deals</span>
+            </h1>
+            <p style={{ fontSize: '18px', color: '#94a8b8', lineHeight: '1.7', marginBottom: '36px', maxWidth: '520px' }}>
+              No forms. No spreadsheets. Talk to Freddie — an AI built on 30 years of real investor experience. Get a pro score, shareable report, and everything you need to move fast.
+            </p>
+            <a href="/freddie" className="hero-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Analyze My Deal Free
+            </a>
+            <p style={{ fontSize: '12px', color: '#5a7184', marginTop: '12px' }}>
+              Free forever · Flips · Rentals · BRRRR · Wholesale
+            </p>
+          </div>
+          <div className="freddie-img" style={{ flexShrink: 0, width: '320px' }}>
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/Freddie the real estate investor.png"
+              alt="Freddie - AI Deal Analyst"
+              width={320}
+              height={320}
+              style={{ width: '100%', height: 'auto' }}
+              priority
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+          </div>
+        </div>
+      </section>
+
+      {/* Stats bar */}
+      <section style={{ background: '#00C27C', padding: '28px 32px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }} className="stat-row">
+          {[
+            { num: '30+', label: 'Years Investor Experience' },
+            { num: '4', label: 'Deal Strategies Covered' },
+            { num: 'Free', label: 'To Analyze Every Deal' },
+            { num: '60s', label: 'To Your First Score' },
+          ].map((s, i) => (
+            <div key={i} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '28px', fontWeight: '700', color: 'white' }}>{s.num}</div>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)', marginTop: '2px' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features */}
+      <section style={{ background: '#f0f2f5', padding: '80px 32px' }}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '38px', color: '#0f1c2d', letterSpacing: '-0.5px' }}>From First Look to Closed Deal</h2>
+            <p style={{ fontSize: '16px', color: '#5a7184', marginTop: '12px' }}>FreeDealCalc runs with you every step of the way.</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }} className="features-grid">
+            {[
+              { icon: '🤖', title: 'AI Deal Interview', desc: 'Freddie asks the right questions. You just answer. No confusing forms, no missed inputs — just a conversation that builds your analysis.' },
+              { icon: '📊', title: 'Pro Score & Report', desc: 'Get a deal score backed by real investor methodology. Share a professional PDF report with partners, lenders, and sellers.' },
+              { icon: '🔗', title: 'Lender & Agent Match', desc: 'Connected to investor-friendly lenders, agents, and title companies who know how to close deals fast.' },
+              { icon: '📣', title: 'Deal Blast', desc: 'Wholesalers — submit your deal and we push it to a verified list of active buyers. Move deals faster.' },
+              { icon: '📁', title: 'Deal Dashboard', desc: 'Every deal you run is saved, scored, and ready to revisit. Track your pipeline and never lose a number again.' },
+              { icon: '💰', title: 'Free to Analyze', desc: 'Run unlimited deal scores at no cost. Premium AI outputs — Seller Proposals, Disposition Packages, and more — available with credits.' },
+            ].map((f, i) => (
+              <div key={i} className="feature-card">
+                <div style={{ fontSize: '32px', marginBottom: '12px' }}>{f.icon}</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', color: '#0f1c2d', marginBottom: '8px' }}>{f.title}</div>
+                <div style={{ fontSize: '13.5px', color: '#5a7184', lineHeight: '1.6' }}>{f.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section style={{ background: 'white', padding: '80px 32px' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '38px', color: '#0f1c2d', letterSpacing: '-0.5px', marginBottom: '48px' }}>How It Works</h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            {[
+              { step: '1', title: 'Tell Freddie About Your Deal', desc: 'Drop your numbers — address, purchase price, ARV, rehab budget. Freddie asks for exactly what he needs.' },
+              { step: '2', title: 'Get Your Score in Seconds', desc: 'A deal score built on real investor methodology. Not a generic algorithm — 30 years of experience baked in.' },
+              { step: '3', title: 'Take Action', desc: 'Download your report, connect with lenders and agents, blast your deal to buyers. Everything in one place.' },
+            ].map((s, i) => (
+              <div key={i} style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', padding: '28px 0', borderBottom: i < 2 ? '1px solid #f0f2f5' : 'none', textAlign: 'left' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: '#00C27C', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', fontWeight: '700', color: 'white', flexShrink: 0 }}>{s.step}</div>
+                <div>
+                  <div style={{ fontSize: '17px', fontWeight: '600', color: '#0f1c2d', marginBottom: '6px' }}>{s.title}</div>
+                  <div style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.6' }}>{s.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section style={{ background: '#0f1c2d', padding: '80px 32px', textAlign: 'center' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <Image src="/Freddie the real estate investor.png" alt="Freddie" width={120} height={120} style={{ borderRadius: '50%', marginBottom: '24px' }} />
+          <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '38px', color: 'white', letterSpacing: '-0.5px', marginBottom: '16px' }}>
+            Ready to Run Your Deal?
+          </h2>
+          <p style={{ fontSize: '16px', color: '#94a8b8', marginBottom: '32px', lineHeight: '1.7' }}>
+            Freddie is online right now. Free. No signup required to start.
+          </p>
+          <a href="/freddie" className="hero-btn" style={{ fontSize: '18px', padding: '18px 40px' }}>
+            Talk to Freddie Free →
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Footer */}
+      <footer style={{ background: '#0a1520', padding: '32px', textAlign: 'center' }}>
+        <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '18px', color: 'white', marginBottom: '8px' }}>
+          FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
+        </div>
+        <div style={{ fontSize: '12px', color: '#5a7184' }}>
+          <a href="/privacy" style={{ color: '#5a7184', textDecoration: 'none', marginRight: '16px' }}>Privacy</a>
+          <a href="/terms" style={{ color: '#5a7184', textDecoration: 'none', marginRight: '16px' }}>Terms</a>
+          <a href="mailto:info@freedealcalc.com" style={{ color: '#5a7184', textDecoration: 'none' }}>Contact</a>
+        </div>
+        <div style={{ fontSize: '11px', color: '#3a4a5a', marginTop: '12px' }}>© 2026 FreeDealCalc. Analyze. Report. Win.</div>
+      </footer>
+    </>
   );
 }
