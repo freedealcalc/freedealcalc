@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const PRICE_MAP = {
-  investor_monthly: 'price_1TLQMKC1Orhpa88ExzBVDTcs',
+  investor_monthly: 'price_1TLRkgAIx5vWj5b2tp3I22Ia',
   // add more price IDs here as you create them in Stripe
 };
 
