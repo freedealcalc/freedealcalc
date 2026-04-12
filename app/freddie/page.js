@@ -19,35 +19,9 @@ export default function FreddiePage() {
 
   async function startConversation() {
     setShowRunScore(false);
+    sessionStorage.removeItem('freddie_deal');
     const opening = "Hey, I'm Freddie. Are you analyzing a flip, a rental, a BRRRR, or a wholesale deal?";
     setMessages([{ role: 'assistant', content: opening }]);
-  }
-
-  function extractDealData(msgs) {
-    const conversation = msgs.map(m => m.content).join(' ').toLowerCase();
-    const fullText = msgs.map(m => m.content).join(' ');
-
-    const address = fullText.match(/\d+\s+[A-Za-z0-9\s,]+(?:dr|st|ave|blvd|rd|ln|ct|way|pl|terrace|ter)\b[^."']*/i)?.[0]?.trim() || null;
-
-    function extract(patterns) {
-      for (const p of patterns) {
-        const m = conversation.match(p);
-        if (m) return parseFloat(m[1].replace(/,/g, ''));
-      }
-      return null;
-    }
-
-    const purchasePrice = extract([/purchase price[^$\d]*\$?([\d,]+)/, /buying it for[^$\d]*\$?([\d,]+)/, /offer[^$\d]*\$?([\d,]+)/, /purchase[^$\d]*\$?([\d,]+)/]);
-    const arv = extract([/arv[^$\d]*\$?([\d,]+)/, /after repair value[^$\d]*\$?([\d,]+)/, /worth[^$\d]*\$?([\d,]+)/]);
-    const rehabBudget = extract([/rehab[^$\d]*\$?([\d,]+)/, /repairs[^$\d]*\$?([\d,]+)/, /renovation[^$\d]*\$?([\d,]+)/, /budget[^$\d]*\$?([\d,]+)/]);
-    const holdMonths = extract([/(\d+)\s*months/, /hold[^$\d]*(\d+)/]);
-
-    const financing = conversation.includes('hard money') ? 'hard money' : 'cash';
-    const strategy = conversation.includes('wholesale') ? 'Wholesale' : conversation.includes('brrrr') ? 'BRRRR' : conversation.includes('rental') ? 'Rental' : 'Flip';
-
-    if (!purchasePrice || !arv || !rehabBudget) return null;
-
-    return { address, purchasePrice, arv, rehabBudget, holdMonths: holdMonths || 6, financing, strategy };
   }
 
   async function sendMessage() {
@@ -67,10 +41,15 @@ export default function FreddiePage() {
       const reply = data.content;
       const updatedMessages = [...newMessages, { role: 'assistant', content: reply }];
       setMessages(updatedMessages);
+
+      // Store deal data when confirmation is parsed
+      if (data.dealData) {
+        sessionStorage.setItem('freddie_deal', JSON.stringify(data.dealData));
+      }
+
+      // Show run score button after user confirms
       if (reply.includes('Hit the button below to see your results')) {
         setShowRunScore(true);
-        const dealData = extractDealData(updatedMessages);
-        if (dealData) sessionStorage.setItem('freddie_deal', JSON.stringify(dealData));
       }
     } catch (e) {
       setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Try again.' }]);
@@ -87,6 +66,31 @@ export default function FreddiePage() {
 
   function getTime() {
     return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  // Format confirmation message for display — hide the DEAL CONFIRMATION header, show as clean card
+  function formatMessage(content) {
+    if (content.includes('DEAL CONFIRMATION')) {
+      const lines = content.split('\n').filter(l => l.trim() && l.trim() !== 'DEAL CONFIRMATION');
+      const confirmLine = lines[lines.length - 1];
+      const dataLines = lines.slice(0, lines.length - 1);
+      return (
+        <div>
+          <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Deal Summary</div>
+          {dataLines.map((line, i) => {
+            const [label, ...rest] = line.split(':');
+            return (
+              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #f0f2f5', fontSize: '13px' }}>
+                <span style={{ color: '#5a7184' }}>{label.trim()}</span>
+                <span style={{ color: '#0f1c2d', fontWeight: '500' }}>{rest.join(':').trim()}</span>
+              </div>
+            );
+          })}
+          <div style={{ marginTop: '10px', fontSize: '13px', color: '#0f1c2d' }}>{confirmLine}</div>
+        </div>
+      );
+    }
+    return content;
   }
 
   return (
@@ -203,7 +207,7 @@ export default function FreddiePage() {
                 )}
                 <div style={{ maxWidth: '75%' }}>
                   <div style={{ padding: '11px 15px', borderRadius: '18px', fontSize: '14px', lineHeight: '1.6', background: msg.role === 'user' ? '#0f1c2d' : 'white', color: msg.role === 'user' ? 'white' : '#0f1c2d', borderBottomLeftRadius: msg.role === 'assistant' ? '4px' : '18px', borderBottomRightRadius: msg.role === 'user' ? '4px' : '18px', boxShadow: msg.role === 'assistant' ? '0 1px 3px rgba(0,0,0,0.06)' : 'none' }}>
-                    {msg.content}
+                    {formatMessage(msg.content)}
                   </div>
                   <div style={{ fontSize: '10px', color: '#94a8b8', padding: '2px 4px', textAlign: msg.role === 'user' ? 'right' : 'left' }}>{getTime()}</div>
                 </div>
