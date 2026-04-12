@@ -2,14 +2,21 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { supabase } from '../../lib/supabase';
 
 function DealResults() {
   const searchParams = useSearchParams();
   const [score, setScore] = useState(null);
   const [loading, setLoading] = useState(true);
   const [dealData, setDealData] = useState(null);
+  const [saved, setSaved] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user || null);
+    });
+
     const stored = sessionStorage.getItem('freddie_deal');
     const param = searchParams.get('data');
 
@@ -44,15 +51,42 @@ function DealResults() {
     calculateScore(demo);
   }, []);
 
+  // Save deal once score and dealData are both ready
+  useEffect(() => {
+    if (score && dealData && !saved) {
+      saveDeal(score, dealData);
+      setSaved(true);
+    }
+  }, [score, dealData]);
+
+  async function saveDeal(s, d) {
+    const { data: { user } } = await supabase.auth.getUser();
+    await supabase.from('deals').insert({
+      user_id: user?.id || null,
+      address: d.address || null,
+      strategy: d.strategy || 'Flip',
+      purchase_price: d.purchasePrice || null,
+      arv: d.arv || null,
+      rehab_budget: d.rehabBudget || null,
+      hold_months: d.holdMonths || null,
+      financing: d.financing || null,
+      score: s.total,
+      profit_estimate: s.profit,
+      roi: s.roi,
+      margin: s.margin,
+      status: 'Active',
+    });
+  }
+
   function calculateScore(data) {
     const { purchasePrice, arv, rehabBudget, holdMonths = 6, financing = 'cash' } = data;
-    
+
     const closingCostsBuy = purchasePrice * 0.02;
     const closingCostsSell = arv * 0.015;
     const realtorComm = arv * 0.025;
     const holdingCosts = arv * 0.005 * holdMonths;
     const loanCosts = financing === 'hard money' ? purchasePrice * 0.03 + (purchasePrice * 0.12 * holdMonths / 12) : 0;
-    
+
     const totalCosts = purchasePrice + rehabBudget + closingCostsBuy + closingCostsSell + realtorComm + holdingCosts + loanCosts;
     const profit = arv - totalCosts;
     const roi = (profit / (purchasePrice + rehabBudget)) * 100;
@@ -130,11 +164,18 @@ function DealResults() {
         <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: 'white' }}>
           FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
         </div>
-        <a href="/freddie" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>← New Analysis</a>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          {user ? (
+            <a href="/dashboard" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>My Dashboard →</a>
+          ) : (
+            <a href="/signup" style={{ fontSize: '13px', color: '#00C27C', textDecoration: 'none', fontWeight: '600' }}>Save this deal →</a>
+          )}
+          <a href="/freddie" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>← New Analysis</a>
+        </div>
       </div>
 
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 24px' }}>
-        
+
         {dealData?.address && (
           <div style={{ marginBottom: '8px', fontSize: '13px', color: '#5a7184', textAlign: 'center' }}>{dealData.address}</div>
         )}
@@ -147,6 +188,19 @@ function DealResults() {
           <div style={{ marginTop: '16px', fontSize: '20px', fontWeight: '600', color: '#0f1c2d' }}>{getScoreLabel(score.total)}</div>
           <div style={{ fontSize: '13px', color: '#5a7184', marginTop: '4px' }}>{dealData?.strategy || 'Flip'} · {dealData?.address || 'Deal Analysis'}</div>
         </div>
+
+        {/* Save deal prompt for non-logged in users */}
+        {!user && (
+          <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: 'white', marginBottom: '2px' }}>Save this deal to your dashboard</div>
+              <div style={{ fontSize: '12px', color: '#94a8b8' }}>Free account — takes 30 seconds.</div>
+            </div>
+            <a href="/signup" style={{ padding: '10px 20px', background: '#00C27C', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '13px', fontWeight: '600', whiteSpace: 'nowrap' }}>
+              Create Free Account →
+            </a>
+          </div>
+        )}
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
           {[
