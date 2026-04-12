@@ -23,6 +23,33 @@ export default function FreddiePage() {
     setMessages([{ role: 'assistant', content: opening }]);
   }
 
+  function extractDealData(msgs) {
+    const conversation = msgs.map(m => m.content).join(' ').toLowerCase();
+    const fullText = msgs.map(m => m.content).join(' ');
+
+    const address = fullText.match(/\d+\s+[A-Za-z0-9\s,]+(?:dr|st|ave|blvd|rd|ln|ct|way|pl|terrace|ter)\b[^."']*/i)?.[0]?.trim() || null;
+
+    function extract(patterns) {
+      for (const p of patterns) {
+        const m = conversation.match(p);
+        if (m) return parseFloat(m[1].replace(/,/g, ''));
+      }
+      return null;
+    }
+
+    const purchasePrice = extract([/purchase price[^$\d]*\$?([\d,]+)/, /buying it for[^$\d]*\$?([\d,]+)/, /offer[^$\d]*\$?([\d,]+)/, /purchase[^$\d]*\$?([\d,]+)/]);
+    const arv = extract([/arv[^$\d]*\$?([\d,]+)/, /after repair value[^$\d]*\$?([\d,]+)/, /worth[^$\d]*\$?([\d,]+)/]);
+    const rehabBudget = extract([/rehab[^$\d]*\$?([\d,]+)/, /repairs[^$\d]*\$?([\d,]+)/, /renovation[^$\d]*\$?([\d,]+)/, /budget[^$\d]*\$?([\d,]+)/]);
+    const holdMonths = extract([/(\d+)\s*months/, /hold[^$\d]*(\d+)/]);
+
+    const financing = conversation.includes('hard money') ? 'hard money' : 'cash';
+    const strategy = conversation.includes('wholesale') ? 'Wholesale' : conversation.includes('brrrr') ? 'BRRRR' : conversation.includes('rental') ? 'Rental' : 'Flip';
+
+    if (!purchasePrice || !arv || !rehabBudget) return null;
+
+    return { address, purchasePrice, arv, rehabBudget, holdMonths: holdMonths || 6, financing, strategy };
+  }
+
   async function sendMessage() {
     if (!input.trim() || loading) return;
     const userMessage = input.trim();
@@ -38,9 +65,12 @@ export default function FreddiePage() {
       });
       const data = await res.json();
       const reply = data.content;
-      setMessages([...newMessages, { role: 'assistant', content: reply }]);
+      const updatedMessages = [...newMessages, { role: 'assistant', content: reply }];
+      setMessages(updatedMessages);
       if (reply.includes('Hit the button below to see your results')) {
         setShowRunScore(true);
+        const dealData = extractDealData(updatedMessages);
+        if (dealData) sessionStorage.setItem('freddie_deal', JSON.stringify(dealData));
       }
     } catch (e) {
       setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Try again.' }]);
@@ -132,11 +162,9 @@ export default function FreddiePage() {
         }
       `}</style>
 
-      {/* Sidebar overlay for mobile */}
       <div className={`sidebar-overlay ${sidebarOpen ? 'open' : ''}`} onClick={() => setSidebarOpen(false)} />
 
       <div className="app-layout">
-        {/* Sidebar */}
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
           <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
             FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -150,9 +178,7 @@ export default function FreddiePage() {
           </div>
         </div>
 
-        {/* Main chat */}
         <div className="chat-area">
-          {/* Mobile header */}
           <div className="mobile-header">
             <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -161,7 +187,6 @@ export default function FreddiePage() {
             <div style={{ width: '28px' }} />
           </div>
 
-          {/* Desktop chat header */}
           <div style={{ background: 'white', borderBottom: '1px solid #e4e8ed', padding: '0 28px', height: '64px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
             <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#0f1c2d', display: 'flex', alignItems: 'center', justifyContent: 'center', fontStyle: 'italic', fontSize: '18px', color: '#00C27C', fontFamily: 'Georgia, serif', flexShrink: 0 }}>F</div>
             <div>
@@ -170,7 +195,6 @@ export default function FreddiePage() {
             </div>
           </div>
 
-          {/* Messages */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '20px 16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {messages.map((msg, i) => (
               <div key={i} className="msg-animate" style={{ display: 'flex', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row', gap: '8px', alignItems: 'flex-end' }}>
@@ -214,7 +238,6 @@ export default function FreddiePage() {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
           <div style={{ background: 'white', borderTop: '1px solid #e4e8ed', padding: '12px 16px', flexShrink: 0 }}>
             <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', background: '#f0f2f5', borderRadius: '14px', padding: '10px 14px' }}>
               <textarea

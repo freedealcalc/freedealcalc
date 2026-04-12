@@ -10,40 +10,43 @@ function DealResults() {
   const [dealData, setDealData] = useState(null);
 
   useEffect(() => {
-    const data = searchParams.get('data');
-    if (data) {
+    const stored = sessionStorage.getItem('freddie_deal');
+    const param = searchParams.get('data');
+
+    if (stored) {
       try {
-        const parsed = JSON.parse(decodeURIComponent(data));
+        const parsed = JSON.parse(stored);
         setDealData(parsed);
         calculateScore(parsed);
-      } catch(e) {
-        setLoading(false);
-      }
-    } else {
-      // Demo data for testing
-      setDealData({
-        address: '1245 Manassas Dr, Manassas Park, VA',
-        strategy: 'Flip',
-        purchasePrice: 295000,
-        arv: 500000,
-        rehabBudget: 39000,
-        holdMonths: 3,
-        financing: 'cash'
-      });
-      calculateScore({
-        purchasePrice: 295000,
-        arv: 500000,
-        rehabBudget: 39000,
-        holdMonths: 3,
-        financing: 'cash'
-      });
+        return;
+      } catch(e) {}
     }
+
+    if (param) {
+      try {
+        const parsed = JSON.parse(decodeURIComponent(param));
+        setDealData(parsed);
+        calculateScore(parsed);
+        return;
+      } catch(e) {}
+    }
+
+    const demo = {
+      address: '1245 Manassas Dr, Manassas Park, VA',
+      strategy: 'Flip',
+      purchasePrice: 295000,
+      arv: 500000,
+      rehabBudget: 39000,
+      holdMonths: 3,
+      financing: 'cash'
+    };
+    setDealData(demo);
+    calculateScore(demo);
   }, []);
 
   function calculateScore(data) {
     const { purchasePrice, arv, rehabBudget, holdMonths = 6, financing = 'cash' } = data;
     
-    // Costs
     const closingCostsBuy = purchasePrice * 0.02;
     const closingCostsSell = arv * 0.015;
     const realtorComm = arv * 0.025;
@@ -57,7 +60,6 @@ function DealResults() {
     const rule70 = (arv * 0.70) - rehabBudget;
     const rule70Pass = purchasePrice <= rule70;
 
-    // Score calculation
     let s = 0;
     if (margin >= 20) s += 35;
     else if (margin >= 15) s += 25;
@@ -124,7 +126,6 @@ function DealResults() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'DM Sans, sans-serif' }}>
-      {/* Header */}
       <div style={{ background: '#0f1c2d', padding: '0 32px', height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: 'white' }}>
           FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -134,12 +135,10 @@ function DealResults() {
 
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 24px' }}>
         
-        {/* Address */}
         {dealData?.address && (
           <div style={{ marginBottom: '8px', fontSize: '13px', color: '#5a7184', textAlign: 'center' }}>{dealData.address}</div>
         )}
 
-        {/* Score Circle */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '40px' }}>
           <div style={{ width: '160px', height: '160px', borderRadius: '50%', background: 'white', border: `8px solid ${color}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 40px ${color}22` }}>
             <div style={{ fontSize: '56px', fontWeight: '700', color: color, lineHeight: 1 }}>{score.total}</div>
@@ -149,7 +148,6 @@ function DealResults() {
           <div style={{ fontSize: '13px', color: '#5a7184', marginTop: '4px' }}>{dealData?.strategy || 'Flip'} · {dealData?.address || 'Deal Analysis'}</div>
         </div>
 
-        {/* Key Metrics */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '24px' }}>
           {[
             { label: 'Est. Profit', value: fmt(score.profit), sub: score.profit >= 0 ? 'positive' : 'negative', color: score.profit >= 0 ? '#00C27C' : '#ff5050' },
@@ -164,7 +162,6 @@ function DealResults() {
           ))}
         </div>
 
-        {/* 70% Rule */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d' }}>70% Rule</div>
@@ -175,7 +172,6 @@ function DealResults() {
           </div>
         </div>
 
-        {/* Cost Breakdown */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '16px' }}>Cost Breakdown</div>
           {[
@@ -198,7 +194,6 @@ function DealResults() {
           </div>
         </div>
 
-        {/* Action Hub */}
         <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '28px', marginBottom: '24px' }}>
           <div style={{ fontSize: '16px', fontWeight: '600', color: 'white', marginBottom: '6px' }}>What's Next?</div>
           <div style={{ fontSize: '13px', color: '#94a8b8', marginBottom: '20px' }}>Connect with the right people to move this deal forward.</div>
