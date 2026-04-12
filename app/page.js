@@ -183,7 +183,7 @@ export default function HomePage() {
         <div style={{ fontSize: '12px', color: '#5a7184' }}>
           <a href="/privacy" style={{ color: '#5a7184', textDecoration: 'none', marginRight: '16px' }}>Privacy</a>
           <a href="/terms" style={{ color: '#5a7184', textDecoration: 'none', marginRight: '16px' }}>Terms</a>
-          <a href="mailto:info@freedealcalc.com" style={{ color: '#5a7184', textDecoration: 'none' }}>Contact</a>
+          <a href="/contact" style={{ color: '#5a7184', textDecoration: 'none' }}>Contact</a>
         </div>
         <div style={{ fontSize: '11px', color: '#3a4a5a', marginTop: '12px' }}>© 2026 FreeDealCalc. Analyze. Report. Win.</div>
       </footer>
