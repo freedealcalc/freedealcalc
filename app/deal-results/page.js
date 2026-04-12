@@ -316,7 +316,7 @@ function DealResults() {
           {/* Seller Proposal */}
           {user ? (
             <a href={`/proposal?deal_id=${searchParams.get('id') || ''}`}
-              style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+              style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📋 Get Seller Proposal</div>
@@ -326,9 +326,28 @@ function DealResults() {
               </div>
             </a>
           ) : (
-            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
               <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📋 Get Seller Proposal</div>
               <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 25 credits</div>
+            </a>
+          )}
+
+          {/* Disposition Package */}
+          {user ? (
+            <a href={`/dispo?deal_id=${searchParams.get('id') || ''}`}
+              style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>🔥 Get Disposition Package</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Buyer-ready deal package · 50 credits</div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Generate →</div>
+              </div>
+            </a>
+          ) : (
+            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>🔥 Get Disposition Package</div>
+              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 50 credits</div>
             </a>
           )}
         </div>
