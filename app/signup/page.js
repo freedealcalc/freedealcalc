@@ -29,7 +29,7 @@ export default function SignupPage() {
     if (error) {
       setError(error.message);
     } else {
-      setMessage('Check your email to confirm your account, then log in.');
+      setMessage('Check your email to confirm your account, then log in to complete your profile.');
     }
     setLoading(false);
   }
