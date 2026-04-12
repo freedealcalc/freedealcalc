@@ -16,13 +16,24 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       setError(error.message);
       setLoading(false);
     } else {
-      window.location.href = '/onboarding';
+      // Check if profile exists — if so skip onboarding
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('id, investor_type')
+        .eq('id', data.user.id)
+        .single();
+
+      if (profile?.investor_type) {
+        window.location.href = '/dashboard';
+      } else {
+        window.location.href = '/onboarding';
+      }
     }
   }
 

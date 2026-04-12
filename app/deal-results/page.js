@@ -17,8 +17,30 @@ function DealResults() {
       setUser(data?.user || null);
     });
 
+    const id = searchParams.get('id');
     const stored = sessionStorage.getItem('freddie_deal');
     const param = searchParams.get('data');
+
+    // Load saved deal by ID from Supabase
+    if (id) {
+      supabase.from('deals').select('*').eq('id', id).single().then(({ data }) => {
+        if (data) {
+          const d = {
+            address: data.address,
+            strategy: data.strategy,
+            purchasePrice: data.purchase_price,
+            arv: data.arv,
+            rehabBudget: data.rehab_budget,
+            holdMonths: data.hold_months,
+            financing: data.financing,
+          };
+          setDealData(d);
+          setSaved(true); // already saved, don't re-save
+          calculateScore(d);
+        }
+      });
+      return;
+    }
 
     if (stored) {
       try {
@@ -48,10 +70,10 @@ function DealResults() {
       financing: 'cash'
     };
     setDealData(demo);
+    setSaved(true); // don't save demo data
     calculateScore(demo);
   }, []);
 
-  // Save deal once score and dealData are both ready
   useEffect(() => {
     if (score && dealData && !saved) {
       saveDeal(score, dealData);
@@ -189,7 +211,6 @@ function DealResults() {
           <div style={{ fontSize: '13px', color: '#5a7184', marginTop: '4px' }}>{dealData?.strategy || 'Flip'} · {dealData?.address || 'Deal Analysis'}</div>
         </div>
 
-        {/* Save deal prompt for non-logged in users */}
         {!user && (
           <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
             <div>
