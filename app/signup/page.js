@@ -6,6 +6,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
@@ -13,6 +14,10 @@ export default function SignupPage() {
   async function handleSignup() {
     if (!email || !password || !name) {
       setError('Please fill in all fields.');
+      return;
+    }
+    if (!agreed) {
+      setError('Please agree to the Terms of Service and Privacy Policy.');
       return;
     }
     setLoading(true);
@@ -81,7 +86,7 @@ export default function SignupPage() {
             />
           </div>
 
-          <div style={{ marginBottom: '24px' }}>
+          <div style={{ marginBottom: '20px' }}>
             <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Password</label>
             <input
               type="password"
@@ -92,10 +97,27 @@ export default function SignupPage() {
             />
           </div>
 
+          {/* Checkbox */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px' }}>
+            <input
+              type="checkbox"
+              id="agree"
+              checked={agreed}
+              onChange={e => setAgreed(e.target.checked)}
+              style={{ marginTop: '2px', width: '16px', height: '16px', accentColor: '#00C27C', flexShrink: 0, cursor: 'pointer' }}
+            />
+            <label htmlFor="agree" style={{ fontSize: '13px', color: '#5a7184', lineHeight: '1.5', cursor: 'pointer' }}>
+              I agree to the{' '}
+              <a href="/terms" target="_blank" style={{ color: '#00C27C', textDecoration: 'none', fontWeight: '500' }}>Terms of Service</a>
+              {' '}and{' '}
+              <a href="/privacy" target="_blank" style={{ color: '#00C27C', textDecoration: 'none', fontWeight: '500' }}>Privacy Policy</a>
+            </label>
+          </div>
+
           <button
             onClick={handleSignup}
-            disabled={loading}
-            style={{ width: '100%', padding: '14px', background: '#00C27C', border: 'none', borderRadius: '10px', color: 'white', fontSize: '15px', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
+            disabled={loading || !agreed}
+            style={{ width: '100%', padding: '14px', background: agreed ? '#00C27C' : '#e4e8ed', border: 'none', borderRadius: '10px', color: agreed ? 'white' : '#94a8b8', fontSize: '15px', fontWeight: '600', cursor: loading || !agreed ? 'not-allowed' : 'pointer' }}
           >
             {loading ? 'Creating account...' : 'Create Free Account'}
           </button>
