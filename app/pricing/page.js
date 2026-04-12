@@ -72,7 +72,7 @@ export default function PricingPage() {
       description: 'For active investors who want professional AI outputs.',
       color: '#3badff',
       cta: 'Start Investing',
-      priceKey: 'investor_monthly',
+      priceKey: annual ? 'investor_annual' : 'investor_monthly',
       highlight: false,
       features: [
         '400 AI credits / month',
@@ -100,7 +100,7 @@ export default function PricingPage() {
       description: 'For power users who want their brand on everything.',
       color: '#00C27C',
       cta: 'Go Pro',
-      priceKey: 'pro_monthly',
+      priceKey: annual ? 'pro_annual' : 'pro_monthly',
       highlight: true,
       features: [
         '1,100 AI credits / month',
@@ -248,8 +248,35 @@ export default function PricingPage() {
           })}
         </div>
 
+        {/* Credit Packs */}
+        <div style={{ background: 'white', borderRadius: '20px', padding: '32px', marginTop: '40px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#0f1c2d', marginBottom: '6px' }}>Need more credits?</h2>
+            <p style={{ fontSize: '14px', color: '#5a7184' }}>Top up anytime. No subscription required.</p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+            {[
+              { name: 'Starter', price: 10, credits: 100, priceKey: 'credits_starter' },
+              { name: 'Standard', price: 25, credits: 300, priceKey: 'credits_standard' },
+              { name: 'Value', price: 50, credits: 750, priceKey: 'credits_value' },
+            ].map((pack, i) => (
+              <div key={i} style={{ border: '1.5px solid #e4e8ed', borderRadius: '14px', padding: '20px', textAlign: 'center' }}>
+                <div style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', marginBottom: '4px' }}>{pack.name}</div>
+                <div style={{ fontSize: '28px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>${pack.price}</div>
+                <div style={{ fontSize: '12px', color: '#5a7184', marginBottom: '16px' }}>{pack.credits} credits</div>
+                <button
+                  onClick={() => handleCheckout(pack.priceKey)}
+                  disabled={loading === pack.priceKey}
+                  style={{ width: '100%', padding: '10px', background: '#0f1c2d', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
+                  {loading === pack.priceKey ? 'Loading...' : 'Buy Credits'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Deal Blast callout */}
-        <div style={{ background: '#0f1c2d', borderRadius: '20px', padding: '32px', marginTop: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+        <div style={{ background: '#0f1c2d', borderRadius: '20px', padding: '32px', marginTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <div style={{ fontSize: '18px', fontWeight: '700', color: 'white', marginBottom: '6px' }}>Deal Blast — Reach Verified Investors</div>
             <div style={{ fontSize: '14px', color: '#94a8b8', maxWidth: '500px' }}>Submit your wholesale deal to our verified investor list. Dan reviews every deal before it goes out. Available on Investor and Pro plans.</div>

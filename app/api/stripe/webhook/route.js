@@ -8,6 +8,19 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const CREDIT_AMOUNTS = {
+  credits_starter: 100,
+  credits_standard: 300,
+  credits_value: 750,
+};
+
+const SUBSCRIPTION_CREDITS = {
+  investor_monthly: 400,
+  investor_annual: 400,
+  pro_monthly: 1100,
+  pro_annual: 1100,
+};
+
 export async function POST(request) {
   const body = await request.text();
   const sig = request.headers.get('stripe-signature');
@@ -25,16 +38,26 @@ export async function POST(request) {
     const userId = session.metadata?.userId;
     const priceKey = session.metadata?.priceKey;
 
-    if (userId && priceKey) {
-      const tier = priceKey.startsWith('pro') ? 'pro' : 'investor';
-      await supabase.from('profiles').update({ tier }).eq('id', userId);
+    if (!userId || !priceKey) return Response.json({ received: true });
 
-      // Add monthly credits based on tier
-      const credits = tier === 'pro' ? 1100 : 400;
+    // Credit pack purchase
+    if (CREDIT_AMOUNTS[priceKey]) {
       await supabase.from('credits').insert({
         user_id: userId,
         transaction_type: 'Purchase',
-        credits,
+        credits: CREDIT_AMOUNTS[priceKey],
+        description: `Credit pack — ${priceKey}`,
+      });
+    }
+
+    // Subscription purchase
+    if (SUBSCRIPTION_CREDITS[priceKey]) {
+      const tier = priceKey.startsWith('pro') ? 'pro' : 'investor';
+      await supabase.from('profiles').update({ tier }).eq('id', userId);
+      await supabase.from('credits').insert({
+        user_id: userId,
+        transaction_type: 'Purchase',
+        credits: SUBSCRIPTION_CREDITS[priceKey],
         description: `${tier} subscription — monthly credits`,
       });
     }
@@ -43,13 +66,10 @@ export async function POST(request) {
   if (event.type === 'customer.subscription.deleted') {
     const subscription = event.data.object;
     const customerId = subscription.customer;
-
-    // Find user by stripe customer ID and downgrade to free
     const { data: profiles } = await supabase
       .from('profiles')
       .select('id')
       .eq('stripe_customer_id', customerId);
-
     if (profiles?.length) {
       await supabase.from('profiles').update({ tier: 'free' }).eq('id', profiles[0].id);
     }
