@@ -21,7 +21,6 @@ function DealResults() {
     const stored = sessionStorage.getItem('freddie_deal');
     const param = searchParams.get('data');
 
-    // Load saved deal by ID from Supabase
     if (id) {
       supabase.from('deals').select('*').eq('id', id).single().then(({ data }) => {
         if (data) {
@@ -35,7 +34,7 @@ function DealResults() {
             financing: data.financing,
           };
           setDealData(d);
-          setSaved(true); // already saved, don't re-save
+          setSaved(true);
           calculateScore(d);
         }
       });
@@ -70,7 +69,7 @@ function DealResults() {
       financing: 'cash'
     };
     setDealData(demo);
-    setSaved(true); // don't save demo data
+    setSaved(true);
     calculateScore(demo);
   }, []);
 
@@ -135,7 +134,7 @@ function DealResults() {
     else if (rehabBudget / arv <= 0.15) s += 10;
     else if (rehabBudget / arv <= 0.20) s += 5;
 
-    setScore({
+    const scoreObj = {
       total: Math.min(s, 100),
       profit: Math.round(profit),
       roi: Math.round(roi * 10) / 10,
@@ -150,7 +149,19 @@ function DealResults() {
         holdingCosts: Math.round(holdingCosts),
         loanCosts: Math.round(loanCosts),
       }
-    });
+    };
+
+    // Store score in sessionStorage for certificate page
+    sessionStorage.setItem('freddie_score', JSON.stringify({
+      total: scoreObj.total,
+      profit: scoreObj.profit,
+      roi: scoreObj.roi,
+      margin: scoreObj.margin,
+      rule70Pass: scoreObj.rule70Pass,
+      rule70: scoreObj.rule70,
+    }));
+
+    setScore(scoreObj);
     setLoading(false);
   }
 
@@ -269,10 +280,11 @@ function DealResults() {
           </div>
         </div>
 
+        {/* What's Next */}
         <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '28px', marginBottom: '24px' }}>
           <div style={{ fontSize: '16px', fontWeight: '600', color: 'white', marginBottom: '6px' }}>What's Next?</div>
           <div style={{ fontSize: '13px', color: '#94a8b8', marginBottom: '20px' }}>Connect with the right people to move this deal forward.</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
             <a href="/partners" style={{ background: '#00C27C', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', display: 'block' }}>
               <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>Find a Lender</div>
               <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', marginTop: '2px' }}>Hard money & private capital</div>
@@ -282,6 +294,23 @@ function DealResults() {
               <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.7)', marginTop: '2px' }}>Investor-friendly agents</div>
             </a>
           </div>
+          {user ? (
+            <a href={`/certificate?deal_id=${searchParams.get('id') || ''}`}
+              style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📄 Get Score Certificate</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>AI-generated analysis · 10 credits</div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Generate →</div>
+              </div>
+            </a>
+          ) : (
+            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📄 Get Score Certificate</div>
+              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 10 credits</div>
+            </a>
+          )}
         </div>
 
         <div style={{ textAlign: 'center' }}>
