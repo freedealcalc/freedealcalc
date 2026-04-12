@@ -26,7 +26,6 @@ export default function Dashboard() {
     const dealList = deals || [];
     setDeals(dealList);
 
-    // Stats
     const total = dealList.length;
     const avgScore = total ? Math.round(dealList.reduce((a, d) => a + (d.score || 0), 0) / total) : 0;
     const bestScore = total ? Math.max(...dealList.map(d => d.score || 0)) : 0;
@@ -34,7 +33,6 @@ export default function Dashboard() {
     const totalARV = dealList.reduce((a, d) => a + (d.arv || 0), 0);
     setStats({ total, avgScore, bestScore, active, totalARV });
 
-    // Badges
     const earned = [];
     const { count: userCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
     if (userCount <= 500) earned.push({ icon: '🥇', label: 'OG Investor', desc: 'First 500 members' });
@@ -51,14 +49,12 @@ export default function Dashboard() {
     if (totalARV >= 10000000) earned.push({ icon: '💎', label: 'Ten Million Club', desc: '$10M+ ARV analyzed' });
     if (totalARV >= 25000000) earned.push({ icon: '👑', label: 'Twenty Five Million', desc: '$25M+ ARV analyzed' });
 
-    // Fast Mover
     if (total >= 1 && user.created_at) {
       const signup = new Date(user.created_at);
       const firstDeal = new Date(dealList[dealList.length - 1]?.created_at);
       if ((firstDeal - signup) < 3600000) earned.push({ icon: '⚡', label: 'Fast Mover', desc: 'First deal within 1hr of signup' });
     }
 
-    // Nationwide
     const states = new Set(dealList.map(d => d.address?.split(',').slice(-2, -1)[0]?.trim()).filter(Boolean));
     if (states.size >= 3) earned.push({ icon: '🌍', label: 'Nationwide', desc: 'Deals in 3+ states' });
 
@@ -105,7 +101,6 @@ export default function Dashboard() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'DM Sans, sans-serif' }}>
-      {/* Nav */}
       <nav style={{ background: '#0f1c2d', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
         <a href="/" style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: 'white', textDecoration: 'none' }}>
           FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -113,13 +108,13 @@ export default function Dashboard() {
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
           <a href="/freddie" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>+ New Analysis</a>
           <a href="/pricing" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>Upgrade</a>
+          <a href="/account" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>Account</a>
           <button onClick={signOut} style={{ fontSize: '13px', color: '#94a8b8', background: 'none', border: 'none', cursor: 'pointer' }}>Sign Out</button>
         </div>
       </nav>
 
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '40px 24px' }}>
 
-        {/* Header */}
         <div style={{ marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
           <div>
             <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>
@@ -134,7 +129,6 @@ export default function Dashboard() {
           </a>
         </div>
 
-        {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px', marginBottom: '32px' }}>
           {[
             { label: 'Deals Analyzed', value: stats.total },
@@ -150,7 +144,6 @@ export default function Dashboard() {
           ))}
         </div>
 
-        {/* Badges */}
         {badges.length > 0 && (
           <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '16px' }}>Your Badges</div>
@@ -165,7 +158,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Deals List */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d' }}>Your Deals</div>
@@ -183,18 +175,15 @@ export default function Dashboard() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {deals.map((deal, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '16px', padding: '16px', background: '#f8f9fa', borderRadius: '12px', flexWrap: 'wrap' }}>
-                  {/* Score */}
                   <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: `3px solid ${getScoreColor(deal.score)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <span style={{ fontSize: '14px', fontWeight: '700', color: getScoreColor(deal.score) }}>{deal.score}</span>
                   </div>
 
-                  {/* Info */}
                   <div style={{ flex: 1, minWidth: '150px' }}>
                     <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '2px' }}>{deal.address || 'No address'}</div>
                     <div style={{ fontSize: '12px', color: '#5a7184' }}>{deal.strategy} · {new Date(deal.created_at).toLocaleDateString()}</div>
                   </div>
 
-                  {/* Metrics */}
                   <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
                     <div>
                       <div style={{ fontSize: '11px', color: '#94a8b8' }}>Profit</div>
@@ -206,7 +195,6 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  {/* Status dropdown */}
                   <select
                     value={deal.status || 'Active'}
                     onChange={e => updateStatus(deal.id, e.target.value)}
@@ -218,9 +206,9 @@ export default function Dashboard() {
                     <option value="Archived">Archived</option>
                   </select>
 
-                  {/* Actions */}
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <a href={`/deal-results?id=${deal.id}`} style={{ padding: '6px 12px', background: '#0f1c2d', color: 'white', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '500' }}>View</a>
+                    <a href={`/deal-blast?deal_id=${deal.id}`} style={{ padding: '6px 12px', background: '#00C27C', color: 'white', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '500' }}>Blast</a>
                   </div>
                 </div>
               ))}
@@ -228,8 +216,7 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Upgrade CTA for free users */}
-        {profile?.tier === 'free' && (
+        {(!profile?.tier || profile?.tier === 'free') && (
           <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '24px 28px', marginTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
             <div>
               <div style={{ fontSize: '16px', fontWeight: '600', color: 'white', marginBottom: '4px' }}>Unlock AI-powered outputs</div>
