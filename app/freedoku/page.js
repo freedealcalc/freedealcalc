@@ -52,16 +52,16 @@ export default function FreddyDoku() {
           <div style={{background:'white',padding:'10px 16px',borderRadius:'10px',textAlign:'center'}}><div style={{fontSize:'20px'}}>{mistakes}</div><div style={{fontSize:'10px',color:'#94a8b8'}}>MISTAKES</div></div>
         </div>
         <div style={{background:'white',borderRadius:'16px',padding:'16px',marginBottom:'16px'}}>
-          <div style={{display:'grid',gridTemplateColumns:'repeat(9,48px)',border:'2px solid #0f1c2d',overflow:'hidden'}}>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(9, min(48px, 9.5vw))',border:'2px solid #0f1c2d',overflow:'hidden'}}>
             {board.map((row,r)=>row.map((val,c)=>(
               <div key={r+'-'+c} onClick={()=>setSelected({r,c})}
-                style={{width:'48px',height:'48px',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'18px',cursor:'pointer',background:selected&&selected.r===r&&selected.c===c?'#e8f8f2':PUZZLE[r][c]!==0?'#f0f4f8':'white',color:val!==0&&val!==SOLUTION[r][c]?'#e53935':PUZZLE[r][c]!==0?'#0f1c2d':'#00a368',borderRight:(c+1)%3===0&&c!==8?'2px solid #0f1c2d':'1px solid #d8e0ea',borderBottom:(r+1)%3===0&&r!==8?'2px solid #0f1c2d':'1px solid #d8e0ea'}}>
+                style={{width:'min(48px, 9.5vw)',height:'min(48px, 9.5vw)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'18px',cursor:'pointer',background:selected&&selected.r===r&&selected.c===c?'#e8f8f2':PUZZLE[r][c]!==0?'#f0f4f8':'white',color:val!==0&&val!==SOLUTION[r][c]?'#e53935':PUZZLE[r][c]!==0?'#0f1c2d':'#00a368',borderRight:(c+1)%3===0&&c!==8?'2px solid #0f1c2d':'1px solid #d8e0ea',borderBottom:(r+1)%3===0&&r!==8?'2px solid #0f1c2d':'1px solid #d8e0ea'}}>
                 {val!==0?val:''}
               </div>
             )))}
           </div>
         </div>
-        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:'8px',width:'464px',marginBottom:'12px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:'8px',width:'min(464px, 95vw)',marginBottom:'12px'}}>
           {[1,2,3,4,5,6,7,8,9].map(n=>(
             <button key={n} onClick={()=>enter(n)} style={{height:'48px',borderRadius:'10px',border:'1.5px solid #e4e8ed',background:'white',fontSize:'18px',cursor:'pointer'}}>{n}</button>
           ))}
