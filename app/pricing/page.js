@@ -1,8 +1,41 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
 
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user || null);
+    });
+  }, []);
+
+  async function handleCheckout(priceKey) {
+    if (!user) {
+      window.location.href = '/signup?tier=' + priceKey;
+      return;
+    }
+    setLoading(priceKey);
+    try {
+      const res = await fetch('/api/stripe/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceKey,
+          userId: user.id,
+          email: user.email,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch(e) {
+      console.error('Checkout error:', e);
+    }
+    setLoading(null);
+  }
 
   const tiers = [
     {
@@ -13,6 +46,7 @@ export default function PricingPage() {
       description: 'Analyze deals and get your score. No credit card required.',
       color: '#5a7184',
       cta: 'Get Started Free',
+      priceKey: null,
       ctaHref: '/signup?tier=free',
       highlight: false,
       features: [
@@ -33,12 +67,12 @@ export default function PricingPage() {
     {
       name: 'Investor',
       monthly: 49,
-      annual: Math.round(49 * 12 * 0.8 / 12),
+      annual: 39,
       credits: 400,
       description: 'For active investors who want professional AI outputs.',
       color: '#3badff',
       cta: 'Start Investing',
-      ctaHref: '/signup?tier=investor',
+      priceKey: 'investor_monthly',
       highlight: false,
       features: [
         '400 AI credits / month',
@@ -61,12 +95,12 @@ export default function PricingPage() {
     {
       name: 'Pro',
       monthly: 99,
-      annual: Math.round(99 * 12 * 0.8 / 12),
+      annual: 79,
       credits: 1100,
       description: 'For power users who want their brand on everything.',
       color: '#00C27C',
       cta: 'Go Pro',
-      ctaHref: '/signup?tier=pro',
+      priceKey: 'pro_monthly',
       highlight: true,
       features: [
         '1,100 AI credits / month',
@@ -94,6 +128,7 @@ export default function PricingPage() {
       description: 'For teams and high-volume operations. Custom everything.',
       color: '#0f1c2d',
       cta: 'Contact Us',
+      priceKey: null,
       ctaHref: 'mailto:dan@hssvirginia.com',
       highlight: false,
       features: [
@@ -127,22 +162,14 @@ export default function PricingPage() {
 
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '60px 24px' }}>
 
-        {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h1 style={{ fontSize: '40px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>
-            Simple, honest pricing
-          </h1>
-          <p style={{ fontSize: '16px', color: '#5a7184', marginBottom: '32px' }}>
-            The deal analyzer is always free. Pay only for AI-powered outputs.
-          </p>
+          <h1 style={{ fontSize: '40px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>Simple, honest pricing</h1>
+          <p style={{ fontSize: '16px', color: '#5a7184', marginBottom: '32px' }}>The deal analyzer is always free. Pay only for AI-powered outputs.</p>
 
-          {/* Toggle */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: 'white', borderRadius: '40px', padding: '6px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
             <span style={{ fontSize: '14px', color: annual ? '#94a8b8' : '#0f1c2d', fontWeight: annual ? '400' : '600' }}>Monthly</span>
-            <div
-              onClick={() => setAnnual(!annual)}
-              style={{ width: '44px', height: '24px', borderRadius: '12px', background: annual ? '#00C27C' : '#e4e8ed', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}
-            >
+            <div onClick={() => setAnnual(!annual)}
+              style={{ width: '44px', height: '24px', borderRadius: '12px', background: annual ? '#00C27C' : '#e4e8ed', cursor: 'pointer', position: 'relative', transition: 'background 0.2s' }}>
               <div style={{ position: 'absolute', top: '3px', left: annual ? '23px' : '3px', width: '18px', height: '18px', borderRadius: '50%', background: 'white', transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
             </div>
             <span style={{ fontSize: '14px', color: annual ? '#0f1c2d' : '#94a8b8', fontWeight: annual ? '600' : '400' }}>
@@ -151,12 +178,12 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* Pricing Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', alignItems: 'start' }}>
           {tiers.map((tier, i) => {
             const price = getPrice(tier);
+            const isLoading = loading === tier.priceKey;
             return (
-              <div key={i} style={{ background: 'white', borderRadius: '20px', padding: '28px', boxShadow: tier.highlight ? `0 8px 40px rgba(0,194,124,0.15)` : '0 1px 4px rgba(0,0,0,0.06)', border: tier.highlight ? '2px solid #00C27C' : '2px solid transparent', position: 'relative' }}>
+              <div key={i} style={{ background: 'white', borderRadius: '20px', padding: '28px', boxShadow: tier.highlight ? '0 8px 40px rgba(0,194,124,0.15)' : '0 1px 4px rgba(0,0,0,0.06)', border: tier.highlight ? '2px solid #00C27C' : '2px solid transparent', position: 'relative' }}>
 
                 {tier.highlight && (
                   <div style={{ position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: '#00C27C', color: 'white', fontSize: '11px', fontWeight: '700', padding: '4px 14px', borderRadius: '20px', letterSpacing: '1px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
@@ -183,16 +210,24 @@ export default function PricingPage() {
                 </div>
 
                 {tier.credits && (
-                  <div style={{ fontSize: '12px', color: '#5a7184', marginBottom: '12px' }}>
-                    {tier.credits.toLocaleString()} credits / month
-                  </div>
+                  <div style={{ fontSize: '12px', color: '#5a7184', marginBottom: '12px' }}>{tier.credits.toLocaleString()} credits / month</div>
                 )}
 
                 <div style={{ fontSize: '13px', color: '#5a7184', marginBottom: '20px', lineHeight: '1.5' }}>{tier.description}</div>
 
-                <a href={tier.ctaHref} style={{ display: 'block', width: '100%', padding: '13px', background: tier.highlight ? '#00C27C' : tier.monthly === 0 ? '#f0f2f5' : '#0f1c2d', color: tier.highlight ? 'white' : tier.monthly === 0 ? '#0f1c2d' : 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', textAlign: 'center', marginBottom: '24px', boxSizing: 'border-box' }}>
-                  {tier.cta}
-                </a>
+                {tier.priceKey ? (
+                  <button
+                    onClick={() => handleCheckout(tier.priceKey)}
+                    disabled={isLoading}
+                    style={{ display: 'block', width: '100%', padding: '13px', background: tier.highlight ? '#00C27C' : '#0f1c2d', color: 'white', borderRadius: '10px', border: 'none', fontSize: '14px', fontWeight: '600', cursor: isLoading ? 'not-allowed' : 'pointer', opacity: isLoading ? 0.7 : 1, marginBottom: '24px', boxSizing: 'border-box' }}>
+                    {isLoading ? 'Loading...' : tier.cta}
+                  </button>
+                ) : (
+                  <a href={tier.ctaHref}
+                    style={{ display: 'block', width: '100%', padding: '13px', background: tier.highlight ? '#00C27C' : tier.monthly === 0 ? '#f0f2f5' : '#0f1c2d', color: tier.monthly === 0 ? '#0f1c2d' : 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', textAlign: 'center', marginBottom: '24px', boxSizing: 'border-box' }}>
+                    {tier.cta}
+                  </a>
+                )}
 
                 <div style={{ borderTop: '1px solid #f0f2f5', paddingTop: '20px' }}>
                   {tier.features.map((f, j) => (
@@ -233,7 +268,6 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* FAQ */}
         <div style={{ marginTop: '60px', textAlign: 'center' }}>
           <h2 style={{ fontSize: '24px', fontWeight: '700', color: '#0f1c2d', marginBottom: '8px' }}>Questions?</h2>
           <p style={{ fontSize: '14px', color: '#5a7184' }}>Email us at <a href="mailto:info@freedealcalc.com" style={{ color: '#00C27C', textDecoration: 'none' }}>info@freedealcalc.com</a></p>
