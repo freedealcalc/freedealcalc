@@ -27,10 +27,10 @@ export default function Dashboard() {
     const dealList = deals || [];
     setDeals(dealList);
 
-    // Fetch credit balance
+    // Fetch credit balance — Spend rows subtract, Purchase rows add
     const { data: creditRows } = await supabase.from('credits').select('credits, transaction_type').eq('user_id', user.id);
     const balance = (creditRows || []).reduce((sum, row) => {
-      return row.transaction_type === 'Spend' ? sum + row.credits : sum + row.credits;
+      return row.transaction_type === 'Spend' ? sum - Math.abs(row.credits) : sum + row.credits;
     }, 0);
     setCredits(balance);
 
@@ -154,11 +154,11 @@ export default function Dashboard() {
         </div>
 
         {/* Credits bar */}
-        <div style={{ background: 'white', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ background: 'white', borderRadius: '16px', padding: '20px 24px', marginBottom: credits < 25 ? '8px' : '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div>
               <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>AI Credits</div>
-              <div style={{ fontSize: '28px', fontWeight: '700', color: '#0f1c2d' }}>{credits.toLocaleString()}</div>
+              <div style={{ fontSize: '28px', fontWeight: '700', color: credits < 25 ? '#ff5050' : '#0f1c2d' }}>{credits.toLocaleString()}</div>
             </div>
             <div style={{ fontSize: '12px', color: '#5a7184', maxWidth: '220px' }}>
               Certificate 10cr · Proposal 25cr · Dispo 50cr
@@ -168,6 +168,19 @@ export default function Dashboard() {
             Buy Credits →
           </a>
         </div>
+
+        {/* Low credit warning */}
+        {credits < 25 && (
+          <div style={{ background: '#fff8e6', border: '1px solid #ffb700', borderRadius: '12px', padding: '12px 18px', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '16px' }}>⚠️</span>
+              <span style={{ fontSize: '13px', color: '#0f1c2d', fontWeight: '500' }}>
+                {credits <= 0 ? 'You\'re out of credits. Top up to generate AI outputs.' : `Only ${credits} credits left — not enough for a Proposal or Dispo Package.`}
+              </span>
+            </div>
+            <a href="/pricing" style={{ fontSize: '13px', fontWeight: '600', color: '#ffb700', textDecoration: 'none', whiteSpace: 'nowrap' }}>Top Up →</a>
+          </div>
+        )}
 
         {/* Badges */}
         {badges.length > 0 && (
