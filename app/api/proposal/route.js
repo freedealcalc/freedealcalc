@@ -9,16 +9,19 @@ const supabase = createClient(
 
 export async function POST(request) {
   try {
-    const { dealData, score, userId, offerPrice, whyUs } = await request.json();
+    const { dealData, userId, offerPrice, closeDate, dealNotes, profile } = await request.json();
 
-    // Check credits
+    // Check and deduct credits
     if (userId) {
       const { data: credits } = await supabase
         .from('credits')
-        .select('credits')
+        .select('credits, transaction_type')
         .eq('user_id', userId);
 
-      const balance = credits?.reduce((a, c) => a + c.credits, 0) || 0;
+      const balance = (credits || []).reduce((sum, row) => {
+        return row.transaction_type === 'Spend' ? sum - Math.abs(row.credits) : sum + row.credits;
+      }, 0);
+
       if (balance < 25) {
         return Response.json({ error: 'insufficient_credits' }, { status: 402 });
       }
@@ -31,42 +34,44 @@ export async function POST(request) {
       });
     }
 
-    // Generate numbers narrative
-    const numbersRes = await client.messages.create({
+    const benefits = [
+      `We can close by ${closeDate}`,
+      'All cash — no financing contingencies',
+      'No inspection contingencies',
+      'No repairs required from the seller',
+      profile?.leaveBehind ? 'Seller can leave anything behind at no cost' : null,
+      profile?.cashAdvance ? `We offer $${profile.cashAdvance} to help with moving costs` : null,
+      dealNotes ? `Additional context: ${dealNotes}` : null,
+    ].filter(Boolean).join('\n');
+
+    const res = await client.messages.create({
       model: 'claude-sonnet-4-6',
-      max_tokens: 250,
+      max_tokens: 300,
       messages: [{
         role: 'user',
-        content: `Write a 3-4 sentence factual explanation of why this offer price makes sense, addressed to the property seller. Be respectful and professional. Use the actual numbers. Do not mention AI. Plain text only, no markdown.
+        content: `You are writing a seller proposal on behalf of a real estate investor. Your job is to write 3 short paragraphs that make the seller feel confident, respected, and excited to accept this offer. 
 
-Property: ${dealData.address}
-Offer Price: $${offerPrice?.toLocaleString()}
-ARV (After Repair Value): $${dealData.arv?.toLocaleString()}
-Rehab Budget: $${dealData.rehabBudget?.toLocaleString()}
-Financing: ${dealData.financing}
-Hold Time: ${dealData.holdMonths} months
+Rules:
+- Never mention ARV, after-repair value, or what the property could sell for on the open market
+- Never show or reference buyer profit calculations
+- Never apologize for or justify the offer price
+- Focus entirely on what the seller gains: speed, certainty, simplicity, cash
+- Warm but professional tone — like a trusted neighbor, not a corporation
+- Plain text only, no markdown, no bullet points
+- 3 short paragraphs, each 2-3 sentences
 
-Write the explanation now:`
-      }]
-    });
+Property: ${dealData?.address}
+Offer: $${offerPrice?.toLocaleString()}
+What we're offering the seller:
+${benefits}
+Our background: ${profile?.pitch || 'Experienced local investor'}
 
-    // Polish the "why us" section
-    const whyUsRes = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 200,
-      messages: [{
-        role: 'user',
-        content: `Take this investor's notes about what makes them a good buyer and rewrite it as 2-3 polished, professional sentences for a seller proposal. Keep their specific claims and numbers. Do not add anything they didn't say. Plain text only, no markdown.
-
-Their notes: ${whyUs}
-
-Write the polished version now:`
+Write the 3 paragraphs now:`
       }]
     });
 
     return Response.json({
-      numbersNarrative: numbersRes.content[0].text,
-      whyUsNarrative: whyUsRes.content[0].text,
+      narrative: res.content[0].text,
       creditsUsed: 25,
     });
   } catch(e) {
