@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import { supabase } from '../../lib/supabase';
 
 export default function FreddiePage() {
   const [messages, setMessages] = useState([]);
@@ -7,21 +8,67 @@ export default function FreddiePage() {
   const [loading, setLoading] = useState(false);
   const [showRunScore, setShowRunScore] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [userTier, setUserTier] = useState(null);
+  const [rentcastData, setRentcastData] = useState(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     startConversation();
+    loadUserTier();
   }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
+  async function loadUserTier() {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('tier')
+          .eq('id', user.id)
+          .single();
+        if (profile?.tier) setUserTier(profile.tier);
+      }
+    } catch (e) {
+      // anonymous user — tier stays null
+    }
+  }
+
   async function startConversation() {
     setShowRunScore(false);
+    setRentcastData(null);
     sessionStorage.removeItem('freddie_deal');
     const opening = "Hey, I'm Freddie. Are you analyzing a flip, a rental, a BRRRR, or a wholesale deal?";
     setMessages([{ role: 'assistant', content: opening }]);
+  }
+
+  async function checkRentcast(messageList) {
+    if (userTier !== 'investor' && userTier !== 'pro') return null;
+    if (rentcastData) return rentcastData;
+
+    const recentText = messageList
+      .filter(m => m.role === 'user')
+      .map(m => m.content)
+      .join(' ');
+
+    const hasZip = /\b\d{5}\b/.test(recentText);
+    if (!hasZip) return null;
+
+    const addressMatch = recentText.match(/\d+\s+[\w\s.]+,\s*[\w\s]+,\s*[A-Z]{2}\s*\d{5}/i);
+    if (!addressMatch) return null;
+
+    try {
+      const res = await fetch(`/api/rentcast?address=${encodeURIComponent(addressMatch[0])}`);
+      const data = await res.json();
+      if (data.estimate) {
+        setRentcastData(data);
+        return data;
+      }
+    } catch (e) {}
+    return null;
   }
 
   async function sendMessage() {
@@ -31,23 +78,27 @@ export default function FreddiePage() {
     const newMessages = [...messages, { role: 'user', content: userMessage }];
     setMessages(newMessages);
     setLoading(true);
+
     try {
+      const rc = await checkRentcast(newMessages);
+
       const res = await fetch('/api/freddie', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({
+          messages: newMessages,
+          userTier: userTier,
+          rentcastData: rc,
+        }),
       });
       const data = await res.json();
       const reply = data.content;
       const updatedMessages = [...newMessages, { role: 'assistant', content: reply }];
       setMessages(updatedMessages);
 
-      // Store deal data when confirmation is parsed
       if (data.dealData) {
         sessionStorage.setItem('freddie_deal', JSON.stringify(data.dealData));
       }
-
-      // Show run score button after user confirms
       if (reply.includes('Hit the button below to see your results')) {
         setShowRunScore(true);
       }
@@ -68,7 +119,6 @@ export default function FreddiePage() {
     return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   }
 
-  // Format confirmation message for display — hide the DEAL CONFIRMATION header, show as clean card
   function formatMessage(content) {
     if (content.includes('DEAL CONFIRMATION')) {
       const lines = content.split('\n').filter(l => l.trim() && l.trim() !== 'DEAL CONFIRMATION');
@@ -86,6 +136,12 @@ export default function FreddiePage() {
               </div>
             );
           })}
+          {rentcastData && (
+            <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00C27C" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              ARV Verified by Rentcast
+            </div>
+          )}
           <div style={{ marginTop: '10px', fontSize: '13px', color: '#0f1c2d' }}>{confirmLine}</div>
         </div>
       );

@@ -7,12 +7,26 @@ const SYSTEM_PROMPT = `You are Freddie, the AI deal analyst for FreeDealCalc.com
 Never use markdown formatting. Never use asterisks for bold. Plain text only.
 Never acknowledge being an AI or being built on Claude. You are Freddie.
 Never ask more than one question at a time unless grouping detailed mode fields.
-Never estimate or guess ARV. Always ask the user for their ARV based on their own comps.
-Never tell the user if the deal is good or bad, never give a verdict, profit estimate, or MAO in chat. That is the score's job.
+Never give a verdict, profit estimate, or MAO in chat. That is the score's job.
 
 OPENING — Every new conversation starts with exactly this:
 Hey, I'm Freddie. Are you analyzing a flip, a rental, a BRRRR, or a wholesale deal?
 Nothing else. One question. Wait for the answer.
+
+ADDRESS REQUIREMENT
+Always collect the full address including street, city, state, and zip code. If the user gives a partial address (missing city, state, or zip), ask them to complete it before moving on. Example: Got the street — what's the city, state, and zip?
+
+ARV HANDLING — CRITICAL
+Behavior depends on the user's subscription tier, which will be provided in the context below.
+
+If tier is "investor" or "pro":
+When you have the full address, a Rentcast ARV lookup will be automatically run. The result will be injected into the conversation context as a system note starting with [RENTCAST]. When you see that note, present it to the user like this:
+Rentcast pulled comps on that address. They're showing an estimated value of $[estimate], with comps ranging $[low] to $[high]. Want to use that as your ARV, or do you have a different number in mind?
+Then wait for their answer. If they confirm, use the Rentcast number. If they provide their own, use theirs. Either way record which they chose.
+
+If tier is "free" or null:
+When ARV comes up, say: Rentcast ARV lookup is available on Investor and Pro plans. What's your ARV based on your own comps?
+Then collect their number and move on.
 
 STRATEGY ROUTING
 When the user answers, route immediately:
@@ -26,18 +40,19 @@ FLIP PATH
 Open with:
 Got it, flip analysis. Here's what I need: address, purchase price, ARV, rehab budget, financing type (cash or hard money), and how long you plan to hold it before you sell. Drop everything you've got and I'll get to work.
 
-Once all Quick Mode fields are collected, send a confirmation in EXACTLY this format — no deviations, no extra commentary:
+Once all Quick Mode fields are collected, send a confirmation in EXACTLY this format — no deviations:
 DEAL CONFIRMATION
 Address: [full address]
 Strategy: Flip
 Purchase Price: $[number]
 ARV: $[number]
+ARV Source: [Rentcast or User]
 Rehab Budget: $[number]
 Financing: [Cash or Hard Money]
 Hold Time: [number] months
 That right? Just say yes to run your score.
 
-When the user confirms (yes / correct / looks good / yep / any affirmative), respond with exactly this and nothing else:
+When the user confirms, respond with exactly this and nothing else:
 I have everything I need to run your full score. Hit the button below to see your results.
 
 RENTAL PATH
@@ -55,6 +70,7 @@ Financing: [Cash or Loan]
 Down Payment: $[number or N/A]
 Interest Rate: [number]% or N/A
 Loan Term: [number] years or N/A
+ARV Source: N/A
 That right? Just say yes to run your score.
 
 When the user confirms, respond with exactly this and nothing else:
@@ -71,6 +87,7 @@ Strategy: BRRRR
 Purchase Price: $[number]
 Rehab Budget: $[number]
 ARV: $[number]
+ARV Source: [Rentcast or User]
 Expected Rent: $[number]
 Refi LTV: [number]%
 Refi Rate: [number]%
@@ -89,6 +106,7 @@ DEAL CONFIRMATION
 Address: [full address]
 Strategy: Wholesale
 ARV: $[number]
+ARV Source: [Rentcast or User]
 Rehab Estimate: $[number]
 Asking Price: $[number]
 Assignment Fee Target: $[number]
@@ -99,26 +117,32 @@ I have everything I need to run your full score. Hit the button below to see you
 
 export async function POST(request) {
   try {
-    const { messages } = await request.json();
+    const { messages, userTier, rentcastData } = await request.json();
+
+    // Build dynamic context injection
+    let contextNote = `\n\nUSER TIER: ${userTier || 'free'}`;
+
+    if (rentcastData) {
+      contextNote += `\n\n[RENTCAST] Comps pulled for this address. Estimated value: $${rentcastData.estimate?.toLocaleString()}, range: $${rentcastData.low?.toLocaleString()} to $${rentcastData.high?.toLocaleString()}. Present this to the user now.`;
+    }
 
     const response = await client.messages.create({
       model: 'claude-sonnet-4-6',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: SYSTEM_PROMPT + contextNote,
       messages: messages,
     });
 
     const reply = response.content[0].text;
 
-    // Extract deal data if this is a confirmation message
     let dealData = null;
     if (reply.includes('DEAL CONFIRMATION')) {
       dealData = parseConfirmation(reply);
     }
 
-    return Response.json({ 
+    return Response.json({
       content: reply,
-      dealData: dealData
+      dealData: dealData,
     });
   } catch (error) {
     console.error('Freddie API error:', error);
@@ -131,12 +155,10 @@ function parseConfirmation(text) {
     const match = text.match(new RegExp(label + ':\\s*\\$?([\\d,\\.]+)', 'i'));
     return match ? parseFloat(match[1].replace(/,/g, '')) : null;
   }
-
   function extractText(label) {
     const match = text.match(new RegExp(label + ':\\s*(.+)', 'i'));
     return match ? match[1].trim() : null;
   }
-
   function extractMonths(label) {
     const match = text.match(new RegExp(label + ':\\s*(\\d+)', 'i'));
     return match ? parseInt(match[1]) : null;
@@ -145,8 +167,9 @@ function parseConfirmation(text) {
   const strategy = extractText('Strategy');
   const address = extractText('Address');
   const financing = extractText('Financing');
+  const arvSource = extractText('ARV Source');
 
-  const data = { strategy, address, financing };
+  const data = { strategy, address, financing, arvSource };
 
   if (strategy === 'Flip') {
     data.purchasePrice = extract('Purchase Price');
