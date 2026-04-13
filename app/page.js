@@ -1,7 +1,22 @@
 'use client';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 export default function HomePage() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data?.user || null);
+    });
+  }, []);
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    setUser(null);
+  }
+
   return (
     <>
       <style>{`
@@ -23,6 +38,8 @@ export default function HomePage() {
           transition: background 0.15s, transform 0.1s;
         }
         .hero-btn:hover { background: #00a368; transform: translateY(-1px); }
+        .nav-link { font-size: 13px; color: #94a8b8; text-decoration: none; transition: color 0.15s; }
+        .nav-link:hover { color: white; }
         .feature-card {
           background: white;
           border-radius: 16px;
@@ -41,20 +58,42 @@ export default function HomePage() {
           .features-grid { grid-template-columns: 1fr !important; }
           .hero-headline { font-size: 36px !important; }
           .stat-row { flex-direction: column !important; gap: 16px !important; }
-          .nav-links { display: none; }
+          .nav-links { display: none !important; }
+          .nav-mobile-cta { display: flex !important; }
         }
       `}</style>
 
       {/* Nav */}
       <nav style={{ background: '#0f1c2d', padding: '0 32px', height: '60px', display: 'flex', alignItems: 'center', position: 'sticky', top: 0, zIndex: 100 }}>
         <div className="nav-inner">
-          <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
+          <a href="/" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white', textDecoration: 'none' }}>
             FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
-          </div>
+          </a>
           <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-            <a href="/freddie" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>Analyze a Deal</a>
-            <a href="/partners" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>Partners</a>
-            <a href="/freddie" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 16px', borderRadius: '8px' }}>Try Free →</a>
+            <a href="/freddie" className="nav-link">Analyze a Deal</a>
+            <a href="/pricing" className="nav-link">Pricing</a>
+            <a href="/partners" className="nav-link">Partners</a>
+            {user ? (
+              <>
+                <a href="/dashboard" className="nav-link">Dashboard</a>
+                <a href="/account" className="nav-link">Account</a>
+                <button onClick={signOut} style={{ fontSize: '13px', color: '#94a8b8', background: 'none', border: 'none', cursor: 'pointer' }}>Sign Out</button>
+              </>
+            ) : (
+              <>
+                <a href="/login" className="nav-link">Log In</a>
+                <a href="/freddie" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 16px', borderRadius: '8px' }}>Try Free →</a>
+              </>
+            )}
+          </div>
+          {/* Mobile CTA */}
+          <div className="nav-mobile-cta" style={{ display: 'none', alignItems: 'center', gap: '10px' }}>
+            {user ? (
+              <a href="/dashboard" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '7px 14px', borderRadius: '8px' }}>Dashboard</a>
+            ) : (
+              <a href="/login" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '7px 14px', borderRadius: '8px' }}>Log In</a>
+            )}
+            <a href="/freddie" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 14px', borderRadius: '8px' }}>Try Free →</a>
           </div>
         </div>
       </nav>
