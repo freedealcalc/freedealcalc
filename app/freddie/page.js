@@ -9,22 +9,24 @@ export default function FreddiePage() {
   const [showRunScore, setShowRunScore] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userTier, setUserTier] = useState(null);
+  const [user, setUser] = useState(null);
   const [rentcastData, setRentcastData] = useState(null);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     startConversation();
-    loadUserTier();
+    loadUser();
   }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
-  async function loadUserTier() {
+  async function loadUser() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+        setUser(user);
         const { data: profile } = await supabase
           .from('profiles')
           .select('tier')
@@ -32,9 +34,7 @@ export default function FreddiePage() {
           .single();
         if (profile?.tier) setUserTier(profile.tier);
       }
-    } catch (e) {
-      // anonymous user — tier stays null
-    }
+    } catch (e) {}
   }
 
   async function startConversation() {
@@ -149,6 +149,13 @@ export default function FreddiePage() {
     return content;
   }
 
+  const navLink = (href, label) => (
+    <a href={href} style={{ display: 'block', fontSize: '13px', color: '#94a8b8', textDecoration: 'none', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.05)', transition: 'color 0.15s' }}
+      onMouseEnter={e => e.target.style.color = 'white'}
+      onMouseLeave={e => e.target.style.color = '#94a8b8'}
+    >{label}</a>
+  );
+
   return (
     <>
       <style>{`
@@ -226,15 +233,56 @@ export default function FreddiePage() {
 
       <div className="app-layout">
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-          <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
-            FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
-          </div>
+
+          {/* Logo */}
+          <a href="/" style={{ textDecoration: 'none' }}>
+            <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
+              FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
+            </div>
+          </a>
           <div style={{ fontSize: '10px', color: '#94a8b8', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px' }}>AI Deal Analyst</div>
+
+          {/* New Analysis */}
           <button onClick={() => { startConversation(); setSidebarOpen(false); }} style={{ marginTop: '20px', padding: '10px 14px', background: '#00C27C', border: 'none', borderRadius: '10px', color: 'white', fontSize: '13px', fontWeight: '500', cursor: 'pointer', width: '100%' }}>
             + New Analysis
           </button>
+
+          {/* Tier badge */}
+          {userTier && (
+            <div style={{ marginTop: '12px', padding: '6px 10px', background: 'rgba(0,194,124,0.1)', border: '1px solid rgba(0,194,124,0.2)', borderRadius: '8px', fontSize: '11px', color: '#00C27C', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center' }}>
+              {userTier} plan
+            </div>
+          )}
+
+          {/* Nav links */}
+          <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ fontSize: '10px', color: '#5a7184', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>Navigate</div>
+            {navLink('/', 'Home')}
+            {user && navLink('/dashboard', 'Dashboard')}
+            {navLink('/pricing', 'Pricing')}
+            {navLink('/partners', 'Partners')}
+            {navLink('/deal-results', 'Sample Score')}
+          </div>
+
+          {/* Bottom — auth */}
           <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-            <a href="/deal-results" style={{ display: 'block', fontSize: '13px', color: '#94a8b8', textDecoration: 'none', padding: '8px 0' }}>Sample Score →</a>
+            {user ? (
+              <div>
+                <div style={{ fontSize: '12px', color: '#5a7184', marginBottom: '8px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.email}</div>
+                <a href="/account" style={{ display: 'block', fontSize: '13px', color: '#94a8b8', textDecoration: 'none', padding: '6px 0' }}
+                  onMouseEnter={e => e.target.style.color = 'white'}
+                  onMouseLeave={e => e.target.style.color = '#94a8b8'}
+                >Account Settings</a>
+                <button onClick={async () => { await supabase.auth.signOut(); window.location.href = '/'; }} style={{ marginTop: '8px', background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#94a8b8', fontSize: '12px', padding: '6px 12px', cursor: 'pointer', width: '100%' }}>
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <a href="/login" style={{ display: 'block', textAlign: 'center', padding: '9px', background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '9px', color: 'white', fontSize: '13px', textDecoration: 'none', fontWeight: '500' }}>Log In</a>
+                <a href="/signup" style={{ display: 'block', textAlign: 'center', padding: '9px', background: '#00C27C', borderRadius: '9px', color: 'white', fontSize: '13px', textDecoration: 'none', fontWeight: '500' }}>Sign Up Free</a>
+              </div>
+            )}
           </div>
         </div>
 
