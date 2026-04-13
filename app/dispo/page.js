@@ -4,6 +4,13 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { supabase } from '../../lib/supabase';
 
+const RentcastBadge = () => (
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#e1f5ee', border: '0.5px solid #5dcaa5', borderRadius: '20px', padding: '3px 8px', marginTop: '6px' }}>
+    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="#0f6e56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    <span style={{ fontSize: '10px', fontWeight: '600', color: '#085041', whiteSpace: 'nowrap' }}>Rentcast verified</span>
+  </span>
+);
+
 function DispoPage() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState('form');
@@ -14,6 +21,7 @@ function DispoPage() {
   const [photoPreview, setPhotoPreview] = useState(null);
   const [pitch, setPitch] = useState(null);
   const [scopeSummary, setScopeSummary] = useState(null);
+  const [arvSource, setArvSource] = useState(null);
   const [form, setForm] = useState({
     askingPrice: '',
     emd: '',
@@ -39,7 +47,7 @@ function DispoPage() {
     if (id) {
       const { data } = await supabase.from('deals').select('*').eq('id', id).single();
       if (data) {
-        setDealData({
+        const d = {
           address: data.address,
           strategy: data.strategy,
           purchasePrice: data.purchase_price,
@@ -47,7 +55,10 @@ function DispoPage() {
           rehabBudget: data.rehab_budget,
           holdMonths: data.hold_months,
           financing: data.financing,
-        });
+          arvSource: data.arv_source || null,
+        };
+        setDealData(d);
+        setArvSource(d.arvSource);
         setForm(f => ({ ...f, askingPrice: data.purchase_price?.toString() || '' }));
         return;
       }
@@ -57,13 +68,12 @@ function DispoPage() {
     if (stored) {
       const d = JSON.parse(stored);
       setDealData(d);
+      setArvSource(d.arvSource || null);
       setForm(f => ({ ...f, askingPrice: d.purchasePrice?.toString() || '' }));
     }
   }
 
-  function setField(key, val) {
-    setForm(f => ({ ...f, [key]: val }));
-  }
+  function setField(key, val) { setForm(f => ({ ...f, [key]: val })); }
 
   function handlePhoto(e) {
     const file = e.target.files[0];
@@ -80,14 +90,10 @@ function DispoPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          dealData,
-          userId: user?.id,
+          dealData, userId: user?.id,
           askingPrice: parseFloat(form.askingPrice.replace(/,/g, '')),
-          emd: form.emd,
-          closeBy: form.closeBy,
-          condition: form.condition,
-          rehabScope: form.rehabScope,
-          extras: form.extras,
+          emd: form.emd, closeBy: form.closeBy, condition: form.condition,
+          rehabScope: form.rehabScope, extras: form.extras,
         }),
       });
       const data = await res.json();
@@ -133,7 +139,6 @@ function DispoPage() {
         }
       `}</style>
 
-      {/* Nav */}
       <div className="no-print" style={{ background: '#0f1c2d', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: 'white' }}>
           FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -148,71 +153,56 @@ function DispoPage() {
         </div>
       </div>
 
-      {/* Form */}
       {step === 'form' && (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 24px' }}>
           <div style={{ background: 'white', borderRadius: '20px', padding: '40px', maxWidth: '560px', width: '100%', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
             <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Disposition Package</div>
             <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#0f1c2d', marginBottom: '8px' }}>Tell us about this deal</h1>
             <p style={{ fontSize: '14px', color: '#5a7184', marginBottom: '32px' }}>We'll build a buyer-ready deal package that sells itself. Costs 50 credits.</p>
-
             {dealData?.address && (
               <div style={{ background: '#f0f2f5', borderRadius: '10px', padding: '12px 16px', marginBottom: '24px', fontSize: '13px', color: '#5a7184' }}>
                 📍 {dealData.address}
               </div>
             )}
-
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
               <div>
                 <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Buy It Now Price *</label>
-                <input type="text" value={form.askingPrice} onChange={e => setField('askingPrice', e.target.value)}
-                  placeholder="250000"
+                <input type="text" value={form.askingPrice} onChange={e => setField('askingPrice', e.target.value)} placeholder="250000"
                   style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
               </div>
               <div>
                 <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>EMD Required</label>
-                <input type="text" value={form.emd} onChange={e => setField('emd', e.target.value)}
-                  placeholder="5000"
+                <input type="text" value={form.emd} onChange={e => setField('emd', e.target.value)} placeholder="5000"
                   style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
               </div>
             </div>
-
             <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Close By Date *</label>
-              <input type="text" value={form.closeBy} onChange={e => setField('closeBy', e.target.value)}
-                placeholder="May 15, 2026"
+              <input type="text" value={form.closeBy} onChange={e => setField('closeBy', e.target.value)} placeholder="May 15, 2026"
                 style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
             </div>
-
             <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Property Condition *</label>
-              <input type="text" value={form.condition} onChange={e => setField('condition', e.target.value)}
-                placeholder="Needs full gut renovation, roof is 2 years old, foundation is solid"
+              <input type="text" value={form.condition} onChange={e => setField('condition', e.target.value)} placeholder="Needs full gut renovation, roof is 2 years old, foundation is solid"
                 style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
             </div>
-
             <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Rehab Scope Highlights</label>
               <textarea value={form.rehabScope} onChange={e => setField('rehabScope', e.target.value)}
                 placeholder="Kitchen full gut, 2 bathrooms, new flooring throughout, paint, landscaping"
-                rows={3}
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical' }} />
+                rows={3} style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical' }} />
             </div>
-
             <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Anything else buyers should know?</label>
               <textarea value={form.extras} onChange={e => setField('extras', e.target.value)}
                 placeholder="Motivated seller, title is clear, vacant and lockboxed, showing available anytime"
-                rows={3}
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical' }} />
+                rows={3} style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical' }} />
             </div>
-
-            {/* Photo upload */}
             <div style={{ marginBottom: '32px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>
                 Front of House Photo <span style={{ color: '#94a8b8', fontWeight: '400' }}>(optional)</span>
               </label>
-              <div style={{ border: '2px dashed #e4e8ed', borderRadius: '10px', padding: '20px', textAlign: 'center', cursor: 'pointer', position: 'relative' }}
+              <div style={{ border: '2px dashed #e4e8ed', borderRadius: '10px', padding: '20px', textAlign: 'center', cursor: 'pointer' }}
                 onClick={() => document.getElementById('photoInput').click()}>
                 {photoPreview ? (
                   <img src={photoPreview} alt="Property" style={{ maxHeight: '160px', borderRadius: '8px', objectFit: 'cover', width: '100%' }} />
@@ -225,9 +215,7 @@ function DispoPage() {
                 <input id="photoInput" type="file" accept="image/*" onChange={handlePhoto} style={{ display: 'none' }} />
               </div>
             </div>
-
-            <button onClick={handleGenerate}
-              disabled={!form.askingPrice || !form.condition || !form.closeBy}
+            <button onClick={handleGenerate} disabled={!form.askingPrice || !form.condition || !form.closeBy}
               style={{ width: '100%', padding: '14px', background: form.askingPrice && form.condition && form.closeBy ? '#00C27C' : '#e4e8ed', color: form.askingPrice && form.condition && form.closeBy ? 'white' : '#94a8b8', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: form.askingPrice && form.condition && form.closeBy ? 'pointer' : 'not-allowed' }}>
               Generate Package · 50 credits →
             </button>
@@ -235,7 +223,6 @@ function DispoPage() {
         </div>
       )}
 
-      {/* Generating */}
       {step === 'generating' && (
         <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div style={{ textAlign: 'center' }}>
@@ -246,12 +233,10 @@ function DispoPage() {
         </div>
       )}
 
-      {/* Package */}
       {step === 'package' && dealData && (
         <div style={{ padding: '40px 24px', display: 'flex', justifyContent: 'center' }}>
           <div className="dispo" style={{ background: 'white', borderRadius: '20px', maxWidth: '680px', width: '100%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)', overflow: 'hidden' }}>
 
-            {/* Photo header */}
             {photoPreview ? (
               <div style={{ position: 'relative', height: '240px', overflow: 'hidden' }}>
                 <img src={photoPreview} alt="Property" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -270,12 +255,9 @@ function DispoPage() {
 
             <div style={{ padding: '40px 48px' }}>
 
-              {/* Header info */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '32px', paddingBottom: '24px', borderBottom: '2px solid #f0f2f5' }}>
                 <div>
-                  <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: '#0f1c2d' }}>
-                    FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
-                  </div>
+                  <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: '#0f1c2d' }}>FreeDeal<span style={{ color: '#00C27C' }}>Calc</span></div>
                   <div style={{ fontSize: '11px', color: '#94a8b8', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px' }}>Disposition Package</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
@@ -286,7 +268,6 @@ function DispoPage() {
                 </div>
               </div>
 
-              {/* Buy It Now */}
               <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '28px', marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
                 <div>
                   <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px' }}>Buy It Now</div>
@@ -302,21 +283,23 @@ function DispoPage() {
                 </div>
               </div>
 
-              {/* The Numbers */}
+              {/* Numbers with Rentcast badge on ARV */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '32px' }}>
-                {[
-                  { label: 'Buy It Now', value: fmt(parseFloat(form.askingPrice.replace(/,/g, ''))), color: '#0f1c2d' },
-                  { label: 'Est. Rehab', value: fmt(dealData.rehabBudget), color: '#0f1c2d' },
-                  { label: 'ARV', value: fmt(dealData.arv), color: '#0f1c2d' },
-                ].map((m, i) => (
-                  <div key={i} style={{ padding: '16px', background: '#f8f9fa', borderRadius: '12px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>{m.label}</div>
-                    <div style={{ fontSize: '18px', fontWeight: '700', color: m.color }}>{m.value}</div>
-                  </div>
-                ))}
+                <div style={{ padding: '16px', background: '#f8f9fa', borderRadius: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>Buy It Now</div>
+                  <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1c2d' }}>{fmt(parseFloat(form.askingPrice.replace(/,/g, '')))}</div>
+                </div>
+                <div style={{ padding: '16px', background: '#f8f9fa', borderRadius: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>Est. Rehab</div>
+                  <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1c2d' }}>{fmt(dealData.rehabBudget)}</div>
+                </div>
+                <div style={{ padding: '16px', background: arvSource === 'rentcast' ? '#f0faf6' : '#f8f9fa', border: arvSource === 'rentcast' ? '1px solid #b2e4d0' : 'none', borderRadius: '12px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>ARV</div>
+                  <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1c2d' }}>{fmt(dealData.arv)}</div>
+                  {arvSource === 'rentcast' && <div style={{ display: 'flex', justifyContent: 'center', marginTop: '6px' }}><RentcastBadge /></div>}
+                </div>
               </div>
 
-              {/* Buyer Profit Potential */}
               <div style={{ background: 'rgba(0,194,124,0.08)', border: '2px solid #00C27C', borderRadius: '16px', padding: '20px 24px', marginBottom: '32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d' }}>Your Profit Potential</div>
@@ -325,19 +308,16 @@ function DispoPage() {
                 <div style={{ fontSize: '28px', fontWeight: '700', color: '#00C27C' }}>{fmt(buyerProfit)}+</div>
               </div>
 
-              {/* Deal Pitch */}
               <div style={{ marginBottom: '32px' }}>
                 <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>Why This Deal Works</div>
                 <p style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.7' }}>{pitch}</p>
               </div>
 
-              {/* Property Condition */}
               <div style={{ marginBottom: '32px', padding: '20px 24px', background: '#f8f9fa', borderRadius: '16px' }}>
                 <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>Property Condition & Scope</div>
                 <p style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.7' }}>{scopeSummary}</p>
               </div>
 
-              {/* Extras */}
               {form.extras && (
                 <div style={{ marginBottom: '32px', padding: '20px 24px', background: '#f8f9fa', borderRadius: '16px' }}>
                   <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1c2d', marginBottom: '8px' }}>Additional Notes</div>
@@ -345,7 +325,6 @@ function DispoPage() {
                 </div>
               )}
 
-              {/* CTA */}
               <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '28px', marginBottom: '32px', textAlign: 'center' }}>
                 <div style={{ fontSize: '18px', fontWeight: '700', color: 'white', marginBottom: '8px' }}>Ready to Lock This Deal?</div>
                 <div style={{ fontSize: '13px', color: '#94a8b8', marginBottom: '20px' }}>First earnest money deposit secures the contract. Don't wait.</div>
@@ -355,7 +334,6 @@ function DispoPage() {
                 </div>
               </div>
 
-              {/* Footer */}
               <div style={{ borderTop: '1px solid #f0f2f5', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ fontSize: '11px', color: '#94a8b8', maxWidth: '400px', lineHeight: '1.5' }}>
                   This document is for informational purposes only. All figures are estimates. Buyers are encouraged to conduct their own due diligence prior to purchase.

@@ -4,9 +4,16 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { supabase } from '../../lib/supabase';
 
+const RentcastBadge = () => (
+  <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#e1f5ee', border: '0.5px solid #5dcaa5', borderRadius: '20px', padding: '3px 8px', marginTop: '6px' }}>
+    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="#0f6e56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+    <span style={{ fontSize: '10px', fontWeight: '600', color: '#085041', whiteSpace: 'nowrap' }}>Rentcast verified</span>
+  </span>
+);
+
 function ProposalPage() {
   const searchParams = useSearchParams();
-  const [step, setStep] = useState('form'); // 'form' | 'generating' | 'proposal' | 'error'
+  const [step, setStep] = useState('form');
   const [dealData, setDealData] = useState(null);
   const [score, setScore] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -16,6 +23,7 @@ function ProposalPage() {
   const [numbersNarrative, setNumbersNarrative] = useState(null);
   const [whyUsNarrative, setWhyUsNarrative] = useState(null);
   const [error, setError] = useState(null);
+  const [arvSource, setArvSource] = useState(null);
 
   useEffect(() => {
     init();
@@ -41,8 +49,10 @@ function ProposalPage() {
           rehabBudget: data.rehab_budget,
           holdMonths: data.hold_months,
           financing: data.financing,
+          arvSource: data.arv_source || null,
         };
         setDealData(d);
+        setArvSource(d.arvSource);
         setScore(buildScore(d));
         setOfferPrice(data.purchase_price?.toString() || '');
         return;
@@ -55,6 +65,7 @@ function ProposalPage() {
       const d = JSON.parse(stored);
       const s = JSON.parse(storedScore);
       setDealData(d);
+      setArvSource(d.arvSource || null);
       setScore(s);
       setOfferPrice(d.purchasePrice?.toString() || '');
     }
@@ -88,13 +99,7 @@ function ProposalPage() {
       const res = await fetch('/api/proposal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          dealData,
-          score,
-          userId: user?.id,
-          offerPrice: parseFloat(offerPrice.replace(/,/g, '')),
-          whyUs,
-        }),
+        body: JSON.stringify({ dealData, score, userId: user?.id, offerPrice: parseFloat(offerPrice.replace(/,/g, '')), whyUs }),
       });
       const data = await res.json();
       if (data.error === 'insufficient_credits') {
@@ -139,7 +144,6 @@ function ProposalPage() {
         }
       `}</style>
 
-      {/* Nav */}
       <div className="no-print" style={{ background: '#0f1c2d', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: 'white' }}>
           FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -154,46 +158,31 @@ function ProposalPage() {
         </div>
       </div>
 
-      {/* Form step */}
       {step === 'form' && (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '60px 24px' }}>
           <div style={{ background: 'white', borderRadius: '20px', padding: '40px', maxWidth: '520px', width: '100%', boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}>
             <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '8px' }}>Seller Proposal</div>
             <h1 style={{ fontSize: '24px', fontWeight: '700', color: '#0f1c2d', marginBottom: '8px' }}>Two quick questions</h1>
             <p style={{ fontSize: '14px', color: '#5a7184', marginBottom: '32px' }}>We'll build your professional seller proposal in seconds. Costs 25 credits.</p>
-
             {dealData?.address && (
               <div style={{ background: '#f0f2f5', borderRadius: '10px', padding: '12px 16px', marginBottom: '24px', fontSize: '13px', color: '#5a7184' }}>
                 📍 {dealData.address}
               </div>
             )}
-
             <div style={{ marginBottom: '20px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Your Offer Price</label>
-              <input
-                type="text"
-                value={offerPrice}
-                onChange={e => setOfferPrice(e.target.value)}
-                placeholder="250000"
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }}
-              />
+              <input type="text" value={offerPrice} onChange={e => setOfferPrice(e.target.value)} placeholder="250000"
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
             </div>
-
             <div style={{ marginBottom: '32px' }}>
               <label style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Why should the seller choose you?</label>
               <p style={{ fontSize: '12px', color: '#94a8b8', marginBottom: '8px' }}>Tell us what makes you different. Close timeline, cash offer, flexibility, experience — whatever applies to you.</p>
-              <textarea
-                value={whyUs}
-                onChange={e => setWhyUs(e.target.value)}
-                placeholder="We close in 7 days, cash, no inspections or contingencies. We've done 47 deals in Northern Virginia and can work around any timeline the seller needs..."
+              <textarea value={whyUs} onChange={e => setWhyUs(e.target.value)}
+                placeholder="We close in 7 days, cash, no inspections or contingencies..."
                 rows={5}
-                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical', lineHeight: '1.5' }}
-              />
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical', lineHeight: '1.5' }} />
             </div>
-
-            <button
-              onClick={handleGenerate}
-              disabled={!offerPrice || !whyUs.trim()}
+            <button onClick={handleGenerate} disabled={!offerPrice || !whyUs.trim()}
               style={{ width: '100%', padding: '14px', background: offerPrice && whyUs.trim() ? '#00C27C' : '#e4e8ed', color: offerPrice && whyUs.trim() ? 'white' : '#94a8b8', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: offerPrice && whyUs.trim() ? 'pointer' : 'not-allowed' }}>
               Generate Proposal · 25 credits →
             </button>
@@ -201,7 +190,6 @@ function ProposalPage() {
         </div>
       )}
 
-      {/* Generating */}
       {step === 'generating' && (
         <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'DM Sans, sans-serif' }}>
           <div style={{ textAlign: 'center' }}>
@@ -212,17 +200,13 @@ function ProposalPage() {
         </div>
       )}
 
-      {/* Proposal */}
       {step === 'proposal' && dealData && score && (
         <div style={{ padding: '40px 24px', display: 'flex', justifyContent: 'center' }}>
           <div className="proposal" style={{ background: 'white', borderRadius: '20px', padding: '48px', maxWidth: '680px', width: '100%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)' }}>
 
-            {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px', paddingBottom: '24px', borderBottom: '2px solid #f0f2f5' }}>
               <div>
-                <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '24px', color: '#0f1c2d' }}>
-                  FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
-                </div>
+                <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '24px', color: '#0f1c2d' }}>FreeDeal<span style={{ color: '#00C27C' }}>Calc</span></div>
                 <div style={{ fontSize: '11px', color: '#94a8b8', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px' }}>Seller Proposal</div>
               </div>
               <div style={{ textAlign: 'right' }}>
@@ -234,47 +218,45 @@ function ProposalPage() {
               </div>
             </div>
 
-            {/* Property */}
             <div style={{ marginBottom: '32px' }}>
               <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>Property</div>
               <div style={{ fontSize: '20px', fontWeight: '700', color: '#0f1c2d' }}>{dealData.address}</div>
               <div style={{ fontSize: '13px', color: '#5a7184', marginTop: '4px' }}>{dealData.strategy} · {dealData.financing} · {dealData.holdMonths} month hold</div>
             </div>
 
-            {/* Our Offer */}
             <div style={{ background: '#f0faf6', border: '2px solid #00C27C', borderRadius: '16px', padding: '24px', marginBottom: '32px' }}>
               <div style={{ fontSize: '11px', color: '#00C27C', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '700', marginBottom: '8px' }}>Our Offer</div>
               <div style={{ fontSize: '36px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>{fmt(parseFloat(offerPrice.replace(/,/g, '')))}</div>
               <div style={{ fontSize: '13px', color: '#5a7184' }}>{dealData.financing === 'cash' ? 'All Cash' : 'Hard Money'} · {dealData.holdMonths} month close target · No contingencies</div>
             </div>
 
-            {/* The Numbers */}
             <div style={{ marginBottom: '32px' }}>
               <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>About This Offer</div>
               <p style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.7' }}>{numbersNarrative}</p>
             </div>
 
-            {/* Key Numbers */}
+            {/* Key Numbers with Rentcast badge on ARV */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '32px' }}>
-              {[
-                { label: 'Purchase Price', value: fmt(parseFloat(offerPrice.replace(/,/g, ''))) },
-                { label: 'Est. Rehab', value: fmt(dealData.rehabBudget) },
-                { label: 'After Repair Value', value: fmt(dealData.arv) },
-              ].map((r, i) => (
-                <div key={i} style={{ padding: '12px 16px', background: '#f8f9fa', borderRadius: '10px' }}>
-                  <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>{r.label}</div>
-                  <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{r.value}</div>
-                </div>
-              ))}
+              <div style={{ padding: '12px 16px', background: '#f8f9fa', borderRadius: '10px' }}>
+                <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>Purchase Price</div>
+                <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(parseFloat(offerPrice.replace(/,/g, '')))}</div>
+              </div>
+              <div style={{ padding: '12px 16px', background: '#f8f9fa', borderRadius: '10px' }}>
+                <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>Est. Rehab</div>
+                <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(dealData.rehabBudget)}</div>
+              </div>
+              <div style={{ padding: '12px 16px', background: arvSource === 'rentcast' ? '#f0faf6' : '#f8f9fa', border: arvSource === 'rentcast' ? '1px solid #b2e4d0' : 'none', borderRadius: '10px' }}>
+                <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>After Repair Value</div>
+                <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(dealData.arv)}</div>
+                {arvSource === 'rentcast' && <RentcastBadge />}
+              </div>
             </div>
 
-            {/* Why Us */}
             <div style={{ marginBottom: '32px', padding: '24px', background: '#f8f9fa', borderRadius: '16px' }}>
               <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>Why Work With Us</div>
               <p style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.7' }}>{whyUsNarrative}</p>
             </div>
 
-            {/* Next Steps */}
             <div style={{ marginBottom: '32px', padding: '24px', background: '#0f1c2d', borderRadius: '16px' }}>
               <div style={{ fontSize: '14px', fontWeight: '700', color: 'white', marginBottom: '8px' }}>Next Steps</div>
               <p style={{ fontSize: '13px', color: '#94a8b8', lineHeight: '1.6' }}>
@@ -286,7 +268,6 @@ function ProposalPage() {
               </div>
             </div>
 
-            {/* Footer */}
             <div style={{ borderTop: '1px solid #f0f2f5', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ fontSize: '11px', color: '#94a8b8', maxWidth: '400px', lineHeight: '1.5' }}>
                 This document is for informational purposes only and does not constitute a legally binding offer or contract.

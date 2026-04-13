@@ -14,6 +14,7 @@ function CertificatePage() {
   const [score, setScore] = useState(null);
   const [profile, setProfile] = useState(null);
   const [user, setUser] = useState(null);
+  const [arvSource, setArvSource] = useState(null);
   const printRef = useRef(null);
 
   useEffect(() => {
@@ -41,8 +42,10 @@ function CertificatePage() {
           rehabBudget: data.rehab_budget,
           holdMonths: data.hold_months,
           financing: data.financing,
+          arvSource: data.arv_source || null,
         };
         setDealData(d);
+        setArvSource(d.arvSource);
         const s = buildScore(d);
         setScore(s);
         setLoading(false);
@@ -51,13 +54,13 @@ function CertificatePage() {
       }
     }
 
-    // Fall back to sessionStorage
     const stored = sessionStorage.getItem('freddie_deal');
     const storedScore = sessionStorage.getItem('freddie_score');
     if (stored && storedScore) {
       const d = JSON.parse(stored);
       const s = JSON.parse(storedScore);
       setDealData(d);
+      setArvSource(d.arvSource || null);
       setScore(s);
       setLoading(false);
       generateNarrative(d, s, user?.id);
@@ -108,9 +111,7 @@ function CertificatePage() {
     setGenerating(false);
   }
 
-  function handlePrint() {
-    window.print();
-  }
+  function handlePrint() { window.print(); }
 
   function getScoreColor(s) {
     if (s >= 75) return '#00C27C';
@@ -127,6 +128,13 @@ function CertificatePage() {
   }
 
   function fmt(n) { return '$' + Math.abs(n || 0).toLocaleString(); }
+
+  const RentcastBadge = () => (
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#e1f5ee', border: '0.5px solid #5dcaa5', borderRadius: '20px', padding: '3px 8px', marginLeft: '8px', verticalAlign: 'middle' }}>
+      <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><polyline points="1.5,6 4.5,9 10.5,3" stroke="#0f6e56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      <span style={{ fontSize: '10px', fontWeight: '600', color: '#085041', whiteSpace: 'nowrap' }}>Rentcast verified</span>
+    </span>
+  );
 
   if (loading) return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'DM Sans, sans-serif' }}>
@@ -168,7 +176,6 @@ function CertificatePage() {
         }
       `}</style>
 
-      {/* Controls */}
       <div className="no-print" style={{ background: '#0f1c2d', padding: '0 24px', height: '56px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '20px', color: 'white' }}>
           FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -181,11 +188,9 @@ function CertificatePage() {
         </div>
       </div>
 
-      {/* Certificate */}
       <div style={{ padding: '40px 24px', display: 'flex', justifyContent: 'center' }}>
         <div ref={printRef} className="certificate" style={{ background: 'white', borderRadius: '20px', padding: '48px', maxWidth: '680px', width: '100%', boxShadow: '0 4px 40px rgba(0,0,0,0.1)' }}>
 
-          {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '40px', paddingBottom: '24px', borderBottom: '2px solid #f0f2f5' }}>
             <div>
               <div style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '24px', color: '#0f1c2d' }}>
@@ -201,14 +206,12 @@ function CertificatePage() {
             </div>
           </div>
 
-          {/* Address + Strategy */}
           <div style={{ marginBottom: '32px' }}>
             <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>Property</div>
             <div style={{ fontSize: '20px', fontWeight: '700', color: '#0f1c2d' }}>{dealData.address || 'Address not provided'}</div>
             <div style={{ fontSize: '13px', color: '#5a7184', marginTop: '4px' }}>{dealData.strategy} · {dealData.financing} · {dealData.holdMonths} month hold</div>
           </div>
 
-          {/* Score */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '32px', marginBottom: '32px', padding: '28px', background: '#f8f9fa', borderRadius: '16px' }}>
             <div style={{ width: '100px', height: '100px', borderRadius: '50%', border: `6px solid ${color}`, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: `0 0 30px ${color}22` }}>
               <div style={{ fontSize: '36px', fontWeight: '700', color: color, lineHeight: 1 }}>{score.total}</div>
@@ -224,7 +227,6 @@ function CertificatePage() {
             </div>
           </div>
 
-          {/* Metrics */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px', marginBottom: '32px' }}>
             {[
               { label: 'Est. Profit', value: fmt(score.profit), color: score.profit >= 0 ? '#00C27C' : '#ff5050' },
@@ -239,21 +241,23 @@ function CertificatePage() {
             ))}
           </div>
 
-          {/* Key numbers */}
+          {/* Key numbers with Rentcast badge on ARV */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '32px' }}>
-            {[
-              { label: 'Purchase Price', value: fmt(dealData.purchasePrice) },
-              { label: 'Rehab Budget', value: fmt(dealData.rehabBudget) },
-              { label: 'ARV', value: fmt(dealData.arv) },
-            ].map((r, i) => (
-              <div key={i} style={{ padding: '12px 16px', background: '#f8f9fa', borderRadius: '10px' }}>
-                <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>{r.label}</div>
-                <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{r.value}</div>
-              </div>
-            ))}
+            <div style={{ padding: '12px 16px', background: '#f8f9fa', borderRadius: '10px' }}>
+              <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>Purchase Price</div>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(dealData.purchasePrice)}</div>
+            </div>
+            <div style={{ padding: '12px 16px', background: '#f8f9fa', borderRadius: '10px' }}>
+              <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>Rehab Budget</div>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(dealData.rehabBudget)}</div>
+            </div>
+            <div style={{ padding: '12px 16px', background: arvSource === 'rentcast' ? '#f0faf6' : '#f8f9fa', border: arvSource === 'rentcast' ? '1px solid #b2e4d0' : 'none', borderRadius: '10px' }}>
+              <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '4px' }}>ARV</div>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(dealData.arv)}</div>
+              {arvSource === 'rentcast' && <RentcastBadge />}
+            </div>
           </div>
 
-          {/* Footer */}
           <div style={{ borderTop: '1px solid #f0f2f5', paddingTop: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontSize: '11px', color: '#94a8b8', maxWidth: '400px', lineHeight: '1.5' }}>
               This certificate is for informational purposes only and does not constitute financial or investment advice. Always conduct your own due diligence.
