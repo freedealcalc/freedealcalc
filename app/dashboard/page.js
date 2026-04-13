@@ -9,6 +9,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [badges, setBadges] = useState([]);
   const [stats, setStats] = useState({ total: 0, avgScore: 0, bestScore: 0, active: 0, totalARV: 0 });
+  const [credits, setCredits] = useState(0);
 
   useEffect(() => {
     init();
@@ -25,6 +26,13 @@ export default function Dashboard() {
     const { data: deals } = await supabase.from('deals').select('*').eq('user_id', user.id).order('created_at', { ascending: false });
     const dealList = deals || [];
     setDeals(dealList);
+
+    // Fetch credit balance
+    const { data: creditRows } = await supabase.from('credits').select('credits, transaction_type').eq('user_id', user.id);
+    const balance = (creditRows || []).reduce((sum, row) => {
+      return row.transaction_type === 'Spend' ? sum + row.credits : sum + row.credits;
+    }, 0);
+    setCredits(balance);
 
     const total = dealList.length;
     const avgScore = total ? Math.round(dealList.reduce((a, d) => a + (d.score || 0), 0) / total) : 0;
@@ -129,6 +137,7 @@ export default function Dashboard() {
           </a>
         </div>
 
+        {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '16px', marginBottom: '32px' }}>
           {[
             { label: 'Deals Analyzed', value: stats.total },
@@ -144,6 +153,23 @@ export default function Dashboard() {
           ))}
         </div>
 
+        {/* Credits bar */}
+        <div style={{ background: 'white', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div>
+              <div style={{ fontSize: '11px', color: '#94a8b8', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>AI Credits</div>
+              <div style={{ fontSize: '28px', fontWeight: '700', color: '#0f1c2d' }}>{credits.toLocaleString()}</div>
+            </div>
+            <div style={{ fontSize: '12px', color: '#5a7184', maxWidth: '220px' }}>
+              Certificate 10cr · Proposal 25cr · Dispo 50cr
+            </div>
+          </div>
+          <a href="/pricing" style={{ padding: '10px 20px', background: '#0f1c2d', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '13px', fontWeight: '600', whiteSpace: 'nowrap' }}>
+            Buy Credits →
+          </a>
+        </div>
+
+        {/* Badges */}
         {badges.length > 0 && (
           <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '32px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '16px' }}>Your Badges</div>
@@ -158,6 +184,7 @@ export default function Dashboard() {
           </div>
         )}
 
+        {/* Deals */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d' }}>Your Deals</div>
@@ -178,12 +205,10 @@ export default function Dashboard() {
                   <div style={{ width: '48px', height: '48px', borderRadius: '50%', border: `3px solid ${getScoreColor(deal.score)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <span style={{ fontSize: '14px', fontWeight: '700', color: getScoreColor(deal.score) }}>{deal.score}</span>
                   </div>
-
                   <div style={{ flex: 1, minWidth: '150px' }}>
                     <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '2px' }}>{deal.address || 'No address'}</div>
                     <div style={{ fontSize: '12px', color: '#5a7184' }}>{deal.strategy} · {new Date(deal.created_at).toLocaleDateString()}</div>
                   </div>
-
                   <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
                     <div>
                       <div style={{ fontSize: '11px', color: '#94a8b8' }}>Profit</div>
@@ -194,7 +219,6 @@ export default function Dashboard() {
                       <div style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d' }}>{fmt(deal.arv)}</div>
                     </div>
                   </div>
-
                   <select
                     value={deal.status || 'Active'}
                     onChange={e => updateStatus(deal.id, e.target.value)}
@@ -205,7 +229,6 @@ export default function Dashboard() {
                     <option value="Closed">Closed</option>
                     <option value="Archived">Archived</option>
                   </select>
-
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <a href={`/deal-results?id=${deal.id}`} style={{ padding: '6px 12px', background: '#0f1c2d', color: 'white', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '500' }}>View</a>
                     <a href={`/deal-blast?deal_id=${deal.id}`} style={{ padding: '6px 12px', background: '#00C27C', color: 'white', borderRadius: '8px', textDecoration: 'none', fontSize: '12px', fontWeight: '500' }}>Blast</a>
