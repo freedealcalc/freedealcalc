@@ -9,6 +9,8 @@ export default function AccountPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [usernameError, setUsernameError] = useState(null);
+  const [logoUploading, setLogoUploading] = useState(false);
+  const [logoPreview, setLogoPreview] = useState(null);
   const [form, setForm] = useState({
     display_name: '',
     phone: '',
@@ -19,6 +21,11 @@ export default function AccountPage() {
     deal_count_range: '',
     username: '',
     is_public: false,
+    logo_url: '',
+    proposal_close_timeline: '14 days',
+    proposal_cash_advance: '',
+    proposal_leave_behind: false,
+    proposal_pitch: '',
   });
 
   useEffect(() => {
@@ -43,7 +50,13 @@ export default function AccountPage() {
         deal_count_range: profile.deal_count_range || '',
         username: profile.username || '',
         is_public: profile.is_public || false,
+        logo_url: profile.logo_url || '',
+        proposal_close_timeline: profile.proposal_close_timeline || '14 days',
+        proposal_cash_advance: profile.proposal_cash_advance || '',
+        proposal_leave_behind: profile.proposal_leave_behind || false,
+        proposal_pitch: profile.proposal_pitch || '',
       });
+      if (profile.logo_url) setLogoPreview(profile.logo_url);
     }
     setLoading(false);
   }
@@ -57,11 +70,28 @@ export default function AccountPage() {
     return val.toLowerCase().replace(/[^a-z0-9-]/g, '').slice(0, 30);
   }
 
+  async function handleLogoUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setLogoUploading(true);
+    try {
+      const ext = file.name.split('.').pop();
+      const path = `${user.id}/logo.${ext}`;
+      const { error } = await supabase.storage.from('logos').upload(path, file, { upsert: true });
+      if (error) throw error;
+      const { data: { publicUrl } } = supabase.storage.from('logos').getPublicUrl(path);
+      setLogoPreview(publicUrl);
+      set('logo_url', publicUrl);
+    } catch (e) {
+      console.error('Logo upload error:', e);
+    }
+    setLogoUploading(false);
+  }
+
   async function handleSave() {
     setSaving(true);
     setUsernameError(null);
 
-    // Check username uniqueness if changed
     if (form.username && form.username !== profile?.username) {
       const { data: existing } = await supabase
         .from('profiles')
@@ -88,6 +118,7 @@ export default function AccountPage() {
 
   const investorTypes = ['Flipper', 'Wholesaler', 'Newbie', 'Agent', 'Lender'];
   const dealCounts = ['0', '1–5', '6–20', '20+'];
+  const closeTimelines = ['7 days', '10 days', '14 days', '21 days', '30 days', 'Flexible'];
   const isPro = profile?.tier === 'pro';
 
   if (loading) return (
@@ -129,40 +160,19 @@ export default function AccountPage() {
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '20px' }}>Profile</div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Full Name</label>
-            <input type="text" value={form.display_name} onChange={e => set('display_name', e.target.value)}
-              placeholder="Dan Smith"
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
-          </div>
-
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Phone</label>
-            <input type="tel" value={form.phone} onChange={e => set('phone', e.target.value)}
-              placeholder="(703) 555-0100"
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
-          </div>
-
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Company Name</label>
-            <input type="text" value={form.company_name} onChange={e => set('company_name', e.target.value)}
-              placeholder="HSS Home Sale Solutions"
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
-          </div>
-
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Website</label>
-            <input type="text" value={form.website} onChange={e => set('website', e.target.value)}
-              placeholder="hssvirginia.com"
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
-          </div>
-
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Markets</label>
-            <input type="text" value={form.markets} onChange={e => set('markets', e.target.value)}
-              placeholder="Northern Virginia, DC, Maryland..."
-              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
-          </div>
+          {[
+            { label: 'Full Name', key: 'display_name', placeholder: 'Dan Smith', type: 'text' },
+            { label: 'Phone', key: 'phone', placeholder: '(703) 555-0100', type: 'tel' },
+            { label: 'Company Name', key: 'company_name', placeholder: 'HSS Home Sale Solutions', type: 'text' },
+            { label: 'Website', key: 'website', placeholder: 'hssvirginia.com', type: 'text' },
+            { label: 'Markets', key: 'markets', placeholder: 'Northern Virginia, DC, Maryland...', type: 'text' },
+          ].map(({ label, key, placeholder, type }) => (
+            <div key={key} style={{ marginBottom: '16px' }}>
+              <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>{label}</label>
+              <input type={type} value={form[key]} onChange={e => set(key, e.target.value)} placeholder={placeholder}
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
+            </div>
+          ))}
 
           <div style={{ marginBottom: '16px' }}>
             <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '10px' }}>I am a...</label>
@@ -194,7 +204,7 @@ export default function AccountPage() {
           </button>
         </div>
 
-        {/* Logo — Pro only */}
+        {/* Logo */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d' }}>Logo on Reports</div>
@@ -202,8 +212,32 @@ export default function AccountPage() {
           </div>
           <div style={{ fontSize: '13px', color: '#5a7184', marginBottom: '16px' }}>Your logo appears on every deal report, proposal, and disposition package you generate.</div>
           {isPro ? (
-            <div style={{ border: '2px dashed #e4e8ed', borderRadius: '10px', padding: '24px', textAlign: 'center', color: '#94a8b8', fontSize: '13px' }}>
-              Logo upload coming soon
+            <div>
+              {logoPreview && (
+                <div style={{ marginBottom: '16px', padding: '12px', background: '#f8f9fa', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <img src={logoPreview} alt="Logo" style={{ height: '48px', maxWidth: '160px', objectFit: 'contain', borderRadius: '4px' }} />
+                  <span style={{ fontSize: '12px', color: '#5a7184' }}>Current logo</span>
+                </div>
+              )}
+              <div style={{ border: '2px dashed #e4e8ed', borderRadius: '10px', padding: '24px', textAlign: 'center', cursor: 'pointer', position: 'relative' }}
+                onClick={() => document.getElementById('logoInput').click()}>
+                {logoUploading ? (
+                  <div style={{ fontSize: '13px', color: '#94a8b8' }}>Uploading...</div>
+                ) : (
+                  <div>
+                    <div style={{ fontSize: '24px', marginBottom: '8px' }}>🖼️</div>
+                    <div style={{ fontSize: '13px', color: '#5a7184', fontWeight: '500' }}>Click to upload logo</div>
+                    <div style={{ fontSize: '11px', color: '#94a8b8', marginTop: '4px' }}>PNG or JPG, max 2MB</div>
+                  </div>
+                )}
+                <input id="logoInput" type="file" accept="image/png,image/jpeg" onChange={handleLogoUpload} style={{ display: 'none' }} />
+              </div>
+              {form.logo_url && (
+                <button onClick={handleSave} disabled={saving}
+                  style={{ width: '100%', marginTop: '12px', padding: '12px', background: saved ? '#0f1c2d' : '#00C27C', color: 'white', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>
+                  {saved ? '✓ Saved' : 'Save Logo'}
+                </button>
+              )}
             </div>
           ) : (
             <a href="/pricing" style={{ display: 'block', padding: '12px', background: '#f0f2f5', color: '#0f1c2d', borderRadius: '10px', textDecoration: 'none', fontSize: '13px', fontWeight: '600', textAlign: 'center' }}>
@@ -212,7 +246,61 @@ export default function AccountPage() {
           )}
         </div>
 
-        {/* Public Investor Page — Pro only */}
+        {/* Proposal Defaults */}
+        <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d', marginBottom: '4px' }}>Seller Proposal Defaults</div>
+          <div style={{ fontSize: '13px', color: '#5a7184', marginBottom: '20px' }}>These pre-fill every seller proposal you generate. Save time on repeat deals.</div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '10px' }}>Default Close Timeline</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {closeTimelines.map(t => (
+                <button key={t} onClick={() => set('proposal_close_timeline', t)}
+                  style={{ padding: '8px 16px', borderRadius: '20px', border: `2px solid ${form.proposal_close_timeline === t ? '#00C27C' : '#e4e8ed'}`, background: form.proposal_close_timeline === t ? 'rgba(0,194,124,0.08)' : 'white', color: form.proposal_close_timeline === t ? '#00C27C' : '#5a7184', fontSize: '13px', fontWeight: '500', cursor: 'pointer' }}>
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '16px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Cash Advance Offer <span style={{ color: '#94a8b8', fontWeight: '400' }}>(optional)</span></label>
+            <div style={{ position: 'relative' }}>
+              <span style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', fontSize: '14px', color: '#5a7184' }}>$</span>
+              <input type="text" value={form.proposal_cash_advance} onChange={e => set('proposal_cash_advance', e.target.value)}
+                placeholder="500"
+                style={{ width: '100%', padding: '12px 14px 12px 28px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
+            </div>
+            <div style={{ fontSize: '11px', color: '#94a8b8', marginTop: '4px' }}>Amount you offer sellers to help with moving costs</div>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: '#f0f2f5', borderRadius: '10px', marginBottom: '16px' }}>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d' }}>Seller can leave anything behind</div>
+              <div style={{ fontSize: '12px', color: '#5a7184' }}>We handle all contents at no cost to seller</div>
+            </div>
+            <div onClick={() => set('proposal_leave_behind', !form.proposal_leave_behind)}
+              style={{ width: '44px', height: '24px', borderRadius: '12px', background: form.proposal_leave_behind ? '#00C27C' : '#e4e8ed', cursor: 'pointer', position: 'relative', transition: 'background 0.2s', flexShrink: 0 }}>
+              <div style={{ position: 'absolute', top: '3px', left: form.proposal_leave_behind ? '23px' : '3px', width: '18px', height: '18px', borderRadius: '50%', background: 'white', transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
+            </div>
+          </div>
+
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Your one-line pitch to sellers</label>
+            <div style={{ fontSize: '11px', color: '#94a8b8', marginBottom: '8px' }}>What makes you the right buyer? This appears in every proposal.</div>
+            <textarea value={form.proposal_pitch} onChange={e => set('proposal_pitch', e.target.value)}
+              placeholder="We've closed 47 deals in Northern Virginia with zero contingencies and always close on time."
+              rows={3}
+              style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box', resize: 'vertical', lineHeight: '1.5' }} />
+          </div>
+
+          <button onClick={handleSave} disabled={saving}
+            style={{ width: '100%', padding: '14px', background: saved ? '#0f1c2d' : '#00C27C', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: saving ? 'not-allowed' : 'pointer', opacity: saving ? 0.7 : 1, transition: 'background 0.2s' }}>
+            {saved ? '✓ Saved' : saving ? 'Saving...' : 'Save Defaults'}
+          </button>
+        </div>
+
+        {/* Public Investor Page */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d' }}>Public Investor Page</div>
