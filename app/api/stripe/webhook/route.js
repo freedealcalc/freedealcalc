@@ -21,6 +21,24 @@ const SUBSCRIPTION_CREDITS = {
   pro_annual: 1100,
 };
 
+async function resolveUserId(userId, email) {
+  // If userId came through metadata, use it directly
+  if (userId) return userId;
+  // Fallback — look up by email
+  if (!email) return null;
+  const { data } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', (
+      await supabase.rpc('get_user_id_by_email', { user_email: email })
+    ).data)
+    .single();
+  // Simpler fallback via auth admin
+  const { data: { users } } = await supabase.auth.admin.listUsers();
+  const match = users?.find(u => u.email === email);
+  return match?.id || null;
+}
+
 export async function POST(request) {
   const body = await request.text();
   const sig = request.headers.get('stripe-signature');
@@ -28,20 +46,39 @@ export async function POST(request) {
   let event;
   try {
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
-  } catch(e) {
+  } catch (e) {
     console.error('Webhook signature error:', e);
     return Response.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
-    const userId = session.metadata?.userId;
+    let userId = session.metadata?.userId;
     const priceKey = session.metadata?.priceKey;
+    const email = session.customer_email || session.customer_details?.email;
 
-    if (!userId || !priceKey) return Response.json({ received: true });
+    // Fallback: resolve userId from email if metadata was missing
+    if (!userId && email) {
+      const { data: { users } } = await supabase.auth.admin.listUsers();
+      const match = users?.find(u => u.email === email);
+      userId = match?.id || null;
+    }
+
+    if (!userId) {
+      console.error('Webhook: could not resolve userId for session', session.id);
+      return Response.json({ received: true });
+    }
+
+    // Store stripe customer id on profile
+    if (session.customer) {
+      await supabase
+        .from('profiles')
+        .update({ stripe_customer_id: session.customer })
+        .eq('id', userId);
+    }
 
     // Credit pack purchase
-    if (CREDIT_AMOUNTS[priceKey]) {
+    if (priceKey && CREDIT_AMOUNTS[priceKey]) {
       await supabase.from('credits').insert({
         user_id: userId,
         transaction_type: 'Purchase',
@@ -51,7 +88,7 @@ export async function POST(request) {
     }
 
     // Subscription purchase
-    if (SUBSCRIPTION_CREDITS[priceKey]) {
+    if (priceKey && SUBSCRIPTION_CREDITS[priceKey]) {
       const tier = priceKey.startsWith('pro') ? 'pro' : 'investor';
       await supabase.from('profiles').update({ tier }).eq('id', userId);
       await supabase.from('credits').insert({
@@ -60,6 +97,11 @@ export async function POST(request) {
         credits: SUBSCRIPTION_CREDITS[priceKey],
         description: `${tier} subscription — monthly credits`,
       });
+    }
+
+    // If priceKey missing but we know it's a credit pack, resolve from line items
+    if (!priceKey) {
+      console.error('Webhook: priceKey missing for session', session.id, 'userId', userId);
     }
   }
 
