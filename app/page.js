@@ -71,6 +71,7 @@ export default function HomePage() {
           </a>
           <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <a href="/freddie" className="nav-link">Analyze a Deal</a>
+            <a href="/freedoku" className="nav-link">FreeDoku</a>
             <a href="/pricing" className="nav-link">Pricing</a>
             <a href="/partners" className="nav-link">Partners</a>
             {user ? (
@@ -160,7 +161,7 @@ export default function HomePage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }} className="features-grid">
             {[
               { icon: '🤖', title: 'AI Deal Interview', desc: 'Freddie asks the right questions. You just answer. No confusing forms, no missed inputs — just a conversation that builds your analysis.' },
-              { icon: '📊', title: 'Pro Score & Report', desc: 'Get a deal score backed by real investor methodology. Share a professional PDF report with partners, lenders, and sellers.' },
+              { icon: '📊', title: 'Pro Score & Report', desc: 'Get a deal score backed on real investor methodology. Share a professional PDF report with partners, lenders, and sellers.' },
               { icon: '🔗', title: 'Lender & Agent Match', desc: 'Connected to investor-friendly lenders, agents, and title companies who know how to close deals fast.' },
               { icon: '📣', title: 'Deal Blast', desc: 'Wholesalers — submit your deal and we push it to a verified list of active buyers. Move deals faster.' },
               { icon: '📁', title: 'Deal Dashboard', desc: 'Every deal you run is saved, scored, and ready to revisit. Track your pipeline and never lose a number again.' },
