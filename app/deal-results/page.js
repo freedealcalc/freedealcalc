@@ -100,13 +100,18 @@ function DealResults() {
   }
 
   function calculateScore(data) {
-    const { purchasePrice, arv, rehabBudget, holdMonths = 6, financing = 'cash' } = data;
+    const { purchasePrice, arv, rehabBudget, holdMonths = 6 } = data;
+
+    // Normalize financing to lowercase to fix case mismatch from Freddie
+    const financing = (data.financing || 'cash').toLowerCase().trim();
+    const isHardMoney = financing.includes('hard');
 
     const closingCostsBuy = purchasePrice * 0.02;
     const closingCostsSell = arv * 0.015;
     const realtorComm = arv * 0.025;
     const holdingCosts = arv * 0.005 * holdMonths;
-    const loanCosts = financing === 'hard money' ? purchasePrice * 0.03 + (purchasePrice * 0.12 * holdMonths / 12) : 0;
+    // Hard money: 4 points origination + 12% annualized interest
+    const loanCosts = isHardMoney ? (purchasePrice * 0.04) + (purchasePrice * 0.12 * holdMonths / 12) : 0;
 
     const totalCosts = purchasePrice + rehabBudget + closingCostsBuy + closingCostsSell + realtorComm + holdingCosts + loanCosts;
     const profit = arv - totalCosts;
@@ -116,23 +121,35 @@ function DealResults() {
     const rule70Pass = purchasePrice <= rule70;
 
     let s = 0;
-    if (margin >= 20) s += 35;
-    else if (margin >= 15) s += 25;
-    else if (margin >= 10) s += 15;
-    else if (margin >= 5) s += 5;
 
-    if (roi >= 30) s += 25;
-    else if (roi >= 20) s += 18;
-    else if (roi >= 10) s += 10;
-    else if (roi >= 5) s += 5;
+    // Margin scoring (40 pts max) — loosened thresholds
+    if (margin >= 20) s += 40;
+    else if (margin >= 15) s += 32;
+    else if (margin >= 10) s += 22;
+    else if (margin >= 7) s += 12;
+    else if (margin >= 3) s += 5;
 
-    if (rule70Pass) s += 25;
-    else if (purchasePrice <= rule70 * 1.05) s += 15;
-    else if (purchasePrice <= rule70 * 1.10) s += 5;
+    // ROI scoring (30 pts max) — loosened thresholds
+    if (roi >= 25) s += 30;
+    else if (roi >= 15) s += 22;
+    else if (roi >= 10) s += 14;
+    else if (roi >= 5) s += 7;
 
-    if (rehabBudget / arv <= 0.10) s += 15;
-    else if (rehabBudget / arv <= 0.15) s += 10;
-    else if (rehabBudget / arv <= 0.20) s += 5;
+    // 70% rule scoring (10 pts max) — reduced weight, guideline not law
+    if (rule70Pass) s += 10;
+    else if (purchasePrice <= rule70 * 1.05) s += 6;
+    else if (purchasePrice <= rule70 * 1.10) s += 3;
+
+    // Rehab ratio scoring (20 pts max)
+    if (rehabBudget / arv <= 0.10) s += 20;
+    else if (rehabBudget / arv <= 0.15) s += 14;
+    else if (rehabBudget / arv <= 0.20) s += 8;
+    else if (rehabBudget / arv <= 0.25) s += 4;
+
+    // Profitable deal floor — positive profit always scores at least 45
+    if (profit > 0 && roi > 0 && margin > 0) {
+      s = Math.max(s, 45);
+    }
 
     const scoreObj = {
       total: Math.min(s, 100),
