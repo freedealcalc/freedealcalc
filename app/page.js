@@ -74,6 +74,7 @@ export default function HomePage() {
             <a href="/freedoku" className="nav-link">FreeDoku</a>
             <a href="/pricing" className="nav-link">Pricing</a>
             <a href="/partners" className="nav-link">Partners</a>
+<a href="/tools" className="nav-link">Tools</a>
             {user ? (
               <>
                 <a href="/dashboard" className="nav-link">Dashboard</a>
