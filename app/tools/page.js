@@ -95,8 +95,7 @@ export default function ToolsPage() {
                         </span>
                       )}
                     </div>
-                    <div style={{ fontSize: '13px', color: '#5a7184', lineHeight: '1.6', marginBottom: '8px' }}>{tool.description}</div>
-                    <div style={{ fontSize: '11px', fontWeight: '600', color: '#00C27C' }}>✓ {tool.commission}</div>
+                    <div style={{ fontSize: '13px', color: '#5a7184', lineHeight: '1.6' }}>{tool.description}</div>
                   </div>
                   {!tool.pending ? (
                     <a
