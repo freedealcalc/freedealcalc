@@ -16,26 +16,37 @@ export default function PartnersPage() {
         <p style={{ fontSize: '16px', color: '#5a7184', marginBottom: '48px' }}>Vetted lenders, title, and agents ready to help you close.</p>
 
         {/* Hard Money Lender */}
-        <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-          <div>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: '#00C27C', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px' }}>Hard Money Lender</div>
-            <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>Fast Capital for Fix & Flip</div>
-            <div style={{ fontSize: '13px', color: '#5a7184' }}>Nationwide coverage. Quick approvals. Investor-focused terms.</div>
+        <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '12px' }}>
+            <div>
+              <div style={{ fontSize: '11px', fontWeight: '700', color: '#00C27C', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px' }}>Hard Money Lender</div>
+              <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>Fast Capital for Fix &amp; Flip</div>
+              <div style={{ fontSize: '13px', color: '#5a7184' }}>Nationwide coverage. Quick approvals. Investor-focused terms.</div>
+            </div>
+            <a
+              href="https://track.flexlinkspro.com/g.ashx?foid=24.216153.6588769&trid=1544902.216153&foc=16&fot=9999&fos=6"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ padding: '12px 24px', background: '#00C27C', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', whiteSpace: 'nowrap' }}>
+              Get Funded →
+            </a>
           </div>
-          <a href="https://newsilver.com" target="_blank" rel="noopener noreferrer"
-            style={{ padding: '12px 24px', background: '#00C27C', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', whiteSpace: 'nowrap' }}>
-            Get Funded →
-          </a>
+          <div style={{ fontSize: '11px', color: '#94a8b8', lineHeight: '1.5' }}>
+            Not available in AL, AK, ID, LA, MN, NV, ND, OR, SD, UT, or VT.
+          </div>
         </div>
 
         {/* Champion Title */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '40px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <div style={{ fontSize: '11px', fontWeight: '700', color: '#00C27C', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px' }}>Title & Settlement</div>
+            <div style={{ fontSize: '11px', fontWeight: '700', color: '#00C27C', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px' }}>Title &amp; Settlement</div>
             <div style={{ fontSize: '18px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>Champion Title</div>
             <div style={{ fontSize: '13px', color: '#5a7184' }}>NoVA · DC · MD · Baltimore · Hampton Roads · Richmond · South Florida</div>
           </div>
-          <a href="https://championtitle.com" target="_blank" rel="noopener noreferrer"
+          <a
+            href="https://www.championtitle.com/contact-us/"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ padding: '12px 24px', background: '#0f1c2d', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', whiteSpace: 'nowrap' }}>
             Contact Title →
           </a>
@@ -56,7 +67,7 @@ export default function PartnersPage() {
 }
 
 function AgentForm() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', market: '', strategy: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', market: '', strategy: '', timeline: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -68,13 +79,13 @@ function AgentForm() {
     if (!form.name || !form.email || !form.market) return;
     setLoading(true);
     try {
-      await fetch('/api/agent-match', {
+      const res = await fetch('/api/agent-match', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-      setSubmitted(true);
-    } catch(e) {}
+      if (res.ok) setSubmitted(true);
+    } catch (e) {}
     setLoading(false);
   }
 
@@ -86,6 +97,19 @@ function AgentForm() {
     </div>
   );
 
+  const inputStyle = {
+    width: '100%',
+    padding: '12px 14px',
+    borderRadius: '10px',
+    border: '1.5px solid #e4e8ed',
+    fontSize: '14px',
+    fontFamily: 'DM Sans, sans-serif',
+    outline: 'none',
+    color: '#0f1c2d',
+    boxSizing: 'border-box',
+    background: 'white',
+  };
+
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
       {[
@@ -96,25 +120,56 @@ function AgentForm() {
       ].map(f => (
         <div key={f.key}>
           <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>{f.label}</label>
-          <input type={f.type} value={form[f.key]} onChange={e => set(f.key, e.target.value)}
+          <input
+            type={f.type}
+            value={form[f.key]}
+            onChange={e => set(f.key, e.target.value)}
             placeholder={f.placeholder}
-            style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', boxSizing: 'border-box' }} />
+            style={inputStyle}
+          />
         </div>
       ))}
-      <div style={{ gridColumn: '1 / -1' }}>
+
+      {/* Strategy */}
+      <div>
         <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Strategy</label>
-        <select value={form.strategy} onChange={e => set('strategy', e.target.value)}
-          style={{ width: '100%', padding: '12px 14px', borderRadius: '10px', border: '1.5px solid #e4e8ed', fontSize: '14px', fontFamily: 'DM Sans, sans-serif', outline: 'none', color: '#0f1c2d', background: 'white' }}>
+        <select value={form.strategy} onChange={e => set('strategy', e.target.value)} style={inputStyle}>
           <option value="">Select strategy...</option>
-          <option value="Flip">Fix & Flip</option>
+          <option value="Fix & Flip">Fix &amp; Flip</option>
           <option value="Wholesale">Wholesale</option>
-          <option value="Rental">Rental / Buy & Hold</option>
+          <option value="Rental / Buy & Hold">Rental / Buy &amp; Hold</option>
           <option value="BRRRR">BRRRR</option>
         </select>
       </div>
+
+      {/* Timeline */}
+      <div>
+        <label style={{ fontSize: '13px', fontWeight: '500', color: '#0f1c2d', display: 'block', marginBottom: '6px' }}>Timeline</label>
+        <select value={form.timeline} onChange={e => set('timeline', e.target.value)} style={inputStyle}>
+          <option value="">When do you need to close?</option>
+          <option value="ASAP">ASAP</option>
+          <option value="30 days">30 days</option>
+          <option value="60 days">60 days</option>
+          <option value="90+ days">90+ days</option>
+        </select>
+      </div>
+
+      {/* Submit */}
       <div style={{ gridColumn: '1 / -1' }}>
-        <button onClick={handleSubmit} disabled={loading}
-          style={{ width: '100%', padding: '14px', background: '#00C27C', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}>
+        <button
+          onClick={handleSubmit}
+          disabled={loading || !form.name || !form.email || !form.market}
+          style={{
+            width: '100%',
+            padding: '14px',
+            background: form.name && form.email && form.market ? '#00C27C' : '#e4e8ed',
+            color: form.name && form.email && form.market ? 'white' : '#94a8b8',
+            border: 'none',
+            borderRadius: '10px',
+            fontSize: '15px',
+            fontWeight: '600',
+            cursor: loading || !form.name || !form.email || !form.market ? 'not-allowed' : 'pointer',
+          }}>
           {loading ? 'Sending...' : 'Request Agent Match →'}
         </button>
       </div>
