@@ -122,23 +122,18 @@ function DealResults() {
 
     let s = 0;
 
-    // Margin scoring (40 pts max) — loosened thresholds
-    if (margin >= 20) s += 40;
-    else if (margin >= 15) s += 32;
-    else if (margin >= 10) s += 22;
-    else if (margin >= 7) s += 12;
-    else if (margin >= 3) s += 5;
+    // Margin scoring (45 pts max)
+    if (margin >= 20) s += 45;
+    else if (margin >= 15) s += 36;
+    else if (margin >= 10) s += 25;
+    else if (margin >= 7) s += 14;
+    else if (margin >= 3) s += 6;
 
-    // ROI scoring (30 pts max) — loosened thresholds
-    if (roi >= 25) s += 30;
-    else if (roi >= 15) s += 22;
-    else if (roi >= 10) s += 14;
-    else if (roi >= 5) s += 7;
-
-    // 70% rule scoring (10 pts max) — reduced weight, guideline not law
-    if (rule70Pass) s += 10;
-    else if (purchasePrice <= rule70 * 1.05) s += 6;
-    else if (purchasePrice <= rule70 * 1.10) s += 3;
+    // ROI scoring (35 pts max)
+    if (roi >= 25) s += 35;
+    else if (roi >= 15) s += 26;
+    else if (roi >= 10) s += 17;
+    else if (roi >= 5) s += 8;
 
     // Rehab ratio scoring (20 pts max)
     if (rehabBudget / arv <= 0.10) s += 20;
@@ -191,8 +186,8 @@ function DealResults() {
   function getScoreLabel(s) {
     if (s >= 75) return 'Strong Deal';
     if (s >= 55) return 'Solid Deal';
-    if (s >= 35) return 'Marginal Deal';
-    return 'Weak Deal';
+    if (s >= 40) return 'Moderate Deal';
+    return 'Needs Rework';
   }
 
   function fmt(n) {
@@ -262,16 +257,6 @@ function DealResults() {
               <div style={{ fontSize: '12px', color: '#94a8b8', marginTop: '2px' }}>{m.sub}</div>
             </div>
           ))}
-        </div>
-
-        <div style={{ background: 'white', borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#0f1c2d' }}>70% Rule</div>
-            <div style={{ fontSize: '12px', color: '#5a7184', marginTop: '2px' }}>Max offer: {fmt(score.rule70)}</div>
-          </div>
-          <div style={{ padding: '6px 16px', borderRadius: '20px', background: score.rule70Pass ? 'rgba(0,194,124,0.12)' : 'rgba(255,80,80,0.12)', color: score.rule70Pass ? '#00C27C' : '#ff5050', fontSize: '13px', fontWeight: '600' }}>
-            {score.rule70Pass ? '✓ Pass' : '✗ Fail'}
-          </div>
         </div>
 
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
