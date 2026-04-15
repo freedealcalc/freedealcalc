@@ -363,12 +363,11 @@ function DealResults() {
               { icon: '📊', label: 'Score', active: true },
               { icon: '📣', label: 'Blast', active: false },
               { icon: '🤝', label: 'Concierge', partner: true },
-              { icon: '✅', label: 'Closed', active: false },
             ].map((step, i, arr) => (
               <div key={step.label} style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ fontSize: '16px' }}>{step.icon}</span>
-                  <span style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.1em', textTransform: 'uppercase', color: step.active ? '#00C27C' : step.partner ? '#c9a84c' : '#5a7184' }}>{step.label}</span>
+                  <span style={{ fontSize: '18px' }}>{step.icon}</span>
+                  <span className="lc-label" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.1em', textTransform: 'uppercase', color: step.active ? '#00C27C' : step.partner ? '#c9a84c' : '#5a7184' }}>{step.label}</span>
                 </div>
                 {i < arr.length - 1 && (
                   <span style={{ fontSize: '12px', color: '#3a4a5a', padding: '0 8px', marginBottom: '14px' }}>→</span>
@@ -376,6 +375,7 @@ function DealResults() {
               </div>
             ))}
           </div>
+          <style>{`@media (max-width: 480px) { .lc-label { display: none !important; } }`}</style>
 
           {/* Deal Blast Card — Coming Soon */}
           <div style={{ border: '1px solid #e4e8ed', borderLeft: '3px solid #00C27C', borderRadius: '12px', padding: '20px 22px', marginBottom: '12px', opacity: 0.65, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
