@@ -8,35 +8,12 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-const CREDIT_AMOUNTS = {
-  credits_starter: 100,
-  credits_standard: 300,
-  credits_value: 750,
-};
+const VALID_SUBSCRIPTIONS = ['investor_monthly', 'investor_annual', 'pro_monthly', 'pro_annual'];
 
-const SUBSCRIPTION_CREDITS = {
-  investor_monthly: 400,
-  investor_annual: 400,
-  pro_monthly: 1100,
-  pro_annual: 1100,
-};
-
-async function resolveUserId(userId, email) {
-  // If userId came through metadata, use it directly
-  if (userId) return userId;
-  // Fallback — look up by email
-  if (!email) return null;
-  const { data } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('id', (
-      await supabase.rpc('get_user_id_by_email', { user_email: email })
-    ).data)
-    .single();
-  // Simpler fallback via auth admin
-  const { data: { users } } = await supabase.auth.admin.listUsers();
-  const match = users?.find(u => u.email === email);
-  return match?.id || null;
+// Calculate the next usage period reset — 1st of next calendar month
+function getNextResetDate() {
+  const now = new Date();
+  return new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString();
 }
 
 export async function POST(request) {
@@ -51,13 +28,17 @@ export async function POST(request) {
     return Response.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
+  // ============================================================
+  // EVENT: checkout.session.completed
+  // Fires when a user finishes subscribing via Stripe Checkout
+  // ============================================================
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     let userId = session.metadata?.userId;
     const priceKey = session.metadata?.priceKey;
     const email = session.customer_email || session.customer_details?.email;
 
-    // Fallback: resolve userId from email if metadata was missing
+    // Fallback: resolve userId from email if metadata is missing
     if (!userId && email) {
       const { data: { users } } = await supabase.auth.admin.listUsers();
       const match = users?.find(u => u.email === email);
@@ -69,51 +50,124 @@ export async function POST(request) {
       return Response.json({ received: true });
     }
 
-    // Store stripe customer id on profile
+    // Guard: only process valid subscription price keys
+    if (!priceKey || !VALID_SUBSCRIPTIONS.includes(priceKey)) {
+      console.error('Webhook: invalid or missing priceKey for session', session.id, priceKey);
+      return Response.json({ received: true });
+    }
+
+    const tier = priceKey.startsWith('pro') ? 'pro' : 'investor';
+
+    // Update profile: set tier, stripe customer id, reset counters fresh
+    // Paid users get unlimited, but we reset counters anyway for clean accounting
+    const updateData = {
+      tier,
+      proposals_used_this_period: 0,
+      dispos_used_this_period: 0,
+      usage_period_reset_at: getNextResetDate(),
+    };
+
     if (session.customer) {
-      await supabase
-        .from('profiles')
-        .update({ stripe_customer_id: session.customer })
-        .eq('id', userId);
+      updateData.stripe_customer_id = session.customer;
     }
 
-    // Credit pack purchase
-    if (priceKey && CREDIT_AMOUNTS[priceKey]) {
-      await supabase.from('credits').insert({
-        user_id: userId,
-        transaction_type: 'Purchase',
-        credits: CREDIT_AMOUNTS[priceKey],
-        description: `Credit pack — ${priceKey}`,
-      });
-    }
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update(updateData)
+      .eq('id', userId);
 
-    // Subscription purchase
-    if (priceKey && SUBSCRIPTION_CREDITS[priceKey]) {
-      const tier = priceKey.startsWith('pro') ? 'pro' : 'investor';
-      await supabase.from('profiles').update({ tier }).eq('id', userId);
-      await supabase.from('credits').insert({
-        user_id: userId,
-        transaction_type: 'Purchase',
-        credits: SUBSCRIPTION_CREDITS[priceKey],
-        description: `${tier} subscription — monthly credits`,
-      });
-    }
-
-    // If priceKey missing but we know it's a credit pack, resolve from line items
-    if (!priceKey) {
-      console.error('Webhook: priceKey missing for session', session.id, 'userId', userId);
+    if (updateError) {
+      console.error('Webhook: profile update failed', updateError);
+    } else {
+      console.log(`Webhook: upgraded user ${userId} to ${tier} via ${priceKey}`);
     }
   }
 
+  // ============================================================
+  // EVENT: customer.subscription.deleted
+  // Fires when a subscription is cancelled (at period end or immediately)
+  // ============================================================
   if (event.type === 'customer.subscription.deleted') {
     const subscription = event.data.object;
     const customerId = subscription.customer;
+
     const { data: profiles } = await supabase
       .from('profiles')
       .select('id')
       .eq('stripe_customer_id', customerId);
+
     if (profiles?.length) {
-      await supabase.from('profiles').update({ tier: 'free' }).eq('id', profiles[0].id);
+      const userId = profiles[0].id;
+
+      // Downgrade to free and cap counters so they can't exploit the downgrade
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          tier: 'free',
+          proposals_used_this_period: 3,
+          dispos_used_this_period: 3,
+          usage_period_reset_at: getNextResetDate(),
+        })
+        .eq('id', userId);
+
+      if (error) {
+        console.error('Webhook: downgrade failed', error);
+      } else {
+        console.log(`Webhook: downgraded user ${userId} to free tier`);
+      }
+    } else {
+      console.warn('Webhook: no profile found for cancelled stripe_customer_id', customerId);
+    }
+  }
+
+  // ============================================================
+  // EVENT: customer.subscription.updated
+  // Fires on plan changes (upgrade/downgrade mid-cycle)
+  // ============================================================
+  if (event.type === 'customer.subscription.updated') {
+    const subscription = event.data.object;
+    const customerId = subscription.customer;
+    const status = subscription.status;
+
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('stripe_customer_id', customerId);
+
+    if (!profiles?.length) {
+      console.warn('Webhook: no profile for updated sub, customer', customerId);
+      return Response.json({ received: true });
+    }
+
+    const userId = profiles[0].id;
+
+    // Handle status changes
+    if (status === 'active' || status === 'trialing') {
+      // Figure out what price they're on now
+      const priceId = subscription.items?.data?.[0]?.price?.id;
+      let newTier = null;
+      if (priceId === 'price_1TLRkgAIx5vWj5b2tp3I22Ia' || priceId === 'price_1TLUGnAIx5vWj5b2Y5cf69hd') {
+        newTier = 'investor';
+      } else if (priceId === 'price_1TLUIPAIx5vWj5b2mW27yOGR' || priceId === 'price_1TLUJ8AIx5vWj5b2ZezCT1tk') {
+        newTier = 'pro';
+      }
+
+      if (newTier) {
+        await supabase.from('profiles').update({ tier: newTier }).eq('id', userId);
+        console.log(`Webhook: updated user ${userId} to ${newTier} via subscription.updated`);
+      }
+    } else if (status === 'canceled' || status === 'unpaid' || status === 'incomplete_expired') {
+      // Subscription went bad — downgrade
+      await supabase
+        .from('profiles')
+        .update({
+          tier: 'free',
+          proposals_used_this_period: 3,
+          dispos_used_this_period: 3,
+          usage_period_reset_at: getNextResetDate(),
+        })
+        .eq('id', userId);
+      console.log(`Webhook: downgraded user ${userId} due to status ${status}`);
     }
   }
 
