@@ -30,12 +30,13 @@ export default function HomePage() {
           gap: 10px;
           background: #00C27C;
           color: white;
-          font-size: 17px;
-          font-weight: 600;
-          padding: 16px 32px;
+          font-size: 18px;
+          font-weight: 700;
+          padding: 18px 38px;
           border-radius: 14px;
           text-decoration: none;
           transition: background 0.15s, transform 0.1s;
+          box-shadow: 0 4px 20px rgba(0,194,124,0.35);
         }
         .hero-btn:hover { background: #00a368; transform: translateY(-1px); }
         .nav-link { font-size: 13px; color: #94a8b8; text-decoration: none; transition: color 0.15s; }
@@ -48,6 +49,33 @@ export default function HomePage() {
           transition: transform 0.15s;
         }
         .feature-card:hover { transform: translateY(-2px); }
+        .big-free-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 18px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          transition: background 0.15s, border 0.15s;
+        }
+        .big-free-row:hover {
+          background: rgba(0,194,124,0.06);
+          border: 1px solid rgba(0,194,124,0.2);
+        }
+        .big-free-check {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #00C27C;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 18px;
+          font-weight: 700;
+          flex-shrink: 0;
+        }
         .free-item {
           display: flex;
           align-items: flex-start;
@@ -57,7 +85,7 @@ export default function HomePage() {
           border-radius: 12px;
           box-shadow: 0 1px 3px rgba(0,0,0,0.06);
         }
-        .free-check {
+        .free-check-sm {
           width: 28px;
           height: 28px;
           border-radius: 50%;
@@ -70,37 +98,19 @@ export default function HomePage() {
           font-weight: 700;
           flex-shrink: 0;
         }
-        .hero-chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.12);
-          color: white;
-          font-size: 13px;
-          font-weight: 500;
-          padding: 8px 14px;
-          border-radius: 10px;
-        }
-        .hero-chip .chip-check {
-          color: #00C27C;
-          font-weight: 700;
-          font-size: 14px;
-        }
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
         }
         @media (max-width: 768px) {
-          .hero-grid { flex-direction: column !important; text-align: center; }
-          .freddie-img { margin: 0 auto; width: 200px !important; }
+          .hero-grid { flex-direction: column !important; text-align: left; }
+          .hero-list { max-width: 100% !important; }
           .features-grid { grid-template-columns: 1fr !important; }
           .free-grid { grid-template-columns: 1fr !important; }
-          .hero-headline { font-size: 34px !important; }
+          .hero-headline { font-size: 38px !important; }
           .stat-row { flex-direction: column !important; gap: 16px !important; }
           .nav-links { display: none !important; }
           .nav-mobile-cta { display: flex !important; }
-          .hero-chips-grid { justify-content: center !important; }
         }
       `}</style>
 
@@ -125,7 +135,7 @@ export default function HomePage() {
             ) : (
               <>
                 <a href="/login" className="nav-link">Log In</a>
-                <a href="/freddie" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 16px', borderRadius: '8px' }}>Try Free →</a>
+                <a href="/signup" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 16px', borderRadius: '8px' }}>Sign Up Free →</a>
               </>
             )}
           </div>
@@ -136,53 +146,54 @@ export default function HomePage() {
             ) : (
               <a href="/login" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: 'rgba(255,255,255,0.1)', padding: '7px 14px', borderRadius: '8px' }}>Log In</a>
             )}
-            <a href="/freddie" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 14px', borderRadius: '8px' }}>Try Free →</a>
+            <a href="/signup" style={{ fontSize: '13px', fontWeight: '600', color: 'white', textDecoration: 'none', background: '#00C27C', padding: '7px 14px', borderRadius: '8px' }}>Sign Up Free →</a>
           </div>
         </div>
       </nav>
 
-      {/* Hero — now with visible free-tier proof */}
-      <section style={{ background: '#0f1c2d', padding: '60px 32px 80px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '60px' }} className="hero-grid">
-          <div style={{ flex: 1 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,194,124,0.12)', border: '1px solid rgba(0,194,124,0.25)', borderRadius: '20px', padding: '6px 14px', marginBottom: '20px' }}>
-              <div style={{ width: '6px', height: '6px', background: '#00C27C', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
-              <span style={{ fontSize: '12px', color: '#00C27C', fontWeight: '500', letterSpacing: '0.5px' }}>100% Free · No Credit Card</span>
-            </div>
-            <h1 className="hero-headline" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontSize: '48px', fontStyle: 'italic', color: 'white', lineHeight: '1.1', letterSpacing: '-1px', marginBottom: '16px' }}>
-              Analyze, score, and close <span style={{ color: '#00C27C' }}>real estate deals</span> — for free.
-            </h1>
-            <p style={{ fontSize: '17px', color: '#94a8b8', lineHeight: '1.6', marginBottom: '24px', maxWidth: '520px' }}>
-              Talk to Freddie, our AI deal analyst. Get scores, generate pro documents, and send deals to buyers — without paying a subscription.
-            </p>
+      {/* Hero — free list IS the hero */}
+      <section style={{ background: '#0f1c2d', padding: '40px 24px 60px' }}>
+        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
-            {/* Free-tier chips — the real hook */}
-            <div className="hero-chips-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '28px', maxWidth: '560px' }}>
-              <div className="hero-chip"><span className="chip-check">✓</span>Unlimited deal analysis</div>
-              <div className="hero-chip"><span className="chip-check">✓</span>Unlimited Score Certificates</div>
-              <div className="hero-chip"><span className="chip-check">✓</span>3 Seller Proposals / mo</div>
-              <div className="hero-chip"><span className="chip-check">✓</span>3 Dispo Packages / mo</div>
-              <div className="hero-chip"><span className="chip-check">✓</span>Real comp data</div>
-            </div>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,194,124,0.12)', border: '1px solid rgba(0,194,124,0.25)', borderRadius: '20px', padding: '6px 14px', marginBottom: '20px' }}>
+            <div style={{ width: '6px', height: '6px', background: '#00C27C', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
+            <span style={{ fontSize: '12px', color: '#00C27C', fontWeight: '600', letterSpacing: '0.5px' }}>100% FREE · NO CREDIT CARD</span>
+          </div>
 
-            <a href="/freddie" className="hero-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Analyze My Deal Free
-            </a>
-            <p style={{ fontSize: '12px', color: '#5a7184', marginTop: '12px' }}>
-              Free forever · Flips · Rentals · BRRRR · Wholesale
-            </p>
+          <h1 className="hero-headline" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontSize: '52px', fontStyle: 'italic', color: 'white', lineHeight: '1.05', letterSpacing: '-1px', marginBottom: '14px' }}>
+            It's <span style={{ color: '#00C27C' }}>free</span>. Just sign up.
+          </h1>
+
+          <p style={{ fontSize: '17px', color: '#94a8b8', lineHeight: '1.5', marginBottom: '32px', maxWidth: '560px' }}>
+            No trial. No credit card. No tricks. Run real deals, generate real documents, send real offers — free.
+          </p>
+
+          {/* The free list — big, bold, scannable */}
+          <div className="hero-list" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '32px' }}>
+            {[
+              { title: 'Unlimited deal analysis with Freddie', sub: 'Flips, rentals, BRRRR, wholesale — talk to him about as many as you want' },
+              { title: 'Unlimited Score Certificates', sub: 'Branded PDFs for every deal. Share anywhere.' },
+              { title: 'Free Seller Proposals', sub: 'AI-written offer letters ready to send. 3 per month.' },
+              { title: 'Free Disposition Packages', sub: 'Full buyer packages for your wholesale deals. 3 per month.' },
+              { title: 'Free ARV lookups', sub: 'Real comp data. 2 lifetime on Free — unlimited on paid.' },
+              { title: 'Dashboard + deal history', sub: 'Every deal you run saved forever. Build a real pipeline.' },
+            ].map((item, i) => (
+              <div key={i} className="big-free-row">
+                <div className="big-free-check">✓</div>
+                <div>
+                  <div style={{ fontSize: '16px', fontWeight: '600', color: 'white', marginBottom: '2px' }}>{item.title}</div>
+                  <div style={{ fontSize: '13px', color: '#94a8b8' }}>{item.sub}</div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className="freddie-img" style={{ flexShrink: 0, width: '320px' }}>
-            <Image
-              src="/Freddie the real estate investor.png"
-              alt="Freddie - AI Deal Analyst"
-              width={320}
-              height={320}
-              style={{ width: '100%', height: 'auto' }}
-              priority
-            />
-          </div>
+
+          <a href="/signup" className="hero-btn">
+            Sign Up Free — Takes 10 Seconds →
+          </a>
+          <p style={{ fontSize: '12px', color: '#5a7184', marginTop: '14px' }}>
+            Already have an account? <a href="/login" style={{ color: '#94a8b8' }}>Log in</a> · Prefer to try Freddie first? <a href="/freddie" style={{ color: '#94a8b8' }}>Analyze a deal</a>
+          </p>
         </div>
       </section>
 
@@ -197,58 +208,9 @@ export default function HomePage() {
           ].map((s, i) => (
             <div key={i} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '28px', fontWeight: '700', color: 'white' }}>{s.num}</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.8)', marginTop: '2px' }}>{s.label}</div>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.85)', marginTop: '2px' }}>{s.label}</div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* WHAT'S FREE — the full manifesto with all 6 items */}
-      <section style={{ background: 'white', padding: '80px 32px' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <div style={{ display: 'inline-block', background: 'rgba(0,194,124,0.12)', color: '#00C27C', fontSize: '12px', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', padding: '6px 14px', borderRadius: '20px', marginBottom: '16px' }}>
-              Free Forever
-            </div>
-            <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '42px', color: '#0f1c2d', letterSpacing: '-0.5px', marginBottom: '12px', lineHeight: '1.1' }}>
-              Every other deal tool charges to run the numbers.<br /><span style={{ color: '#00C27C' }}>This one doesn't.</span>
-            </h2>
-            <p style={{ fontSize: '17px', color: '#5a7184', maxWidth: '640px', margin: '20px auto 0', lineHeight: '1.6' }}>
-              FreeDealCalc gives real estate investors the tools they need to analyze, score, and present deals professionally — without a subscription. Freddie, our AI deal analyst, is built on 30 years of real investor experience.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px', marginBottom: '40px' }} className="free-grid">
-            {[
-              { title: 'Unlimited deal analysis', desc: 'Talk to Freddie about as many deals as you want. Flips, rentals, BRRRR, wholesale.' },
-              { title: 'Unlimited Score Certificates', desc: 'Get a branded PDF for every deal. Share with partners, post on socials, build credibility.' },
-              { title: '3 Seller Proposals / month', desc: 'Professional AI-written offer letters ready to send to sellers. Close more deals.' },
-              { title: '3 Disposition Packages / month', desc: 'Full buyer packages with comps, photos, ARV, and numbers. Move your wholesale deals.' },
-              { title: '2 Rentcast ARV lookups (lifetime)', desc: 'Real comp data pulled automatically. Your first two deals get the full premium experience.' },
-              { title: 'Save deals to your dashboard', desc: 'Every deal you run is tracked forever. Build a real pipeline. Never lose a number.' },
-            ].map((item, i) => (
-              <div key={i} className="free-item">
-                <div className="free-check">✓</div>
-                <div>
-                  <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d', marginBottom: '4px' }}>{item.title}</div>
-                  <div style={{ fontSize: '13px', color: '#5a7184', lineHeight: '1.5' }}>{item.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: '15px', color: '#0f1c2d', fontWeight: '600', marginBottom: '20px' }}>
-              No credit card. No trial. No tricks. Just free.
-            </p>
-            <a href="/freddie" className="hero-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Start Analyzing Free
-            </a>
-            <p style={{ fontSize: '12px', color: '#94a8b8', marginTop: '12px' }}>
-              Want unlimited Proposals and Dispos? <a href="/pricing" style={{ color: '#00C27C', textDecoration: 'none' }}>See Investor &amp; Pro plans →</a>
-            </p>
-          </div>
         </div>
       </section>
 
@@ -305,13 +267,13 @@ export default function HomePage() {
         <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <Image src="/Freddie the real estate investor.png" alt="Freddie" width={120} height={120} style={{ borderRadius: '50%', marginBottom: '24px' }} />
           <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '38px', color: 'white', letterSpacing: '-0.5px', marginBottom: '16px' }}>
-            Ready to Run Your Deal?
+            Stop reading. Start analyzing.
           </h2>
           <p style={{ fontSize: '16px', color: '#94a8b8', marginBottom: '32px', lineHeight: '1.7' }}>
-            Freddie is online right now. Free. No signup required to start.
+            It's free. Takes 10 seconds. No credit card.
           </p>
-          <a href="/freddie" className="hero-btn" style={{ fontSize: '18px', padding: '18px 40px' }}>
-            Talk to Freddie Free →
+          <a href="/signup" className="hero-btn" style={{ fontSize: '18px', padding: '18px 40px' }}>
+            Sign Up Free →
           </a>
         </div>
       </section>
