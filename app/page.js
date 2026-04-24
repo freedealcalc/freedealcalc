@@ -186,9 +186,8 @@ export default function HomePage() {
               Every other deal tool charges to run the numbers.<br /><span style={{ color: '#00C27C' }}>This one doesn't.</span>
             </h2>
             <p style={{ fontSize: '17px', color: '#5a7184', maxWidth: '640px', margin: '20px auto 0', lineHeight: '1.6' }}>
-              I&apos;ve been flipping houses for 20 years. You shouldn&apos;t have to pay a monthly subscription just to analyze a deal. So I built Freddie — a free AI deal analyst who runs your numbers the way I would.
+              FreeDealCalc gives real estate investors the tools they need to analyze, score, and present deals professionally — without a subscription. Freddie, our AI deal analyst, is built on 30 years of real investor experience.
             </p>
-            <p style={{ fontSize: '13px', color: '#94a8b8', marginTop: '12px', fontStyle: 'italic' }}>— Dan White, Founder</p>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px', marginBottom: '40px' }} className="free-grid">
