@@ -42,20 +42,20 @@ export default function PricingPage() {
       name: 'Free',
       monthly: 0,
       annual: 0,
-      credits: 50,
-      description: 'Analyze deals and get your score. No credit card required.',
+      description: 'Analyze deals, get scores, build real documents. No credit card required.',
       color: '#5a7184',
       cta: 'Get Started Free',
       priceKey: null,
       ctaHref: '/signup?tier=free',
       highlight: false,
       features: [
-        '50 AI credits / month',
-        'Unlimited deal analysis',
-        'Deal score + verdict',
+        'Unlimited deal analysis with Freddie',
+        'Unlimited Score Certificates',
+        '3 Seller Proposals / month',
+        '3 Disposition Packages / month',
+        '2 Rentcast ARV lookups (lifetime)',
         'Save deals to dashboard',
         'Deal status tracking',
-        'Phone + name on reports',
         'Receive Deal Blast alerts',
       ],
       notIncluded: [
@@ -66,26 +66,20 @@ export default function PricingPage() {
     },
     {
       name: 'Investor',
-      monthly: 49,
-      annual: 39,
-      credits: 400,
-      description: 'For active investors who want professional AI outputs.',
+      monthly: 19,
+      annual: 190,
+      description: 'For active investors running real deals.',
       color: '#3badff',
       cta: 'Start Investing',
       priceKey: annual ? 'investor_annual' : 'investor_monthly',
       highlight: false,
       features: [
-        '400 AI credits / month',
-        'Unlimited deal analysis',
-        'Deal score + verdict',
-        'Save deals to dashboard',
-        'Deal status tracking',
-        'Phone + name on reports',
-        'Score Certificate — 10 credits',
-        'Seller Proposal — 25 credits',
-        'Disposition Package — 50 credits',
+        'Everything in Free',
+        'Unlimited Seller Proposals',
+        'Unlimited Disposition Packages',
+        'Unlimited Rentcast ARV lookups',
         'Submit deals to Deal Blast',
-        'Receive Deal Blast alerts',
+        'Priority email support',
       ],
       notIncluded: [
         'Logo on reports',
@@ -94,50 +88,20 @@ export default function PricingPage() {
     },
     {
       name: 'Pro',
-      monthly: 99,
-      annual: 79,
-      credits: 1100,
+      monthly: 39,
+      annual: 390,
       description: 'For power users who want their brand on everything.',
       color: '#00C27C',
       cta: 'Go Pro',
       priceKey: annual ? 'pro_annual' : 'pro_monthly',
       highlight: true,
       features: [
-        '1,100 AI credits / month',
-        'Unlimited deal analysis',
-        'Deal score + verdict',
-        'Save deals to dashboard',
-        'Deal status tracking',
-        'Phone + name on reports',
-        'Score Certificate — 10 credits',
-        'Seller Proposal — 25 credits',
-        'Disposition Package — 50 credits',
-        'Submit deals to Deal Blast',
-        'Receive Deal Blast alerts',
+        'Everything in Investor',
         'Logo on all reports',
         'Public investor page',
         'Custom username URL',
-      ],
-      notIncluded: []
-    },
-    {
-      name: 'Enterprise',
-      monthly: null,
-      annual: null,
-      credits: null,
-      description: 'For teams and high-volume operations. Custom everything.',
-      color: '#0f1c2d',
-      cta: 'Contact Us',
-      priceKey: null,
-      ctaHref: 'mailto:dan@hssvirginia.com',
-      highlight: false,
-      features: [
-        'Custom credit volume',
-        'Team seats',
-        'Dedicated support',
-        'Custom integrations',
-        'Volume Deal Blast pricing',
-        'Everything in Pro',
+        'Priority Deal Blast queue',
+        'Early access to new features',
       ],
       notIncluded: []
     }
@@ -145,7 +109,11 @@ export default function PricingPage() {
 
   function getPrice(tier) {
     if (tier.monthly === null) return null;
-    return annual ? tier.annual : tier.monthly;
+    if (annual) {
+      // annual price shown as monthly equivalent
+      return Math.round(tier.annual / 12);
+    }
+    return tier.monthly;
   }
 
   return (
@@ -163,8 +131,8 @@ export default function PricingPage() {
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '60px 24px' }}>
 
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h1 style={{ fontSize: '40px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>Simple, honest pricing</h1>
-          <p style={{ fontSize: '16px', color: '#5a7184', marginBottom: '32px' }}>The deal analyzer is always free. Pay only for AI-powered outputs.</p>
+          <h1 style={{ fontSize: '40px', fontWeight: '700', color: '#0f1c2d', marginBottom: '12px' }}>Free for real. Paid when you want more.</h1>
+          <p style={{ fontSize: '16px', color: '#5a7184', marginBottom: '32px', maxWidth: '640px', margin: '0 auto 32px' }}>Run unlimited deals with Freddie, generate Score Certificates, and send Proposals — all free. Upgrade only when you need more volume.</p>
 
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '12px', background: 'white', borderRadius: '40px', padding: '6px 16px', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
             <span style={{ fontSize: '14px', color: annual ? '#94a8b8' : '#0f1c2d', fontWeight: annual ? '400' : '600' }}>Monthly</span>
@@ -173,12 +141,12 @@ export default function PricingPage() {
               <div style={{ position: 'absolute', top: '3px', left: annual ? '23px' : '3px', width: '18px', height: '18px', borderRadius: '50%', background: 'white', transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)' }} />
             </div>
             <span style={{ fontSize: '14px', color: annual ? '#0f1c2d' : '#94a8b8', fontWeight: annual ? '600' : '400' }}>
-              Annual <span style={{ background: 'rgba(0,194,124,0.12)', color: '#00C27C', fontSize: '11px', fontWeight: '600', padding: '2px 8px', borderRadius: '20px', marginLeft: '4px' }}>Save 20%</span>
+              Annual <span style={{ background: 'rgba(0,194,124,0.12)', color: '#00C27C', fontSize: '11px', fontWeight: '600', padding: '2px 8px', borderRadius: '20px', marginLeft: '4px' }}>2 months free</span>
             </span>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', alignItems: 'start', maxWidth: '960px', margin: '0 auto' }}>
           {tiers.map((tier, i) => {
             const price = getPrice(tier);
             const isLoading = loading === tier.priceKey;
@@ -194,9 +162,7 @@ export default function PricingPage() {
                 <div style={{ fontSize: '11px', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', color: tier.color, marginBottom: '8px' }}>{tier.name}</div>
 
                 <div style={{ marginBottom: '8px' }}>
-                  {price === null ? (
-                    <div style={{ fontSize: '28px', fontWeight: '700', color: '#0f1c2d' }}>Custom</div>
-                  ) : price === 0 ? (
+                  {price === 0 ? (
                     <div style={{ fontSize: '36px', fontWeight: '700', color: '#0f1c2d' }}>Free</div>
                   ) : (
                     <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px' }}>
@@ -204,16 +170,12 @@ export default function PricingPage() {
                       <div style={{ fontSize: '13px', color: '#94a8b8', marginBottom: '4px' }}>/month</div>
                     </div>
                   )}
-                  {annual && price !== null && price !== 0 && (
-                    <div style={{ fontSize: '12px', color: '#00C27C', marginTop: '2px' }}>Billed ${price * 12}/year</div>
+                  {annual && price !== 0 && (
+                    <div style={{ fontSize: '12px', color: '#00C27C', marginTop: '2px' }}>Billed ${tier.annual}/year</div>
                   )}
                 </div>
 
-                {tier.credits && (
-                  <div style={{ fontSize: '12px', color: '#5a7184', marginBottom: '12px' }}>{tier.credits.toLocaleString()} credits / month</div>
-                )}
-
-                <div style={{ fontSize: '13px', color: '#5a7184', marginBottom: '20px', lineHeight: '1.5' }}>{tier.description}</div>
+                <div style={{ fontSize: '13px', color: '#5a7184', marginBottom: '20px', lineHeight: '1.5', minHeight: '40px' }}>{tier.description}</div>
 
                 {tier.priceKey ? (
                   <button
@@ -224,7 +186,7 @@ export default function PricingPage() {
                   </button>
                 ) : (
                   <a href={tier.ctaHref}
-                    style={{ display: 'block', width: '100%', padding: '13px', background: tier.highlight ? '#00C27C' : tier.monthly === 0 ? '#f0f2f5' : '#0f1c2d', color: tier.monthly === 0 ? '#0f1c2d' : 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', textAlign: 'center', marginBottom: '24px', boxSizing: 'border-box' }}>
+                    style={{ display: 'block', width: '100%', padding: '13px', background: '#f0f2f5', color: '#0f1c2d', borderRadius: '10px', textDecoration: 'none', fontSize: '14px', fontWeight: '600', textAlign: 'center', marginBottom: '24px', boxSizing: 'border-box' }}>
                     {tier.cta}
                   </a>
                 )}
@@ -248,35 +210,8 @@ export default function PricingPage() {
           })}
         </div>
 
-        {/* Credit Packs */}
-        <div style={{ background: 'white', borderRadius: '20px', padding: '32px', marginTop: '40px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-          <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#0f1c2d', marginBottom: '6px' }}>Need more credits?</h2>
-            <p style={{ fontSize: '14px', color: '#5a7184' }}>Top up anytime. No subscription required.</p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-            {[
-              { name: 'Starter', price: 10, credits: 100, priceKey: 'credits_starter' },
-              { name: 'Standard', price: 25, credits: 300, priceKey: 'credits_standard' },
-              { name: 'Value', price: 50, credits: 750, priceKey: 'credits_value' },
-            ].map((pack, i) => (
-              <div key={i} style={{ border: '1.5px solid #e4e8ed', borderRadius: '14px', padding: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '13px', fontWeight: '600', color: '#0f1c2d', marginBottom: '4px' }}>{pack.name}</div>
-                <div style={{ fontSize: '28px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>${pack.price}</div>
-                <div style={{ fontSize: '12px', color: '#5a7184', marginBottom: '16px' }}>{pack.credits} credits</div>
-                <button
-                  onClick={() => handleCheckout(pack.priceKey)}
-                  disabled={loading === pack.priceKey}
-                  style={{ width: '100%', padding: '10px', background: '#0f1c2d', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'pointer' }}>
-                  {loading === pack.priceKey ? 'Loading...' : 'Buy Credits'}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Deal Blast callout */}
-        <div style={{ background: '#0f1c2d', borderRadius: '20px', padding: '32px', marginTop: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
+        <div style={{ background: '#0f1c2d', borderRadius: '20px', padding: '32px', marginTop: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px' }}>
           <div>
             <div style={{ fontSize: '18px', fontWeight: '700', color: 'white', marginBottom: '6px' }}>Deal Blast — Reach Verified Investors</div>
             <div style={{ fontSize: '14px', color: '#94a8b8', maxWidth: '500px' }}>Submit your wholesale deal to our verified investor list. Dan reviews every deal before it goes out. Available on Investor and Pro plans.</div>
