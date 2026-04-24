@@ -48,6 +48,28 @@ export default function HomePage() {
           transition: transform 0.15s;
         }
         .feature-card:hover { transform: translateY(-2px); }
+        .free-item {
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          padding: 16px 20px;
+          background: white;
+          border-radius: 12px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        .free-check {
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background: rgba(0,194,124,0.12);
+          color: #00C27C;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-weight: 700;
+          flex-shrink: 0;
+        }
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
@@ -56,6 +78,7 @@ export default function HomePage() {
           .hero-grid { flex-direction: column !important; text-align: center; }
           .freddie-img { margin: 0 auto; }
           .features-grid { grid-template-columns: 1fr !important; }
+          .free-grid { grid-template-columns: 1fr !important; }
           .hero-headline { font-size: 36px !important; }
           .stat-row { flex-direction: column !important; gap: 16px !important; }
           .nav-links { display: none !important; }
@@ -74,7 +97,7 @@ export default function HomePage() {
             <a href="/freedoku" className="nav-link">FreeDoku</a>
             <a href="/pricing" className="nav-link">Pricing</a>
             <a href="/partners" className="nav-link">Partners</a>
-<a href="/tools" className="nav-link">Tools</a>
+            <a href="/tools" className="nav-link">Tools</a>
             {user ? (
               <>
                 <a href="/dashboard" className="nav-link">Dashboard</a>
@@ -152,6 +175,56 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* WHAT'S FREE — the manifesto */}
+      <section style={{ background: 'white', padding: '80px 32px' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div style={{ display: 'inline-block', background: 'rgba(0,194,124,0.12)', color: '#00C27C', fontSize: '12px', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', padding: '6px 14px', borderRadius: '20px', marginBottom: '16px' }}>
+              Free Forever
+            </div>
+            <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '42px', color: '#0f1c2d', letterSpacing: '-0.5px', marginBottom: '12px', lineHeight: '1.1' }}>
+              Every other deal tool charges to run the numbers.<br /><span style={{ color: '#00C27C' }}>This one doesn't.</span>
+            </h2>
+            <p style={{ fontSize: '17px', color: '#5a7184', maxWidth: '640px', margin: '20px auto 0', lineHeight: '1.6' }}>
+              I&apos;ve been flipping houses for 20 years. You shouldn&apos;t have to pay a monthly subscription just to analyze a deal. So I built Freddie — a free AI deal analyst who runs your numbers the way I would.
+            </p>
+            <p style={{ fontSize: '13px', color: '#94a8b8', marginTop: '12px', fontStyle: 'italic' }}>— Dan White, Founder</p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px', marginBottom: '40px' }} className="free-grid">
+            {[
+              { title: 'Unlimited deal analysis', desc: 'Talk to Freddie about as many deals as you want. Flips, rentals, BRRRR, wholesale.' },
+              { title: 'Unlimited Score Certificates', desc: 'Get a branded PDF for every deal. Share with partners, post on socials, build credibility.' },
+              { title: '3 Seller Proposals / month', desc: 'Professional AI-written offer letters ready to send to sellers. Close more deals.' },
+              { title: '3 Disposition Packages / month', desc: 'Full buyer packages with comps, photos, ARV, and numbers. Move your wholesale deals.' },
+              { title: '2 Rentcast ARV lookups (lifetime)', desc: 'Real comp data pulled automatically. Your first two deals get the full premium experience.' },
+              { title: 'Save deals to your dashboard', desc: 'Every deal you run is tracked forever. Build a real pipeline. Never lose a number.' },
+            ].map((item, i) => (
+              <div key={i} className="free-item">
+                <div className="free-check">✓</div>
+                <div>
+                  <div style={{ fontSize: '15px', fontWeight: '600', color: '#0f1c2d', marginBottom: '4px' }}>{item.title}</div>
+                  <div style={{ fontSize: '13px', color: '#5a7184', lineHeight: '1.5' }}>{item.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: '15px', color: '#0f1c2d', fontWeight: '600', marginBottom: '20px' }}>
+              No credit card. No trial. No tricks. Just free.
+            </p>
+            <a href="/freddie" className="hero-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Start Analyzing Free
+            </a>
+            <p style={{ fontSize: '12px', color: '#94a8b8', marginTop: '12px' }}>
+              Want unlimited Proposals and Dispos? <a href="/pricing" style={{ color: '#00C27C', textDecoration: 'none' }}>See Investor &amp; Pro plans →</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section style={{ background: '#f0f2f5', padding: '80px 32px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
@@ -166,7 +239,7 @@ export default function HomePage() {
               { icon: '🔗', title: 'Lender & Agent Match', desc: 'Connected to investor-friendly lenders, agents, and title companies who know how to close deals fast.' },
               { icon: '📣', title: 'Deal Blast', desc: 'Wholesalers — submit your deal and we push it to a verified list of active buyers. Move deals faster.' },
               { icon: '📁', title: 'Deal Dashboard', desc: 'Every deal you run is saved, scored, and ready to revisit. Track your pipeline and never lose a number again.' },
-              { icon: '💰', title: 'Free to Analyze', desc: 'Run unlimited deal scores at no cost. Premium AI outputs — Seller Proposals, Disposition Packages, and more — available with credits.' },
+              { icon: '💰', title: 'Free That Actually Works', desc: 'Run unlimited deal scores, unlimited Certificates, plus monthly Seller Proposals and Dispo Packages — all free. No credit card.' },
             ].map((f, i) => (
               <div key={i} className="feature-card">
                 <div style={{ fontSize: '32px', marginBottom: '12px' }}>{f.icon}</div>
