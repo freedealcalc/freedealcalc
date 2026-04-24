@@ -70,19 +70,37 @@ export default function HomePage() {
           font-weight: 700;
           flex-shrink: 0;
         }
+        .hero-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.12);
+          color: white;
+          font-size: 13px;
+          font-weight: 500;
+          padding: 8px 14px;
+          border-radius: 10px;
+        }
+        .hero-chip .chip-check {
+          color: #00C27C;
+          font-weight: 700;
+          font-size: 14px;
+        }
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
         }
         @media (max-width: 768px) {
           .hero-grid { flex-direction: column !important; text-align: center; }
-          .freddie-img { margin: 0 auto; }
+          .freddie-img { margin: 0 auto; width: 200px !important; }
           .features-grid { grid-template-columns: 1fr !important; }
           .free-grid { grid-template-columns: 1fr !important; }
-          .hero-headline { font-size: 36px !important; }
+          .hero-headline { font-size: 34px !important; }
           .stat-row { flex-direction: column !important; gap: 16px !important; }
           .nav-links { display: none !important; }
           .nav-mobile-cta { display: flex !important; }
+          .hero-chips-grid { justify-content: center !important; }
         }
       `}</style>
 
@@ -123,20 +141,30 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero */}
-      <section style={{ background: '#0f1c2d', padding: '80px 32px 100px' }}>
+      {/* Hero — now with visible free-tier proof */}
+      <section style={{ background: '#0f1c2d', padding: '60px 32px 80px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', gap: '60px' }} className="hero-grid">
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,194,124,0.12)', border: '1px solid rgba(0,194,124,0.25)', borderRadius: '20px', padding: '6px 14px', marginBottom: '24px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(0,194,124,0.12)', border: '1px solid rgba(0,194,124,0.25)', borderRadius: '20px', padding: '6px 14px', marginBottom: '20px' }}>
               <div style={{ width: '6px', height: '6px', background: '#00C27C', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
               <span style={{ fontSize: '12px', color: '#00C27C', fontWeight: '500', letterSpacing: '0.5px' }}>100% Free · No Credit Card</span>
             </div>
-            <h1 className="hero-headline" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontSize: '52px', fontStyle: 'italic', color: 'white', lineHeight: '1.1', letterSpacing: '-1px', marginBottom: '20px' }}>
-              The Free AI Deal Analyzer That Helps You <span style={{ color: '#00C27C' }}>Close More Deals</span>
+            <h1 className="hero-headline" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontSize: '48px', fontStyle: 'italic', color: 'white', lineHeight: '1.1', letterSpacing: '-1px', marginBottom: '16px' }}>
+              Analyze, score, and close <span style={{ color: '#00C27C' }}>real estate deals</span> — for free.
             </h1>
-            <p style={{ fontSize: '18px', color: '#94a8b8', lineHeight: '1.7', marginBottom: '36px', maxWidth: '520px' }}>
-              No forms. No spreadsheets. Talk to Freddie — an AI built on 30 years of real investor experience. Get a pro score, shareable report, and everything you need to move fast.
+            <p style={{ fontSize: '17px', color: '#94a8b8', lineHeight: '1.6', marginBottom: '24px', maxWidth: '520px' }}>
+              Talk to Freddie, our AI deal analyst. Get scores, generate pro documents, and send deals to buyers — without paying a subscription.
             </p>
+
+            {/* Free-tier chips — the real hook */}
+            <div className="hero-chips-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '28px', maxWidth: '560px' }}>
+              <div className="hero-chip"><span className="chip-check">✓</span>Unlimited deal analysis</div>
+              <div className="hero-chip"><span className="chip-check">✓</span>Unlimited Score Certificates</div>
+              <div className="hero-chip"><span className="chip-check">✓</span>3 Seller Proposals / mo</div>
+              <div className="hero-chip"><span className="chip-check">✓</span>3 Dispo Packages / mo</div>
+              <div className="hero-chip"><span className="chip-check">✓</span>Real comp data</div>
+            </div>
+
             <a href="/freddie" className="hero-btn">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
               Analyze My Deal Free
@@ -175,7 +203,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* WHAT'S FREE — the manifesto */}
+      {/* WHAT'S FREE — the full manifesto with all 6 items */}
       <section style={{ background: 'white', padding: '80px 32px' }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
