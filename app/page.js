@@ -39,6 +39,31 @@ export default function HomePage() {
           box-shadow: 0 4px 20px rgba(0,194,124,0.35);
         }
         .hero-btn:hover { background: #00a368; transform: translateY(-1px); }
+        .hero-btn-secondary {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: rgba(255,255,255,0.06);
+          color: white;
+          font-size: 18px;
+          font-weight: 700;
+          padding: 18px 38px;
+          border-radius: 14px;
+          text-decoration: none;
+          transition: background 0.15s, border 0.15s, transform 0.1s;
+          border: 1px solid rgba(255,255,255,0.18);
+        }
+        .hero-btn-secondary:hover {
+          background: rgba(255,255,255,0.12);
+          border: 1px solid rgba(255,255,255,0.3);
+          transform: translateY(-1px);
+        }
+        .hero-cta-row {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          align-items: center;
+        }
         .nav-link { font-size: 13px; color: #94a8b8; text-decoration: none; transition: color 0.15s; }
         .nav-link:hover { color: white; }
         .feature-card {
@@ -111,6 +136,8 @@ export default function HomePage() {
           .stat-row { flex-direction: column !important; gap: 16px !important; }
           .nav-links { display: none !important; }
           .nav-mobile-cta { display: flex !important; }
+          .hero-cta-row { flex-direction: column !important; align-items: stretch !important; }
+          .hero-cta-row a { justify-content: center; text-align: center; }
         }
       `}</style>
 
@@ -161,7 +188,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="hero-headline" style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontSize: '52px', fontStyle: 'italic', color: 'white', lineHeight: '1.05', letterSpacing: '-1px', marginBottom: '14px' }}>
-            It's <span style={{ color: '#00C27C' }}>free</span>. Just sign up.
+            Real deals. Real numbers. <span style={{ color: '#00C27C' }}>Free</span>.
           </h1>
 
           <p style={{ fontSize: '17px', color: '#94a8b8', lineHeight: '1.5', marginBottom: '32px', maxWidth: '560px' }}>
@@ -188,11 +215,16 @@ export default function HomePage() {
             ))}
           </div>
 
-          <a href="/signup" className="hero-btn">
-            Sign Up Free — Takes 10 Seconds →
-          </a>
+          <div className="hero-cta-row">
+            <a href="/freddie" className="hero-btn">
+              Try Freddie Free →
+            </a>
+            <a href="/signup" className="hero-btn-secondary">
+              Sign Up — 10 Seconds →
+            </a>
+          </div>
           <p style={{ fontSize: '12px', color: '#5a7184', marginTop: '14px' }}>
-            Already have an account? <a href="/login" style={{ color: '#94a8b8' }}>Log in</a> · Prefer to try Freddie first? <a href="/freddie" style={{ color: '#94a8b8' }}>Analyze a deal</a>
+            Already have an account? <a href="/login" style={{ color: '#94a8b8' }}>Log in</a>
           </p>
         </div>
       </section>
