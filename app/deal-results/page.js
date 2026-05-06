@@ -20,7 +20,6 @@ function DealResults() {
       setUser(data?.user || null);
     });
 
-    // Read anonymous deal count for prompt copy variation
     if (typeof window !== 'undefined') {
       try {
         const count = parseInt(localStorage.getItem('fdc_anon_deal_count') || '0', 10);
@@ -99,7 +98,6 @@ function DealResults() {
     if (loading) return;
     if (user) return;
     if (softPromptDismissed) return;
-    // Skip on demo deal (no real deal data context to save)
     if (dealData?.address === '1245 Manassas Dr, Manassas Park, VA' && !sessionStorage.getItem('freddie_deal') && !searchParams.get('id') && !searchParams.get('data')) return;
 
     const t = setTimeout(() => {
@@ -226,7 +224,6 @@ function DealResults() {
     return '$' + Math.abs(n).toLocaleString();
   }
 
-  // Build signup URLs that pass intent + deal_id so signup page knows what they want
   const dealId = searchParams.get('id') || '';
   const signupUrl = (intent) => `/signup?intent=${intent}${dealId ? `&deal_id=${dealId}` : ''}`;
 
@@ -238,7 +235,6 @@ function DealResults() {
 
   const color = getScoreColor(score.total);
 
-  // Soft prompt copy varies by anonymous deal count
   const softPromptHeadline = anonDealCount >= 2
     ? "You've run 2 deals — save them before you lose them."
     : "Save this deal to your dashboard.";
@@ -413,32 +409,11 @@ function DealResults() {
           )}
         </div>
 
-        {/* Move This Deal */}
+        {/* Move This Deal — Deal Blast Coming Soon */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '16px' }}>Move This Deal</div>
 
-          <div style={{ background: '#0f1c2d', borderRadius: '12px', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-            {[
-              { icon: '🔍', label: 'Analyze', active: true },
-              { icon: '📊', label: 'Score', active: true },
-              { icon: '📣', label: 'Blast', active: false },
-              { icon: '🤝', label: 'Concierge', partner: true },
-            ].map((step, i, arr) => (
-              <div key={step.label} style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
-                  <span style={{ fontSize: '18px' }}>{step.icon}</span>
-                  <span className="lc-label" style={{ fontSize: '10px', fontWeight: '600', letterSpacing: '0.1em', textTransform: 'uppercase', color: step.active ? '#00C27C' : step.partner ? '#c9a84c' : '#5a7184' }}>{step.label}</span>
-                </div>
-                {i < arr.length - 1 && (
-                  <span style={{ fontSize: '12px', color: '#3a4a5a', padding: '0 8px', marginBottom: '14px' }}>→</span>
-                )}
-              </div>
-            ))}
-          </div>
-          <style>{`@media (max-width: 480px) { .lc-label { display: none !important; } }`}</style>
-
-          {/* Deal Blast Card — Coming Soon */}
-          <div style={{ border: '1px solid #e4e8ed', borderLeft: '3px solid #00C27C', borderRadius: '12px', padding: '20px 22px', marginBottom: '12px', opacity: 0.65, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ border: '1px solid #e4e8ed', borderLeft: '3px solid #00C27C', borderRadius: '12px', padding: '20px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
             <div style={{ flex: 1, minWidth: '200px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
                 <span style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '4px', background: 'rgba(0,194,124,0.1)', color: '#00C27C', border: '1px solid rgba(0,194,124,0.2)' }}>FreeDealCalc</span>
@@ -449,39 +424,10 @@ function DealResults() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
               <div style={{ textAlign: 'right' }}>
-                <span style={{ fontSize: '26px', fontWeight: '700', color: '#94a8b8', display: 'block', lineHeight: 1 }}>$499</span>
+                <span style={{ fontSize: '26px', fontWeight: '700', color: '#0f1c2d', display: 'block', lineHeight: 1 }}>$499</span>
                 <span style={{ fontSize: '10px', color: '#94a8b8', display: 'block', marginTop: '3px' }}>flat fee · coming soon</span>
               </div>
               <div style={{ padding: '10px 20px', background: 'rgba(148,168,184,0.1)', color: '#94a8b8', border: '1px solid rgba(148,168,184,0.2)', borderRadius: '8px', fontSize: '13px', fontWeight: '600', cursor: 'default' }}>Notify Me</div>
-            </div>
-          </div>
-
-          {/* OfferProp Card — Live */}
-          <div style={{ border: '1px solid rgba(201,168,76,0.3)', borderLeft: '3px solid #c9a84c', borderRadius: '12px', padding: '20px 22px', marginBottom: '12px', boxShadow: '0 0 28px rgba(201,168,76,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-            <div style={{ flex: 1, minWidth: '200px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '10px', fontWeight: '700', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '4px', background: 'rgba(201,168,76,0.1)', color: '#c9a84c', border: '1px solid rgba(201,168,76,0.2)' }}>Concierge · Live Now</span>
-              </div>
-              <div style={{ fontSize: '15px', fontWeight: '700', color: '#0f1c2d', marginBottom: '6px' }}>OfferProp Full-Service Disposition</div>
-              <div style={{ fontSize: '12.5px', color: '#5a7184', lineHeight: '1.55' }}>Not ready to DIY? OfferProp's team handles your entire disposition — sourcing buyers, negotiating, and closing. No upfront cost, ever. You pay only when the deal closes.</div>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px', flexShrink: 0 }}>
-              <div style={{ textAlign: 'right' }}>
-                <span style={{ fontSize: '26px', fontWeight: '700', color: '#c9a84c', display: 'block', lineHeight: 1 }}>$5,000</span>
-                <span style={{ fontSize: '10px', color: '#94a8b8', display: 'block', marginTop: '3px' }}>at close · $0 upfront</span>
-              </div>
-              <a href="#" style={{ padding: '10px 20px', background: '#c9a84c', color: '#1a1200', borderRadius: '8px', fontSize: '13px', fontWeight: '700', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-                Send to OfferProp →
-              </a>
-            </div>
-          </div>
-
-          <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '8px', padding: '13px 16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-            <span style={{ fontSize: '15px', flexShrink: 0, marginTop: '1px' }}>💡</span>
-            <div style={{ fontSize: '12.5px', color: '#5a7184', lineHeight: '1.55' }}>
-              <strong style={{ color: '#0f1c2d' }}>Two different tools, one goal.</strong>{' '}
-              <span style={{ color: '#00C27C', fontWeight: '600' }}>Deal Blast</span> is a self-serve buyer blast for wholesalers who want fast, low-cost exposure to a verified list.{' '}
-              <span style={{ color: '#c9a84c', fontWeight: '600' }}>OfferProp</span> is a full concierge service — their team does the work and you pay nothing until close. Use OfferProp now, Deal Blast when it launches.
             </div>
           </div>
         </div>
