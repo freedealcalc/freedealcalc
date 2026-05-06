@@ -11,16 +11,27 @@ export default function FreddiePage() {
   const [userTier, setUserTier] = useState(null);
   const [user, setUser] = useState(null);
   const [rentcastData, setRentcastData] = useState(null);
+  const [anonDealCount, setAnonDealCount] = useState(0);
+  const [showHardGate, setShowHardGate] = useState(false);
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
     startConversation();
     loadUser();
+    loadAnonDealCount();
   }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
+
+  function loadAnonDealCount() {
+    if (typeof window === 'undefined') return;
+    try {
+      const count = parseInt(localStorage.getItem('fdc_anon_deal_count') || '0', 10);
+      setAnonDealCount(count);
+    } catch (e) {}
+  }
 
   async function loadUser() {
     try {
@@ -100,12 +111,28 @@ export default function FreddiePage() {
         sessionStorage.setItem('freddie_deal', JSON.stringify(data.dealData));
       }
       if (reply.includes('Hit the button below to see your results')) {
-        setShowRunScore(true);
+        // Hard gate: anonymous users on Deal #3+ must register before seeing score
+        if (!user && anonDealCount >= 2) {
+          setShowHardGate(true);
+        } else {
+          setShowRunScore(true);
+        }
       }
     } catch (e) {
       setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Try again.' }]);
     }
     setLoading(false);
+  }
+
+  function handleRunScore() {
+    // Increment anonymous deal counter at the moment they head to score reveal
+    if (!user && typeof window !== 'undefined') {
+      try {
+        const next = anonDealCount + 1;
+        localStorage.setItem('fdc_anon_deal_count', String(next));
+      } catch (e) {}
+    }
+    window.location.href = '/deal-results';
   }
 
   function handleKey(e) {
@@ -170,7 +197,17 @@ export default function FreddiePage() {
           from { opacity: 0; transform: translateY(8px); }
           to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
         .msg-animate { animation: msgIn 0.3s ease forwards; }
+        .gate-overlay { animation: fadeIn 0.2s ease forwards; }
+        .gate-modal { animation: scaleIn 0.25s ease forwards; }
         .sidebar-overlay {
           display: none;
           position: fixed;
@@ -331,7 +368,7 @@ export default function FreddiePage() {
 
             {showRunScore && (
               <div style={{ display: 'flex', justifyContent: 'center', margin: '8px 0' }}>
-                <button onClick={() => window.location.href = '/deal-results'} style={{ display: 'flex', alignItems: 'center', gap: '14px', background: 'white', border: '1.5px solid #e4e8ed', borderRadius: '14px', padding: '14px 20px', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', width: '100%', maxWidth: '320px' }}>
+                <button onClick={handleRunScore} style={{ display: 'flex', alignItems: 'center', gap: '14px', background: 'white', border: '1.5px solid #e4e8ed', borderRadius: '14px', padding: '14px 20px', cursor: 'pointer', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', width: '100%', maxWidth: '320px' }}>
                   <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#00C27C', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                   </div>
@@ -364,6 +401,23 @@ export default function FreddiePage() {
           </div>
         </div>
       </div>
+
+      {/* Hard Gate Modal — fires when anonymous user hits Deal #3 */}
+      {showHardGate && (
+        <div className="gate-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(15,28,45,0.85)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div className="gate-modal" style={{ background: 'white', borderRadius: '20px', padding: '36px 32px', maxWidth: '440px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', textAlign: 'center', fontFamily: 'DM Sans, sans-serif' }}>
+            <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#0f1c2d', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontStyle: 'italic', fontSize: '24px', color: '#00C27C', fontFamily: 'Georgia, serif' }}>F</div>
+            <div style={{ fontSize: '22px', fontWeight: '700', color: '#0f1c2d', marginBottom: '10px' }}>You've run 3 deals — let's save them.</div>
+            <div style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.6', marginBottom: '24px' }}>You're clearly getting value from Freddie. Create a free account to unlock your score and keep all your past deals in one place.</div>
+            <a href="/signup?intent=score" style={{ display: 'block', padding: '14px', background: '#00C27C', borderRadius: '12px', color: 'white', fontSize: '15px', fontWeight: '600', textDecoration: 'none', marginBottom: '10px' }}>
+              Create Free Account →
+            </a>
+            <a href="/login?intent=score" style={{ display: 'block', fontSize: '13px', color: '#5a7184', textDecoration: 'none', padding: '8px' }}>
+              Already have an account? Log in
+            </a>
+          </div>
+        </div>
+      )}
     </>
   );
 }

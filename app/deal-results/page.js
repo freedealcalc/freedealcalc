@@ -11,11 +11,24 @@ function DealResults() {
   const [dealData, setDealData] = useState(null);
   const [saved, setSaved] = useState(false);
   const [user, setUser] = useState(null);
+  const [showSoftPrompt, setShowSoftPrompt] = useState(false);
+  const [softPromptDismissed, setSoftPromptDismissed] = useState(false);
+  const [anonDealCount, setAnonDealCount] = useState(0);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUser(data?.user || null);
     });
+
+    // Read anonymous deal count for prompt copy variation
+    if (typeof window !== 'undefined') {
+      try {
+        const count = parseInt(localStorage.getItem('fdc_anon_deal_count') || '0', 10);
+        setAnonDealCount(count);
+        const dismissed = localStorage.getItem('fdc_soft_prompt_dismissed') === 'true';
+        setSoftPromptDismissed(dismissed);
+      } catch (e) {}
+    }
 
     const id = searchParams.get('id');
     const stored = sessionStorage.getItem('freddie_deal');
@@ -80,6 +93,31 @@ function DealResults() {
     }
   }, [score, dealData]);
 
+  // Fire soft-prompt modal ~1.8s after score loads, only for anonymous users
+  // who haven't dismissed it before, and not on the demo deal
+  useEffect(() => {
+    if (loading) return;
+    if (user) return;
+    if (softPromptDismissed) return;
+    // Skip on demo deal (no real deal data context to save)
+    if (dealData?.address === '1245 Manassas Dr, Manassas Park, VA' && !sessionStorage.getItem('freddie_deal') && !searchParams.get('id') && !searchParams.get('data')) return;
+
+    const t = setTimeout(() => {
+      setShowSoftPrompt(true);
+    }, 1800);
+    return () => clearTimeout(t);
+  }, [loading, user, softPromptDismissed, dealData]);
+
+  function dismissSoftPrompt() {
+    setShowSoftPrompt(false);
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('fdc_soft_prompt_dismissed', 'true');
+      } catch (e) {}
+    }
+    setSoftPromptDismissed(true);
+  }
+
   async function saveDeal(s, d) {
     const { data: { user } } = await supabase.auth.getUser();
     await supabase.from('deals').insert({
@@ -102,7 +140,6 @@ function DealResults() {
   function calculateScore(data) {
     const { purchasePrice, arv, rehabBudget, holdMonths = 6 } = data;
 
-    // Normalize financing to lowercase to fix case mismatch from Freddie
     const financing = (data.financing || 'cash').toLowerCase().trim();
     const isHardMoney = financing.includes('hard');
 
@@ -110,7 +147,6 @@ function DealResults() {
     const closingCostsSell = arv * 0.015;
     const realtorComm = arv * 0.025;
     const holdingCosts = arv * 0.005 * holdMonths;
-    // Hard money: 4 points origination + 12% annualized interest
     const loanCosts = isHardMoney ? (purchasePrice * 0.04) + (purchasePrice * 0.12 * holdMonths / 12) : 0;
 
     const totalCosts = purchasePrice + rehabBudget + closingCostsBuy + closingCostsSell + realtorComm + holdingCosts + loanCosts;
@@ -122,26 +158,22 @@ function DealResults() {
 
     let s = 0;
 
-    // Margin scoring (45 pts max)
     if (margin >= 20) s += 45;
     else if (margin >= 15) s += 36;
     else if (margin >= 10) s += 25;
     else if (margin >= 7) s += 14;
     else if (margin >= 3) s += 6;
 
-    // ROI scoring (35 pts max)
     if (roi >= 25) s += 35;
     else if (roi >= 15) s += 26;
     else if (roi >= 10) s += 17;
     else if (roi >= 5) s += 8;
 
-    // Rehab ratio scoring (20 pts max)
     if (rehabBudget / arv <= 0.10) s += 20;
     else if (rehabBudget / arv <= 0.15) s += 14;
     else if (rehabBudget / arv <= 0.20) s += 8;
     else if (rehabBudget / arv <= 0.25) s += 4;
 
-    // Profitable deal floor — positive profit always scores at least 45
     if (profit > 0 && roi > 0 && margin > 0) {
       s = Math.max(s, 45);
     }
@@ -194,6 +226,10 @@ function DealResults() {
     return '$' + Math.abs(n).toLocaleString();
   }
 
+  // Build signup URLs that pass intent + deal_id so signup page knows what they want
+  const dealId = searchParams.get('id') || '';
+  const signupUrl = (intent) => `/signup?intent=${intent}${dealId ? `&deal_id=${dealId}` : ''}`;
+
   if (loading) return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'DM Sans, sans-serif' }}>
       <div style={{ color: '#5a7184' }}>Calculating your score...</div>
@@ -201,6 +237,14 @@ function DealResults() {
   );
 
   const color = getScoreColor(score.total);
+
+  // Soft prompt copy varies by anonymous deal count
+  const softPromptHeadline = anonDealCount >= 2
+    ? "You've run 2 deals — save them before you lose them."
+    : "Save this deal to your dashboard.";
+  const softPromptSubcopy = anonDealCount >= 2
+    ? "Create a free account to keep your deals in one place and unlock unlimited future analyses."
+    : "Free account, takes 30 seconds. Unlock your Score Certificate, Seller Proposal, and Disposition Package.";
 
   return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'DM Sans, sans-serif' }}>
@@ -212,7 +256,7 @@ function DealResults() {
           {user ? (
             <a href="/dashboard" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>My Dashboard →</a>
           ) : (
-            <a href="/signup" style={{ fontSize: '13px', color: '#00C27C', textDecoration: 'none', fontWeight: '600' }}>Save this deal →</a>
+            <a href={signupUrl('save')} style={{ fontSize: '13px', color: '#00C27C', textDecoration: 'none', fontWeight: '600' }}>Save this deal →</a>
           )}
           <a href="/freddie" style={{ fontSize: '13px', color: '#94a8b8', textDecoration: 'none' }}>← New Analysis</a>
         </div>
@@ -239,7 +283,7 @@ function DealResults() {
               <div style={{ fontSize: '14px', fontWeight: '600', color: 'white', marginBottom: '2px' }}>Save this deal to your dashboard</div>
               <div style={{ fontSize: '12px', color: '#94a8b8' }}>Free account — takes 30 seconds.</div>
             </div>
-            <a href="/signup" style={{ padding: '10px 20px', background: '#00C27C', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '13px', fontWeight: '600', whiteSpace: 'nowrap' }}>
+            <a href={signupUrl('save')} style={{ padding: '10px 20px', background: '#00C27C', color: 'white', borderRadius: '10px', textDecoration: 'none', fontSize: '13px', fontWeight: '600', whiteSpace: 'nowrap' }}>
               Create Free Account →
             </a>
           </div>
@@ -298,7 +342,7 @@ function DealResults() {
 
           {/* Score Certificate */}
           {user ? (
-            <a href={`/certificate?deal_id=${searchParams.get('id') || ''}`}
+            <a href={`/certificate?deal_id=${dealId}`}
               style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
@@ -309,15 +353,20 @@ function DealResults() {
               </div>
             </a>
           ) : (
-            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📄 Get Score Certificate</div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 10 credits</div>
+            <a href={signupUrl('certificate')} style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📄 Get Score Certificate</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 10 credits</div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Unlock →</div>
+              </div>
             </a>
           )}
 
           {/* Seller Proposal */}
           {user ? (
-            <a href={`/proposal?deal_id=${searchParams.get('id') || ''}`}
+            <a href={`/proposal?deal_id=${dealId}`}
               style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
@@ -328,15 +377,20 @@ function DealResults() {
               </div>
             </a>
           ) : (
-            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📋 Get Seller Proposal</div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 25 credits</div>
+            <a href={signupUrl('proposal')} style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none', marginBottom: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📋 Get Seller Proposal</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 25 credits</div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Unlock →</div>
+              </div>
             </a>
           )}
 
           {/* Disposition Package */}
           {user ? (
-            <a href={`/dispo?deal_id=${searchParams.get('id') || ''}`}
+            <a href={`/dispo?deal_id=${dealId}`}
               style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
@@ -347,9 +401,14 @@ function DealResults() {
               </div>
             </a>
           ) : (
-            <a href="/signup" style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>🔥 Get Disposition Package</div>
-              <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 50 credits</div>
+            <a href={signupUrl('dispo')} style={{ display: 'block', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '14px 18px', textDecoration: 'none' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>🔥 Get Disposition Package</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 50 credits</div>
+                </div>
+                <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Unlock →</div>
+              </div>
             </a>
           )}
         </div>
@@ -358,7 +417,6 @@ function DealResults() {
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '16px' }}>Move This Deal</div>
 
-          {/* Lifecycle Bar */}
           <div style={{ background: '#0f1c2d', borderRadius: '12px', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
             {[
               { icon: '🔍', label: 'Analyze', active: true },
@@ -418,7 +476,6 @@ function DealResults() {
             </div>
           </div>
 
-          {/* Explainer Note */}
           <div style={{ background: 'rgba(201,168,76,0.04)', border: '1px solid rgba(201,168,76,0.12)', borderRadius: '8px', padding: '13px 16px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
             <span style={{ fontSize: '15px', flexShrink: 0, marginTop: '1px' }}>💡</span>
             <div style={{ fontSize: '12.5px', color: '#5a7184', lineHeight: '1.55' }}>
@@ -434,7 +491,38 @@ function DealResults() {
         </div>
       </div>
 
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');`}</style>
+      {/* Soft Prompt Modal — fires ~1.8s after score loads for anonymous users */}
+      {showSoftPrompt && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,28,45,0.7)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', animation: 'fadeIn 0.2s ease forwards' }}>
+          <div style={{ background: 'white', borderRadius: '20px', padding: '32px 28px', maxWidth: '420px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', textAlign: 'center', position: 'relative', animation: 'scaleIn 0.25s ease forwards' }}>
+            <button onClick={dismissSoftPrompt} aria-label="Close" style={{ position: 'absolute', top: '12px', right: '12px', background: 'none', border: 'none', cursor: 'pointer', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a8b8' }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+
+            <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(0,194,124,0.1)', marginBottom: '16px' }}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00C27C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+
+            <div style={{ fontSize: '20px', fontWeight: '700', color: '#0f1c2d', marginBottom: '8px', lineHeight: '1.3' }}>{softPromptHeadline}</div>
+            <div style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.55', marginBottom: '22px' }}>{softPromptSubcopy}</div>
+
+            <a href={signupUrl('save')} style={{ display: 'block', padding: '13px', background: '#00C27C', borderRadius: '11px', color: 'white', fontSize: '14.5px', fontWeight: '600', textDecoration: 'none', marginBottom: '8px' }}>
+              Create Free Account →
+            </a>
+            <button onClick={dismissSoftPrompt} style={{ display: 'block', width: '100%', background: 'none', border: 'none', fontSize: '13px', color: '#94a8b8', textDecoration: 'none', padding: '10px', cursor: 'pointer', fontFamily: 'inherit' }}>
+              No thanks, just show my score
+            </button>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+      `}</style>
     </div>
   );
 }
