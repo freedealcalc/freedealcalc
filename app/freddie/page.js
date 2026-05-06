@@ -14,12 +14,36 @@ export default function FreddiePage() {
   const [anonDealCount, setAnonDealCount] = useState(0);
   const [showHardGate, setShowHardGate] = useState(false);
   const messagesEndRef = useRef(null);
+  const seedConsumedRef = useRef(false);
 
   useEffect(() => {
     startConversation();
     loadUser();
     loadAnonDealCount();
   }, []);
+
+  // After the opening message lands, check for a seed message from a tool page.
+  // If present, send it as the user's first message and clear the seed.
+  useEffect(() => {
+    if (seedConsumedRef.current) return;
+    if (messages.length !== 1) return; // wait for the opening message only
+    if (typeof window === 'undefined') return;
+
+    let seed = null;
+    try {
+      seed = sessionStorage.getItem('fdc_seed_message');
+    } catch (e) {}
+
+    if (seed && seed.trim()) {
+      seedConsumedRef.current = true;
+      try { sessionStorage.removeItem('fdc_seed_message'); } catch (e) {}
+      // Slight delay so the opening message has rendered visually before the user message appears
+      setTimeout(() => {
+        setInput(seed);
+        sendMessageWithText(seed);
+      }, 300);
+    }
+  }, [messages]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -82,10 +106,11 @@ export default function FreddiePage() {
     return null;
   }
 
-  async function sendMessage() {
-    if (!input.trim() || loading) return;
-    const userMessage = input.trim();
+  // Internal: send a specific text (used for seed handoff). Does NOT clear input or check trim.
+  async function sendMessageWithText(text) {
+    if (!text || !text.trim()) return;
     setInput('');
+    const userMessage = text.trim();
     const newMessages = [...messages, { role: 'user', content: userMessage }];
     setMessages(newMessages);
     setLoading(true);
@@ -111,7 +136,6 @@ export default function FreddiePage() {
         sessionStorage.setItem('freddie_deal', JSON.stringify(data.dealData));
       }
       if (reply.includes('Hit the button below to see your results')) {
-        // Hard gate: anonymous users on Deal #3+ must register before seeing score
         if (!user && anonDealCount >= 2) {
           setShowHardGate(true);
         } else {
@@ -119,13 +143,17 @@ export default function FreddiePage() {
         }
       }
     } catch (e) {
-      setMessages([...newMessages, { role: 'assistant', content: 'Something went wrong. Try again.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Try again.' }]);
     }
     setLoading(false);
   }
 
+  async function sendMessage() {
+    if (!input.trim() || loading) return;
+    sendMessageWithText(input);
+  }
+
   function handleRunScore() {
-    // Increment anonymous deal counter at the moment they head to score reveal
     if (!user && typeof window !== 'undefined') {
       try {
         const next = anonDealCount + 1;
@@ -271,7 +299,6 @@ export default function FreddiePage() {
       <div className="app-layout">
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
 
-          {/* Logo */}
           <a href="/" style={{ textDecoration: 'none' }}>
             <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
               FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -279,19 +306,16 @@ export default function FreddiePage() {
           </a>
           <div style={{ fontSize: '10px', color: '#94a8b8', letterSpacing: '2px', textTransform: 'uppercase', marginTop: '2px' }}>AI Deal Analyst</div>
 
-          {/* New Analysis */}
           <button onClick={() => { startConversation(); setSidebarOpen(false); }} style={{ marginTop: '20px', padding: '10px 14px', background: '#00C27C', border: 'none', borderRadius: '10px', color: 'white', fontSize: '13px', fontWeight: '500', cursor: 'pointer', width: '100%' }}>
             + New Analysis
           </button>
 
-          {/* Tier badge */}
           {userTier && (
             <div style={{ marginTop: '12px', padding: '6px 10px', background: 'rgba(0,194,124,0.1)', border: '1px solid rgba(0,194,124,0.2)', borderRadius: '8px', fontSize: '11px', color: '#00C27C', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center' }}>
               {userTier} plan
             </div>
           )}
 
-          {/* Nav links */}
           <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: '10px', color: '#5a7184', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '8px' }}>Navigate</div>
             {navLink('/', 'Home')}
@@ -301,7 +325,6 @@ export default function FreddiePage() {
             {navLink('/deal-results', 'Sample Score')}
           </div>
 
-          {/* Bottom — auth */}
           <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.07)' }}>
             {user ? (
               <div>
