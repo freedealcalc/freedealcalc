@@ -41,7 +41,7 @@ export default function DscrLoanCalculatorPage() {
     <>
       <head>
         <title>Free DSCR Loan Calculator | FreeDealCalc</title>
-        "meta name="description" content="Calculate DSCR for your rental property and see if you qualify for a DSCR loan. Free AI analysis — no W-2 required, no sign-up needed." />
+        <meta name="description" content="Calculate DSCR for your rental property and see if you qualify for a DSCR loan. Free AI analysis — no W-2 required, no sign-up needed." />
         <link rel="canonical" href="https://freedealcalc.com/tools/dscr-loan-calculator" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </head>
