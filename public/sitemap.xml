@@ -1,93 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Root pages -->
   <url>
-    <loc>https://www.freedealcalc.com/</loc>
-    <lastmod>2026-05-06</lastmod>
+    <loc>https://freedealcalc.com/</loc>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.freedealcalc.com/freddie</loc>
-    <lastmod>2026-05-06</lastmod>
+    <loc>https://freedealcalc.com/freddie</loc>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.freedealcalc.com/tools/free-ai-deal-analyzer</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/tools/free-ai-flip-calculator</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/tools/free-ai-wholesale-calculator</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/tools/free-ai-brrrr-calculator</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/tools/free-rehab-calculator</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/tools/free-ai-arv-calculator</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/tools/free-ai-rental-calculator</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/pricing</loc>
-    <lastmod>2026-05-06</lastmod>
+    <loc>https://freedealcalc.com/pricing</loc>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.freedealcalc.com/partners</loc>
-    <lastmod>2026-05-06</lastmod>
+    <loc>https://freedealcalc.com/signup</loc>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.freedealcalc.com/freedoku</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.freedealcalc.com/contact</loc>
-    <lastmod>2026-05-06</lastmod>
+    <loc>https://freedealcalc.com/login</loc>
+    <lastmod>2025-05-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.freedealcalc.com/privacy</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://freedealcalc.com/partners</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.freedealcalc.com/terms</loc>
-    <lastmod>2026-05-06</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <loc>https://freedealcalc.com/deal-blast</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://freedealcalc.com/dashboard</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Tool pages — all priority 0.9 -->
+  <url>
+    <loc>https://freedealcalc.com/tools/free-ai-deal-analyzer</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/free-ai-flip-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/free-ai-wholesale-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/free-ai-brrrr-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/free-rehab-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/free-ai-arv-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/free-ai-rental-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/70-percent-rule-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/private-money-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/seller-financing-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/hard-money-loan-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/cash-on-cash-return-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/cap-rate-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/airbnb-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/multifamily-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/wholetail-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://freedealcalc.com/tools/subject-to-calculator</loc>
+    <lastmod>2025-05-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>
