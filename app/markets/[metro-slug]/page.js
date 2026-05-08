@@ -270,6 +270,45 @@ export default function MetroPage() {
         </div>
       </div>
 
+      {/* SEO CONTENT SECTION */}
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px 0' }}>
+        <div style={{ background: '#fff', borderRadius: '16px', padding: '40px', border: '1px solid #e2e8f0' }}>
+          <h2 style={{ fontSize: '22px', fontStyle: 'italic', color: '#0f1c2d', fontFamily: 'Instrument Serif, serif', marginBottom: '20px' }}>
+            Fix and Flip, Wholesale, and Rental Investing in {config.city}
+          </h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#0f1c2d', marginBottom: '10px' }}>Fix and Flip in {config.city}</h3>
+              <p style={{ fontSize: '15px', color: '#4a5568', lineHeight: '1.8' }}>
+                Fix and flip investing in {config.city} requires a precise understanding of ARV by neighborhood, accurate rehab budgets, and realistic hold time assumptions. With a current median sale price of {stats ? formatPrice(stats.median_sale_price) : 'N/A'} and {stats ? stats.median_days_on_market : '—'} average days on market, flippers need to build adequate hold cost into every deal. Use our free fix and flip calculator to model profit and ROI before you make an offer on any {config.city} property.
+              </p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#0f1c2d', marginBottom: '10px' }}>Wholesale Real Estate in {config.city}</h3>
+              <p style={{ fontSize: '15px', color: '#4a5568', lineHeight: '1.8' }}>
+                Wholesale real estate in {config.city} depends on finding motivated sellers, calculating an accurate maximum allowable offer, and having a strong cash buyer list to assign deals quickly. The {config.city} market currently shows {stats ? stats.active_listings?.toLocaleString() : '—'} active listings — inventory levels that directly affect your ability to find distressed properties at wholesale prices. Freddie calculates your MAO and assignment fee on any {config.city} wholesale deal instantly.
+              </p>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#0f1c2d', marginBottom: '10px' }}>Rental Property Investing in {config.city}</h3>
+              <p style={{ fontSize: '15px', color: '#4a5568', lineHeight: '1.8' }}>
+                Rental property investors in {config.city} evaluate deals based on cash flow, cap rate, and cash-on-cash return. With median sale prices at {stats ? formatPrice(stats.median_sale_price) : 'N/A'}, the rent-to-price ratio in {config.city} determines whether buy-and-hold or BRRRR makes sense as your primary strategy. Analyze any {config.city} rental property free with Freddie — cash flow, ROI, and deal score in minutes.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ marginTop: '32px', paddingTop: '32px', borderTop: '1px solid #e2e8f0' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#0f1c2d', marginBottom: '10px' }}>How to Analyze a Real Estate Deal in {config.city}</h3>
+            <p style={{ fontSize: '15px', color: '#4a5568', lineHeight: '1.8', marginBottom: '16px' }}>
+              Analyzing investment property in {config.city} starts with establishing a reliable ARV from comparable sales, estimating rehab costs accurately, and modeling exit strategy returns based on current market conditions. The {config.city} market data above — updated monthly from Redfin — gives you the context you need to calibrate your assumptions before running deal numbers.
+            </p>
+            <p style={{ fontSize: '15px', color: '#4a5568', lineHeight: '1.8' }}>
+              FreeDealCalc is a free AI-powered deal analyzer built specifically for real estate investors. Whether you are evaluating a fix and flip, wholesale opportunity, rental property, or BRRRR deal in {config.city}, Freddie runs the full analysis in a real conversation — no spreadsheet, no subscription required. Get your deal score and Score Certificate free.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* TOOLS GRID */}
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 24px 0' }}>
         <h2 style={{ fontSize: '24px', fontStyle: 'italic', color: '#0f1c2d', fontFamily: 'Instrument Serif, serif', marginBottom: '24px' }}>
