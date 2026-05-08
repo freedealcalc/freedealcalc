@@ -37,6 +37,11 @@ const METRO_CONFIG = {
   'las-vegas-nv': { city: 'Las Vegas', state: 'Nevada', nickname: 'LAS', investorBlurb: 'Las Vegas offers no state income tax, high rental demand from hospitality workers, and a historically active investor market with significant wholesale deal flow.' },
 };
 
+// Slugs that have a corresponding /investors/[slug] page
+const INVESTOR_PAGE_SLUGS = new Set([
+  'anaheim-ca','atlanta-ga','baltimore-md','charlotte-nc','chicago-il','cincinnati-oh','cleveland-oh','columbus-oh','denver-co','detroit-mi','fort-lauderdale-fl','jacksonville-fl','las-vegas-nv','los-angeles-ca','miami-fl','milwaukee-wi','minneapolis-mn','montgomery-county-pa','nashville-tn','new-brunswick-nj','new-york-ny','newark-nj','oakland-ca','orlando-fl','philadelphia-pa','phoenix-az','portland-or','providence-ri','riverside-ca','sacramento-ca','san-diego-ca','san-francisco-ca','san-jose-ca','seattle-wa','tampa-fl','virginia-beach-va','warren-mi','washington-dc','west-palm-beach-fl'
+]);
+
 function getConfig(slug) {
   if (METRO_CONFIG[slug]) return METRO_CONFIG[slug];
   // Fallback for metros not in config
@@ -77,6 +82,7 @@ export default function MetroPage() {
   const params = useParams();
   const slug = params['metro-slug'];
   const config = getConfig(slug);
+  const hasInvestorPage = INVESTOR_PAGE_SLUGS.has(slug);
 
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -199,6 +205,19 @@ export default function MetroPage() {
                 </div>
               ))}
             </div>
+
+            {/* CROSS-LINK to investor activity page */}
+            {hasInvestorPage && (
+              <div style={{ background: '#fff', borderRadius: '12px', padding: '20px 24px', marginBottom: '24px', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+                <div>
+                  <div style={{ fontSize: '14px', fontWeight: '700', color: '#0f1c2d', marginBottom: '4px' }}>How competitive is {config.city} for investors?</div>
+                  <div style={{ fontSize: '13px', color: '#64748b' }}>See investor purchase volume, market share, and YoY trends.</div>
+                </div>
+                <a href={`/investors/${slug}`} style={{ background: '#00C27C', color: '#fff', textDecoration: 'none', fontSize: '14px', fontWeight: '700', padding: '10px 20px', borderRadius: '8px' }}>
+                  See {config.city} Investor Activity →
+                </a>
+              </div>
+            )}
 
             {/* Investor intelligence callout */}
             <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '32px', marginBottom: '24px', borderLeft: '5px solid #00C27C' }}>

@@ -1,0 +1,157 @@
+metro_slug,metro_name,period_begin,period_end,investor_purchases,investor_purchases_yoy,investor_market_share
+anaheim-ca,"Anaheim, CA",2025-10-01,2025-12-31,1261,3.02,25.76
+anaheim-ca,"Anaheim, CA",2025-07-01,2025-09-30,1429,5.23,25.91
+anaheim-ca,"Anaheim, CA",2025-04-01,2025-06-30,1440,4.35,26.25
+anaheim-ca,"Anaheim, CA",2025-01-01,2025-03-31,1209,18.30,26.59
+atlanta-ga,"Atlanta, GA",2025-10-01,2025-12-31,3278,6.74,20.23
+atlanta-ga,"Atlanta, GA",2025-07-01,2025-09-30,3474,-0.26,18.02
+atlanta-ga,"Atlanta, GA",2025-04-01,2025-06-30,3269,-16.22,16.52
+atlanta-ga,"Atlanta, GA",2025-01-01,2025-03-31,3100,-10.79,21.14
+baltimore-md,"Baltimore, MD",2025-10-01,2025-12-31,1376,-6.78,18.13
+baltimore-md,"Baltimore, MD",2025-07-01,2025-09-30,1328,6.84,16.42
+baltimore-md,"Baltimore, MD",2025-04-01,2025-06-30,1468,0.07,17.33
+baltimore-md,"Baltimore, MD",2025-01-01,2025-03-31,1510,8.32,22.18
+charlotte-nc,"Charlotte, NC",2025-10-01,2025-12-31,1362,-5.68,18.93
+charlotte-nc,"Charlotte, NC",2025-07-01,2025-09-30,1371,-5.64,16.57
+charlotte-nc,"Charlotte, NC",2025-04-01,2025-06-30,1494,-7.55,16.61
+charlotte-nc,"Charlotte, NC",2025-01-01,2025-03-31,1436,4.21,20.99
+chicago-il,"Chicago, IL",2025-10-01,2025-12-31,2109,10.07,14.75
+chicago-il,"Chicago, IL",2025-07-01,2025-09-30,2418,10.36,13.41
+chicago-il,"Chicago, IL",2025-04-01,2025-06-30,2086,-0.71,12.41
+chicago-il,"Chicago, IL",2025-01-01,2025-03-31,2012,17.04,15.47
+cincinnati-oh,"Cincinnati, OH",2025-10-01,2025-12-31,952,14.70,17.88
+cincinnati-oh,"Cincinnati, OH",2025-07-01,2025-09-30,932,-4.51,14.57
+cincinnati-oh,"Cincinnati, OH",2025-04-01,2025-06-30,946,-4.25,14.90
+cincinnati-oh,"Cincinnati, OH",2025-01-01,2025-03-31,767,-0.52,18.73
+cleveland-oh,"Cleveland, OH",2025-10-01,2025-12-31,1438,4.28,25.10
+cleveland-oh,"Cleveland, OH",2025-07-01,2025-09-30,1406,-2.63,22.09
+cleveland-oh,"Cleveland, OH",2025-04-01,2025-06-30,1321,1.69,22.72
+cleveland-oh,"Cleveland, OH",2025-01-01,2025-03-31,1134,-1.82,27.25
+columbus-oh,"Columbus, OH",2025-10-01,2025-12-31,930,3.22,16.98
+columbus-oh,"Columbus, OH",2025-07-01,2025-09-30,959,-1.03,14.90
+columbus-oh,"Columbus, OH",2025-04-01,2025-06-30,881,-13.96,14.32
+columbus-oh,"Columbus, OH",2025-01-01,2025-03-31,742,-14.71,17.24
+denver-co,"Denver, CO",2025-10-01,2025-12-31,1141,-2.56,14.26
+denver-co,"Denver, CO",2025-07-01,2025-09-30,1176,-8.20,12.71
+denver-co,"Denver, CO",2025-04-01,2025-06-30,1236,-13.02,11.81
+denver-co,"Denver, CO",2025-01-01,2025-03-31,1020,-3.41,14.47
+detroit-mi,"Detroit, MI",2025-10-01,2025-12-31,895,-14.60,18.95
+detroit-mi,"Detroit, MI",2025-07-01,2025-09-30,980,-2.58,17.75
+detroit-mi,"Detroit, MI",2025-04-01,2025-06-30,1041,-9.48,19.50
+detroit-mi,"Detroit, MI",2025-01-01,2025-03-31,962,-1.84,22.66
+fort-lauderdale-fl,"Fort Lauderdale, FL",2025-10-01,2025-12-31,1153,-14.02,17.95
+fort-lauderdale-fl,"Fort Lauderdale, FL",2025-07-01,2025-09-30,1173,-10.32,17.86
+fort-lauderdale-fl,"Fort Lauderdale, FL",2025-04-01,2025-06-30,1251,-17.48,18.38
+fort-lauderdale-fl,"Fort Lauderdale, FL",2025-01-01,2025-03-31,1143,-10.77,20.41
+jacksonville-fl,"Jacksonville, FL",2025-10-01,2025-12-31,927,-8.67,19.61
+jacksonville-fl,"Jacksonville, FL",2025-07-01,2025-09-30,959,-10.54,17.40
+jacksonville-fl,"Jacksonville, FL",2025-04-01,2025-06-30,1061,-18.57,17.96
+jacksonville-fl,"Jacksonville, FL",2025-01-01,2025-03-31,962,-14.41,21.19
+las-vegas-nv,"Las Vegas, NV",2025-10-01,2025-12-31,1421,-6.76,22.84
+las-vegas-nv,"Las Vegas, NV",2025-07-01,2025-09-30,1504,-17.59,21.68
+las-vegas-nv,"Las Vegas, NV",2025-04-01,2025-06-30,1645,-15.68,20.87
+las-vegas-nv,"Las Vegas, NV",2025-01-01,2025-03-31,1706,2.03,24.40
+los-angeles-ca,"Los Angeles, CA",2025-10-01,2025-12-31,3079,11.24,23.86
+los-angeles-ca,"Los Angeles, CA",2025-07-01,2025-09-30,3176,9.07,23.18
+los-angeles-ca,"Los Angeles, CA",2025-04-01,2025-06-30,3337,7.13,23.90
+los-angeles-ca,"Los Angeles, CA",2025-01-01,2025-03-31,2689,18.77,25.01
+miami-fl,"Miami, FL",2025-10-01,2025-12-31,1995,0.10,32.01
+miami-fl,"Miami, FL",2025-07-01,2025-09-30,2072,-11.72,32.02
+miami-fl,"Miami, FL",2025-04-01,2025-06-30,2156,-9.45,30.95
+miami-fl,"Miami, FL",2025-01-01,2025-03-31,1692,-18.93,30.95
+milwaukee-wi,"Milwaukee, WI",2025-10-01,2025-12-31,774,26.47,19.23
+milwaukee-wi,"Milwaukee, WI",2025-07-01,2025-09-30,784,23.46,15.84
+milwaukee-wi,"Milwaukee, WI",2025-04-01,2025-06-30,652,-10.81,14.54
+milwaukee-wi,"Milwaukee, WI",2025-01-01,2025-03-31,551,2.99,18.53
+minneapolis-mn,"Minneapolis, MN",2025-10-01,2025-12-31,1171,4.27,10.90
+minneapolis-mn,"Minneapolis, MN",2025-07-01,2025-09-30,1242,0.08,10.09
+minneapolis-mn,"Minneapolis, MN",2025-04-01,2025-06-30,1083,-11.37,9.68
+minneapolis-mn,"Minneapolis, MN",2025-01-01,2025-03-31,877,-11.32,11.94
+montgomery-county-pa,"Montgomery County, PA",2025-10-01,2025-12-31,483,-8.87,10.16
+montgomery-county-pa,"Montgomery County, PA",2025-07-01,2025-09-30,545,10.55,8.74
+montgomery-county-pa,"Montgomery County, PA",2025-04-01,2025-06-30,547,3.99,10.67
+montgomery-county-pa,"Montgomery County, PA",2025-01-01,2025-03-31,460,13.86,12.83
+nashville-tn,"Nashville, TN",2025-10-01,2025-12-31,938,-8.31,16.88
+nashville-tn,"Nashville, TN",2025-07-01,2025-09-30,1036,-8.32,15.82
+nashville-tn,"Nashville, TN",2025-04-01,2025-06-30,1086,-7.73,15.97
+nashville-tn,"Nashville, TN",2025-01-01,2025-03-31,959,7.87,19.29
+new-brunswick-nj,"New Brunswick, NJ",2025-10-01,2025-12-31,1056,11.04,14.57
+new-brunswick-nj,"New Brunswick, NJ",2025-07-01,2025-09-30,1134,12.84,13.53
+new-brunswick-nj,"New Brunswick, NJ",2025-04-01,2025-06-30,914,1.56,14.11
+new-brunswick-nj,"New Brunswick, NJ",2025-01-01,2025-03-31,902,13.75,15.99
+new-york-ny,"New York, NY",2025-10-01,2025-12-31,2716,16.42,22.42
+new-york-ny,"New York, NY",2025-07-01,2025-09-30,3053,22.81,20.94
+new-york-ny,"New York, NY",2025-04-01,2025-06-30,2532,8.86,21.75
+new-york-ny,"New York, NY",2025-01-01,2025-03-31,2516,14.26,20.67
+newark-nj,"Newark, NJ",2025-10-01,2025-12-31,734,5.92,14.87
+newark-nj,"Newark, NJ",2025-07-01,2025-09-30,782,28.20,13.18
+newark-nj,"Newark, NJ",2025-04-01,2025-06-30,720,11.80,14.38
+newark-nj,"Newark, NJ",2025-01-01,2025-03-31,685,6.20,16.65
+oakland-ca,"Oakland, CA",2025-10-01,2025-12-31,996,17.04,19.67
+oakland-ca,"Oakland, CA",2025-07-01,2025-09-30,1013,14.59,18.58
+oakland-ca,"Oakland, CA",2025-04-01,2025-06-30,1041,-1.05,18.52
+oakland-ca,"Oakland, CA",2025-01-01,2025-03-31,749,15.41,18.26
+orlando-fl,"Orlando, FL",2025-10-01,2025-12-31,1530,-16.26,20.76
+orlando-fl,"Orlando, FL",2025-07-01,2025-09-30,1571,-24.29,19.20
+orlando-fl,"Orlando, FL",2025-04-01,2025-06-30,1625,-30.17,18.89
+orlando-fl,"Orlando, FL",2025-01-01,2025-03-31,1837,-13.31,25.28
+philadelphia-pa,"Philadelphia, PA",2025-10-01,2025-12-31,1007,-4.10,20.32
+philadelphia-pa,"Philadelphia, PA",2025-07-01,2025-09-30,961,3.22,17.91
+philadelphia-pa,"Philadelphia, PA",2025-04-01,2025-06-30,1000,1.83,17.87
+philadelphia-pa,"Philadelphia, PA",2025-01-01,2025-03-31,836,-1.76,20.42
+phoenix-az,"Phoenix, AZ",2025-10-01,2025-12-31,2755,-2.62,19.38
+phoenix-az,"Phoenix, AZ",2025-07-01,2025-09-30,2584,-6.38,17.97
+phoenix-az,"Phoenix, AZ",2025-04-01,2025-06-30,2927,-19.85,18.45
+phoenix-az,"Phoenix, AZ",2025-01-01,2025-03-31,3184,-0.66,21.24
+portland-or,"Portland, OR",2025-10-01,2025-12-31,783,29.00,13.36
+portland-or,"Portland, OR",2025-07-01,2025-09-30,854,25.04,12.40
+portland-or,"Portland, OR",2025-04-01,2025-06-30,869,15.71,12.56
+portland-or,"Portland, OR",2025-01-01,2025-03-31,610,31.75,13.52
+providence-ri,"Providence, RI",2025-10-01,2025-12-31,270,22.73,10.27
+providence-ri,"Providence, RI",2025-07-01,2025-09-30,274,7.87,8.71
+providence-ri,"Providence, RI",2025-04-01,2025-06-30,228,4.11,8.59
+providence-ri,"Providence, RI",2025-01-01,2025-03-31,194,-5.83,10.47
+riverside-ca,"Riverside, CA",2025-10-01,2025-12-31,1730,2.55,18.53
+riverside-ca,"Riverside, CA",2025-07-01,2025-09-30,1645,-0.30,17.71
+riverside-ca,"Riverside, CA",2025-04-01,2025-06-30,1839,-1.97,20.56
+riverside-ca,"Riverside, CA",2025-01-01,2025-03-31,1792,14.21,21.72
+sacramento-ca,"Sacramento, CA",2025-10-01,2025-12-31,1034,-3.00,20.06
+sacramento-ca,"Sacramento, CA",2025-07-01,2025-09-30,1265,1.61,20.91
+sacramento-ca,"Sacramento, CA",2025-04-01,2025-06-30,1173,-1.92,19.57
+sacramento-ca,"Sacramento, CA",2025-01-01,2025-03-31,1038,19.59,22.12
+san-diego-ca,"San Diego, CA",2025-10-01,2025-12-31,1445,10.73,24.99
+san-diego-ca,"San Diego, CA",2025-07-01,2025-09-30,1576,3.28,24.75
+san-diego-ca,"San Diego, CA",2025-04-01,2025-06-30,1616,1.76,24.23
+san-diego-ca,"San Diego, CA",2025-01-01,2025-03-31,1277,-2.74,24.55
+san-francisco-ca,"San Francisco, CA",2025-10-01,2025-12-31,692,24.91,25.19
+san-francisco-ca,"San Francisco, CA",2025-07-01,2025-09-30,690,30.43,26.41
+san-francisco-ca,"San Francisco, CA",2025-04-01,2025-06-30,750,23.97,25.70
+san-francisco-ca,"San Francisco, CA",2025-01-01,2025-03-31,485,9.73,24.58
+san-jose-ca,"San Jose, CA",2025-10-01,2025-12-31,590,10.69,21.15
+san-jose-ca,"San Jose, CA",2025-07-01,2025-09-30,646,10.81,20.18
+san-jose-ca,"San Jose, CA",2025-04-01,2025-06-30,729,10.29,20.60
+san-jose-ca,"San Jose, CA",2025-01-01,2025-03-31,475,17.00,19.69
+seattle-wa,"Seattle, WA",2025-10-01,2025-12-31,848,37.22,12.26
+seattle-wa,"Seattle, WA",2025-07-01,2025-09-30,933,43.54,11.24
+seattle-wa,"Seattle, WA",2025-04-01,2025-06-30,999,50.00,11.10
+seattle-wa,"Seattle, WA",2025-01-01,2025-03-31,722,41.29,12.74
+tampa-fl,"Tampa, FL",2025-10-01,2025-12-31,1926,-5.22,17.81
+tampa-fl,"Tampa, FL",2025-07-01,2025-09-30,2049,-4.61,17.44
+tampa-fl,"Tampa, FL",2025-04-01,2025-06-30,2270,-12.76,17.28
+tampa-fl,"Tampa, FL",2025-01-01,2025-03-31,2345,-1.72,21.83
+virginia-beach-va,"Virginia Beach, VA",2025-10-01,2025-12-31,791,15.98,13.86
+virginia-beach-va,"Virginia Beach, VA",2025-07-01,2025-09-30,795,7.72,11.94
+virginia-beach-va,"Virginia Beach, VA",2025-04-01,2025-06-30,829,0.24,11.49
+virginia-beach-va,"Virginia Beach, VA",2025-01-01,2025-03-31,628,-3.83,13.04
+warren-mi,"Warren, MI",2025-10-01,2025-12-31,754,-2.96,10.22
+warren-mi,"Warren, MI",2025-07-01,2025-09-30,827,7.12,9.03
+warren-mi,"Warren, MI",2025-04-01,2025-06-30,702,-12.90,9.03
+warren-mi,"Warren, MI",2025-01-01,2025-03-31,647,-11.13,11.24
+washington-dc,"Washington, DC",2025-10-01,2025-12-31,1297,-6.01,11.58
+washington-dc,"Washington, DC",2025-07-01,2025-09-30,1251,-4.58,9.73
+washington-dc,"Washington, DC",2025-04-01,2025-06-30,1407,0.93,9.74
+washington-dc,"Washington, DC",2025-01-01,2025-03-31,1328,4.08,13.37
+west-palm-beach-fl,"West Palm Beach, FL",2025-10-01,2025-12-31,1192,9.96,19.35
+west-palm-beach-fl,"West Palm Beach, FL",2025-07-01,2025-09-30,1122,-7.81,17.94
+west-palm-beach-fl,"West Palm Beach, FL",2025-04-01,2025-06-30,1365,-16.77,18.54
+west-palm-beach-fl,"West Palm Beach, FL",2025-01-01,2025-03-31,1202,-5.28,20.79
