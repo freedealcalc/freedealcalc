@@ -1,47 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://freedealcalc.com/</loc><lastmod>2025-05-07</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://freedealcalc.com/freddie</loc><lastmod>2025-05-07</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/pricing</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://freedealcalc.com/signup</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://freedealcalc.com/login</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://freedealcalc.com/partners</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://freedealcalc.com/deal-blast</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://freedealcalc.com/dashboard</loc><lastmod>2025-05-07</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-ai-deal-analyzer</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-ai-flip-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-ai-wholesale-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-ai-brrrr-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-rehab-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-ai-arv-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/free-ai-rental-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/70-percent-rule-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/private-money-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/seller-financing-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/hard-money-loan-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/cash-on-cash-return-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/cap-rate-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/airbnb-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/multifamily-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/wholetail-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/subject-to-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/investment-property-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/rental-income-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/real-estate-roi-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/dscr-loan-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/vacation-rental-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/1031-exchange-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/rental-cash-flow-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/fix-and-flip-software</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/house-flipping-spreadsheet</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/duplex-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/real-estate-investing-software</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/wholesale-real-estate-software</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/rental-property-analysis</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/hold-cost-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/after-repair-value-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/section-8-rental-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/brrrr-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/land-contract-calculator</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://freedealcalc.com/tools/real-estate-deal-analyzer</loc><lastmod>2025-05-07</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+
+  <!-- Root pages -->
+  <url><loc>https://freedealcalc.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://freedealcalc.com/freddie</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://freedealcalc.com/pricing</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/signup</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/dashboard</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://freedealcalc.com/partners</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://freedealcalc.com/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://freedealcalc.com/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+  <!-- Original 7 tool pages -->
+  <url><loc>https://freedealcalc.com/tools/free-ai-deal-analyzer</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://freedealcalc.com/tools/free-ai-flip-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://freedealcalc.com/tools/free-ai-wholesale-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://freedealcalc.com/tools/free-ai-brrrr-calculator</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://freedealcalc.com/tools/free-rehab-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/free-ai-arv-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/free-ai-rental-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Batch 1 (10 pages) -->
+  <url><loc>https://freedealcalc.com/tools/70-percent-rule-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/private-money-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/seller-financing-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/hard-money-loan-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/cash-on-cash-return-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/cap-rate-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/airbnb-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/multifamily-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/wholetail-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/subject-to-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Batch 2 (10 pages) -->
+  <url><loc>https://freedealcalc.com/tools/investment-property-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/rental-income-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-roi-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/dscr-loan-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/vacation-rental-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/1031-exchange-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/rental-cash-flow-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/fix-and-flip-software</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/house-flipping-spreadsheet</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/duplex-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Batch 3 (9 pages) -->
+  <url><loc>https://freedealcalc.com/tools/real-estate-investing-software</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/wholesale-real-estate-software</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/rental-property-analysis</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/hold-cost-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/after-repair-value-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/section-8-rental-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/brrrr-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/land-contract-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-deal-analyzer</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
+  <!-- Tier 2 — 15 new pages -->
+  <url><loc>https://freedealcalc.com/tools/real-estate-wholesaling-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/fix-and-flip-roi-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/rental-property-roi-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-profit-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/lease-option-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-cash-flow-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-net-worth-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/property-flip-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-equity-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/mortgage-payoff-calculator-real-estate</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-closing-cost-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/real-estate-commission-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/landlord-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/rehab-cost-estimator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://freedealcalc.com/tools/ai-arv-calculator</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+
 </urlset>
