@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I have a property and I'm trying to decide whether to flip it or keep it as a rental. Can you help me compare both strategies?');
+    sessionStorage.setItem('fdc_seed_message', 'I have a property and I am trying to decide whether to flip it or keep it as a rental. Can you help me compare both strategies?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Flip or Rent Calculator — Should I Flip or Rent?","description":"Should you flip or rent your investment property? Free AI-powered flip or rent calculator compares both strategies on any deal so you make the right call.","url":"https://freedealcalc.com/tools/flip-or-rent-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

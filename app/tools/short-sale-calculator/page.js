@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I want to analyze a short sale investment opportunity. Can you help me calculate profit and determine if it's worth pursuing?');
+    sessionStorage.setItem('fdc_seed_message', 'I want to analyze a short sale investment opportunity. Can you help me calculate profit and determine if it is worth pursuing?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Short Sale Calculator — Investment Property Analyzer","description":"Calculate short sale profit, all-in costs, and deal viability. Free AI-powered short sale calculator for real estate investors.","url":"https://freedealcalc.com/tools/short-sale-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

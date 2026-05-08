@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I need to calculate closing costs on a wholesale deal. Can you help me figure out what I'll net on an assignment or double close?');
+    sessionStorage.setItem('fdc_seed_message', 'I need to calculate closing costs on a wholesale deal. Can you help me figure out what I will net on an assignment or double close?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Wholesale Closing Cost Calculator","description":"Calculate closing costs on wholesale deals — assignment closings and double closings. Free AI-powered wholesale closing cost calculator for real estate investors.","url":"https://freedealcalc.com/tools/wholesale-closing-cost-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

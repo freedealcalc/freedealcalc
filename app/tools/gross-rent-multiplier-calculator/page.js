@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I want to calculate the gross rent multiplier (GRM) on a rental property and determine if it's a good deal. Can you help?');
+    sessionStorage.setItem('fdc_seed_message', 'I want to calculate the gross rent multiplier (GRM) on a rental property and determine if it is a good deal. Can you help?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Gross Rent Multiplier Calculator (GRM)","description":"Calculate gross rent multiplier (GRM) for any investment property. Free AI-powered GRM calculator for real estate investors.","url":"https://freedealcalc.com/tools/gross-rent-multiplier-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

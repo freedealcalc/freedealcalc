@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I'm managing a fix and flip rehab project and want to track costs and progress. Can you help me stay on budget?');
+    sessionStorage.setItem('fdc_seed_message', 'I am managing a fix and flip rehab project and want to track costs and progress. Can you help me stay on budget?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Real Estate Project Management — AI Deal Tracker","description":"Free AI-powered real estate project management for fix and flip investors. Track deals, rehab progress, and project costs with Freddie.","url":"https://freedealcalc.com/tools/real-estate-project-management-software","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

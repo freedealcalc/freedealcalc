@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I want to analyze a fix and flip deal. Can you help me calculate profit and ROI — I've been using Excel spreadsheets but want something smarter.');
+    sessionStorage.setItem('fdc_seed_message', 'I want to analyze a fix and flip deal. Can you help me calculate profit and ROI - I have been using Excel spreadsheets but want something smarter.');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Fix and Flip Calculator — Free AI Alternative to Excel","description":"Free AI-powered fix and flip calculator. No Excel spreadsheet needed — Freddie analyzes your flip deal in seconds with smarter insights than any spreadsheet.","url":"https://freedealcalc.com/tools/fix-and-flip-calculator-excel","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

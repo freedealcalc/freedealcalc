@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I want to go through a house flipping checklist for a deal I'm looking at. Can you walk me through the key steps?');
+    sessionStorage.setItem('fdc_seed_message', 'I want to go through a house flipping checklist for a deal I am looking at. Can you walk me through the key steps?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free House Flipping Checklist — AI-Powered Deal Analyzer","description":"Free house flipping checklist covering deal analysis, due diligence, rehab, and resale. AI-powered checklist tool for fix and flip investors.","url":"https://freedealcalc.com/tools/house-flipping-checklist","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

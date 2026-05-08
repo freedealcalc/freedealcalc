@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I want to analyze a subject-to deal where I take over someone's existing mortgage. Can you help me calculate cash flow and returns?');
+    sessionStorage.setItem('fdc_seed_message', 'I want to analyze a subject-to deal where I take over an existing mortgage. Can you help me calculate cash flow and returns?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Subject-To Mortgage Calculator","description":"Calculate subject-to deal cash flow, equity, and returns. Free AI-powered subject-to mortgage calculator for creative finance real estate investors.","url":"https://freedealcalc.com/tools/subject-to-mortgage-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

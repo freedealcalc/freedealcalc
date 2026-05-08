@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I found a property I want to analyze. Can you help me determine if it's a good deal and what the best exit strategy would be?');
+    sessionStorage.setItem('fdc_seed_message', 'I found a property I want to analyze. Can you help me determine if it is a good deal and what the best exit strategy would be?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Real Estate Deal Finder — AI Deal Analyzer","description":"Find and analyze real estate deals with AI. Free deal finder tool that scores any property as flip, wholesale, rental, or BRRRR opportunity.","url":"https://freedealcalc.com/tools/real-estate-deal-finder","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

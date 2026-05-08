@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I'm a real estate investor and want to analyze a deal. Can you help me run the numbers the way an experienced investor would?');
+    sessionStorage.setItem('fdc_seed_message', 'I am a real estate investor and want to analyze a deal. Can you help me run the numbers the way an experienced investor would?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Real Estate Investor Calculator","description":"Free AI-powered real estate investor calculator. Analyze flip, rental, wholesale, and BRRRR deals with a calculator built for serious investors.","url":"https://freedealcalc.com/tools/real-estate-investor-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

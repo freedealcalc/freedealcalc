@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I want to make sure I'm accounting for all expenses on a real estate investment. Can you help me build a complete expense model?');
+    sessionStorage.setItem('fdc_seed_message', 'I want to make sure I am accounting for all expenses on a real estate investment. Can you help me build a complete expense model?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Real Estate Expense Calculator","description":"Calculate all real estate investment expenses — operating, holding, and selling costs. Free AI-powered expense calculator for property investors.","url":"https://freedealcalc.com/tools/real-estate-expense-calculator","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};

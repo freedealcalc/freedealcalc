@@ -7,7 +7,7 @@ export default function Page() {
   const [clicked, setClicked] = useState(false);
   const handleFreddie = () => {
     setClicked(true);
-    sessionStorage.setItem('fdc_seed_message', 'I'm working on a wholesale deal and want to make sure I understand the contract terms and analyze whether the deal works. Can you help?');
+    sessionStorage.setItem('fdc_seed_message', 'I am working on a wholesale deal and want to make sure I understand the contract terms and analyze whether the deal works. Can you help?');
     router.push('/freddie');
   };
   const schemaApp = {"@context":"https://schema.org","@type":"WebApplication","name":"Free Real Estate Wholesale Contract Guide + Deal Analyzer","description":"Free wholesale contract guidance and AI deal analyzer. Understand wholesale contracts and analyze your wholesale deals with Freddie.","url":"https://freedealcalc.com/tools/real-estate-wholesale-contract","applicationCategory":"FinanceApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"creator":{"@type":"Organization","name":"FreeDealCalc"}};
