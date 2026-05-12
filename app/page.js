@@ -66,6 +66,14 @@ export default function HomePage() {
         }
         .nav-link { font-size: 13px; color: #94a8b8; text-decoration: none; transition: color 0.15s; }
         .nav-link:hover { color: white; }
+        .nav-link-highlight {
+          font-size: 13px;
+          color: #00C27C;
+          text-decoration: none;
+          font-weight: 600;
+          transition: color 0.15s;
+        }
+        .nav-link-highlight:hover { color: #00a368; }
         .feature-card {
           background: white;
           border-radius: 16px;
@@ -74,6 +82,15 @@ export default function HomePage() {
           transition: transform 0.15s;
         }
         .feature-card:hover { transform: translateY(-2px); }
+        .feature-card-highlight {
+          background: #0f1c2d;
+          border-radius: 16px;
+          padding: 28px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+          transition: transform 0.15s;
+          border: 1px solid rgba(0,194,124,0.3);
+        }
+        .feature-card-highlight:hover { transform: translateY(-2px); }
         .big-free-row {
           display: flex;
           align-items: center;
@@ -87,6 +104,20 @@ export default function HomePage() {
         .big-free-row:hover {
           background: rgba(0,194,124,0.06);
           border: 1px solid rgba(0,194,124,0.2);
+        }
+        .big-free-row-highlight {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          padding: 14px 18px;
+          background: rgba(0,194,124,0.08);
+          border: 1px solid rgba(0,194,124,0.3);
+          border-radius: 12px;
+          transition: background 0.15s, border 0.15s;
+        }
+        .big-free-row-highlight:hover {
+          background: rgba(0,194,124,0.14);
+          border: 1px solid rgba(0,194,124,0.5);
         }
         .big-free-check {
           width: 32px;
@@ -149,6 +180,7 @@ export default function HomePage() {
           </a>
           <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             <a href="/freddie" className="nav-link">Analyze a Deal</a>
+            <a href="/dispo" className="nav-link-highlight">Free Dispo</a>
             <a href="/freedoku" className="nav-link">FreeDoku</a>
             <a href="/pricing" className="nav-link">Pricing</a>
             <a href="/partners" className="nav-link">Partners</a>
@@ -178,7 +210,7 @@ export default function HomePage() {
         </div>
       </nav>
 
-      {/* Hero — free list IS the hero */}
+      {/* Hero */}
       <section style={{ background: '#0f1c2d', padding: '40px 24px 60px' }}>
         <div style={{ maxWidth: '760px', margin: '0 auto' }}>
 
@@ -195,22 +227,27 @@ export default function HomePage() {
             No trial. No credit card. No tricks. Run real deals, generate real documents, send real offers — free.
           </p>
 
-          {/* The free list — big, bold, scannable */}
+          {/* Free list */}
           <div className="hero-list" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '32px' }}>
             {[
-              { title: 'Unlimited deal analysis with Freddie', sub: 'Flips, rentals, BRRRR, wholesale — talk to him about as many as you want' },
-              { title: 'Unlimited Score Certificates', sub: 'Branded PDFs for every deal. Share anywhere.' },
-              { title: 'Free Seller Proposals', sub: 'AI-written offer letters ready to send. 3 per month.' },
-              { title: 'Free Disposition Packages', sub: 'Full buyer packages for your wholesale deals. 3 per month.' },
-              { title: 'Free ARV lookups', sub: 'Real comp data. 2 lifetime on Free — unlimited on paid.' },
-              { title: 'Dashboard + deal history', sub: 'Every deal you run saved forever. Build a real pipeline.' },
+              { title: 'Unlimited deal analysis with Freddie', sub: 'Flips, rentals, BRRRR, wholesale — talk to him about as many as you want', highlight: false },
+              { title: 'Unlimited Score Certificates', sub: 'Branded PDFs for every deal. Share anywhere.', highlight: false },
+              { title: 'Free Seller Proposals', sub: 'AI-written offer letters ready to send. 3 per month.', highlight: false },
+              { title: 'Free Wholesale Dispo Packages', sub: 'Rentcast verified comps. Professional buyer-ready package. More polished than what other tools charge hundreds a month for. 3 per month free.', highlight: true },
+              { title: 'Free ARV lookups', sub: 'Real comp data. 2 lifetime on Free — unlimited on paid.', highlight: false },
+              { title: 'Dashboard + deal history', sub: 'Every deal you run saved forever. Build a real pipeline.', highlight: false },
             ].map((item, i) => (
-              <div key={i} className="big-free-row">
+              <div key={i} className={item.highlight ? 'big-free-row-highlight' : 'big-free-row'}>
                 <div className="big-free-check">✓</div>
-                <div>
+                <div style={{ flex: 1 }}>
                   <div style={{ fontSize: '16px', fontWeight: '600', color: 'white', marginBottom: '2px' }}>{item.title}</div>
                   <div style={{ fontSize: '13px', color: '#94a8b8' }}>{item.sub}</div>
                 </div>
+                {item.highlight && (
+                  <a href="/dispo" style={{ fontSize: '12px', fontWeight: '700', color: '#00C27C', textDecoration: 'none', whiteSpace: 'nowrap', background: 'rgba(0,194,124,0.12)', padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(0,194,124,0.3)' }}>
+                    Try it →
+                  </a>
+                )}
               </div>
             ))}
           </div>
@@ -246,6 +283,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Wholesaler callout banner */}
+      <section style={{ background: '#0f1c2d', padding: '48px 32px' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '32px', flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: '280px' }}>
+            <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '700', letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '10px' }}>For Wholesalers</div>
+            <h2 style={{ fontFamily: 'Instrument Serif, Georgia, serif', fontStyle: 'italic', fontSize: '32px', color: 'white', lineHeight: '1.1', marginBottom: '12px' }}>
+              Stop sending ugly spreadsheets to your buyers.
+            </h2>
+            <p style={{ fontSize: '15px', color: '#94a8b8', lineHeight: '1.6', marginBottom: '8px' }}>
+              Freddie pulls Rentcast verified comps automatically. You get a professional dispo package buyers actually trust — in under 60 seconds. Free.
+            </p>
+            <p style={{ fontSize: '13px', color: '#5a7184' }}>Other dispo tools charge hundreds per month. We don't.</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', flexShrink: 0 }}>
+            <a href="/dispo" style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: '#00C27C', color: 'white', fontSize: '15px', fontWeight: '700', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', boxShadow: '0 4px 20px rgba(0,194,124,0.35)' }}>
+              Generate Free Dispo →
+            </a>
+            <div style={{ fontSize: '12px', color: '#5a7184', textAlign: 'center' }}>Free account required · takes 30 seconds</div>
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
       <section style={{ background: '#f0f2f5', padding: '80px 32px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
@@ -255,17 +314,22 @@ export default function HomePage() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }} className="features-grid">
             {[
-              { icon: '🤖', title: 'AI Deal Interview', desc: 'Freddie asks the right questions. You just answer. No confusing forms, no missed inputs — just a conversation that builds your analysis.' },
-              { icon: '📊', title: 'Pro Score & Report', desc: 'Get a deal score backed on real investor methodology. Share a professional PDF report with partners, lenders, and sellers.' },
-              { icon: '🔗', title: 'Lender & Agent Match', desc: 'Connected to investor-friendly lenders, agents, and title companies who know how to close deals fast.' },
-              { icon: '📣', title: 'Deal Blast', desc: 'Wholesalers — submit your deal and we push it to a verified list of active buyers. Move deals faster.' },
-              { icon: '📁', title: 'Deal Dashboard', desc: 'Every deal you run is saved, scored, and ready to revisit. Track your pipeline and never lose a number again.' },
-              { icon: '💰', title: 'Free That Actually Works', desc: 'Run unlimited deal scores, unlimited Certificates, plus monthly Seller Proposals and Dispo Packages — all free. No credit card.' },
+              { icon: '🤖', title: 'AI Deal Interview', desc: 'Freddie asks the right questions. You just answer. No confusing forms, no missed inputs — just a conversation that builds your analysis.', highlight: false },
+              { icon: '📊', title: 'Pro Score & Report', desc: 'Get a deal score backed on real investor methodology. Share a professional PDF report with partners, lenders, and sellers.', highlight: false },
+              { icon: '🔥', title: 'Free Wholesale Dispo Package', desc: 'Freddie pulls Rentcast verified comps automatically. Generate a professional buyer-ready dispo in 60 seconds. More professional than what other tools charge hundreds a month for — and it\'s free.', highlight: true },
+              { icon: '🔗', title: 'Lender & Agent Match', desc: 'Connected to investor-friendly lenders, agents, and title companies who know how to close deals fast.', highlight: false },
+              { icon: '📣', title: 'Deal Blast', desc: 'Wholesalers — submit your deal and we push it to a verified list of active buyers. Move deals faster.', highlight: false },
+              { icon: '💰', title: 'Free That Actually Works', desc: 'Run unlimited deal scores, unlimited Certificates, plus monthly Seller Proposals and Dispo Packages — all free. No credit card.', highlight: false },
             ].map((f, i) => (
-              <div key={i} className="feature-card">
+              <div key={i} className={f.highlight ? 'feature-card-highlight' : 'feature-card'}>
                 <div style={{ fontSize: '32px', marginBottom: '12px' }}>{f.icon}</div>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#0f1c2d', marginBottom: '8px' }}>{f.title}</div>
-                <div style={{ fontSize: '13.5px', color: '#5a7184', lineHeight: '1.6' }}>{f.desc}</div>
+                <div style={{ fontSize: '16px', fontWeight: '600', color: f.highlight ? 'white' : '#0f1c2d', marginBottom: '8px' }}>{f.title}</div>
+                <div style={{ fontSize: '13.5px', color: f.highlight ? '#94a8b8' : '#5a7184', lineHeight: '1.6', marginBottom: f.highlight ? '16px' : '0' }}>{f.desc}</div>
+                {f.highlight && (
+                  <a href="/dispo" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', fontWeight: '700', color: '#00C27C', textDecoration: 'none', marginTop: '4px' }}>
+                    Generate Free Dispo →
+                  </a>
+                )}
               </div>
             ))}
           </div>
