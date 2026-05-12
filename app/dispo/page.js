@@ -92,9 +92,9 @@ function DispoPage() {
     const { data: p } = await supabase.from('profiles').select('*').eq('id', user.id).single();
     setProfile(p);
 
-    // Free tier always shows branding — only Pro can disable
-    if (p?.tier !== 'pro') {
-      setShowBranding(true);
+    // Pro tier gets white-label automatically — no toggle needed
+    if (p?.tier === 'pro') {
+      setShowBranding(false);
     }
 
     // Load deal data — priority: deal_id param → sessionStorage from Freddie
@@ -303,39 +303,6 @@ function DispoPage() {
                 checked={showCloseDeadline}
                 onChange={setShowCloseDeadline}
               />
-              <div style={{ padding: '14px 0', borderBottom: '1px solid #f0f2f5' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontSize: '14px', fontWeight: '500', color: isPro ? '#0f1c2d' : '#94a8b8' }}>FreeDealCalc Branding</div>
-                    <div style={{ fontSize: '12px', color: '#94a8b8', marginTop: '2px' }}>
-                      {isPro ? 'Remove branding for a white-label package' : 'Pro plan required to remove branding'}
-                    </div>
-                  </div>
-                  <div
-                    onClick={() => isPro && setShowBranding(!showBranding)}
-                    style={{
-                      width: '44px', height: '24px', borderRadius: '12px',
-                      background: showBranding ? '#00C27C' : '#e4e8ed',
-                      cursor: isPro ? 'pointer' : 'not-allowed',
-                      position: 'relative', transition: 'background 0.2s', flexShrink: 0,
-                      opacity: isPro ? 1 : 0.5
-                    }}
-                  >
-                    <div style={{
-                      position: 'absolute', top: '3px',
-                      left: showBranding ? '23px' : '3px',
-                      width: '18px', height: '18px', borderRadius: '50%',
-                      background: 'white', transition: 'left 0.2s',
-                      boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
-                    }} />
-                  </div>
-                </div>
-                {!isPro && (
-                  <a href="/pricing" style={{ display: 'inline-block', marginTop: '8px', fontSize: '11px', color: '#00C27C', textDecoration: 'none', fontWeight: '600' }}>
-                    Upgrade to Pro to white-label →
-                  </a>
-                )}
-              </div>
             </div>
 
             <button
