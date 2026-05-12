@@ -7,6 +7,7 @@ export default function FreddiePage() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [showRunScore, setShowRunScore] = useState(false);
+  const [isWholesale, setIsWholesale] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userTier, setUserTier] = useState(null);
   const [user, setUser] = useState(null);
@@ -22,11 +23,9 @@ export default function FreddiePage() {
     loadAnonDealCount();
   }, []);
 
-  // After the opening message lands, check for a seed message from a tool page.
-  // If present, send it as the user's first message and clear the seed.
   useEffect(() => {
     if (seedConsumedRef.current) return;
-    if (messages.length !== 1) return; // wait for the opening message only
+    if (messages.length !== 1) return;
     if (typeof window === 'undefined') return;
 
     let seed = null;
@@ -37,7 +36,6 @@ export default function FreddiePage() {
     if (seed && seed.trim()) {
       seedConsumedRef.current = true;
       try { sessionStorage.removeItem('fdc_seed_message'); } catch (e) {}
-      // Slight delay so the opening message has rendered visually before the user message appears
       setTimeout(() => {
         setInput(seed);
         sendMessageWithText(seed);
@@ -74,6 +72,7 @@ export default function FreddiePage() {
 
   async function startConversation() {
     setShowRunScore(false);
+    setIsWholesale(false);
     setRentcastData(null);
     sessionStorage.removeItem('freddie_deal');
     const opening = "Hey, I'm Freddie. Are you analyzing a flip, a rental, a BRRRR, or a wholesale deal?";
@@ -106,7 +105,6 @@ export default function FreddiePage() {
     return null;
   }
 
-  // Internal: send a specific text (used for seed handoff). Does NOT clear input or check trim.
   async function sendMessageWithText(text) {
     if (!text || !text.trim()) return;
     setInput('');
@@ -134,7 +132,18 @@ export default function FreddiePage() {
 
       if (data.dealData) {
         sessionStorage.setItem('freddie_deal', JSON.stringify(data.dealData));
+        // Detect wholesale strategy as soon as deal data is confirmed
+        if (data.dealData.strategy === 'Wholesale') {
+          setIsWholesale(true);
+        }
       }
+
+      // Wholesale complete trigger
+      if (reply.includes('Hit the button below to build your disposition package')) {
+        setShowRunScore(true);
+      }
+
+      // Flip/Rental/BRRRR complete trigger
       if (reply.includes('Hit the button below to see your results')) {
         if (!user && anonDealCount >= 2) {
           setShowHardGate(true);
@@ -154,6 +163,11 @@ export default function FreddiePage() {
   }
 
   function handleRunScore() {
+    if (isWholesale) {
+      // Wholesale goes straight to dispo — no anon gate, registration happens there
+      window.location.href = '/dispo';
+      return;
+    }
     if (!user && typeof window !== 'undefined') {
       try {
         const next = anonDealCount + 1;
@@ -210,6 +224,10 @@ export default function FreddiePage() {
       onMouseLeave={e => e.target.style.color = '#94a8b8'}
     >{label}</a>
   );
+
+  // Button label and sublabel change based on strategy
+  const buttonLabel = isWholesale ? 'Build Dispo Package →' : 'Run My Score →';
+  const buttonSublabel = isWholesale ? 'Disposition Package' : 'Deal Analysis';
 
   return (
     <>
@@ -298,7 +316,6 @@ export default function FreddiePage() {
 
       <div className="app-layout">
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-
           <a href="/" style={{ textDecoration: 'none' }}>
             <div style={{ fontFamily: 'Georgia, serif', fontStyle: 'italic', fontSize: '22px', color: 'white' }}>
               FreeDeal<span style={{ color: '#00C27C' }}>Calc</span>
@@ -396,8 +413,8 @@ export default function FreddiePage() {
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                   </div>
                   <div style={{ textAlign: 'left' }}>
-                    <div style={{ fontSize: '11px', color: '#5a7184' }}>Deal Analysis</div>
-                    <div style={{ fontSize: '15px', fontWeight: '700', color: '#0f1c2d' }}>Run My Score →</div>
+                    <div style={{ fontSize: '11px', color: '#5a7184' }}>{buttonSublabel}</div>
+                    <div style={{ fontSize: '15px', fontWeight: '700', color: '#0f1c2d' }}>{buttonLabel}</div>
                   </div>
                 </button>
               </div>
@@ -425,7 +442,6 @@ export default function FreddiePage() {
         </div>
       </div>
 
-      {/* Hard Gate Modal — fires when anonymous user hits Deal #3 */}
       {showHardGate && (
         <div className="gate-overlay" style={{ position: 'fixed', inset: 0, background: 'rgba(15,28,45,0.85)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
           <div className="gate-modal" style={{ background: 'white', borderRadius: '20px', padding: '36px 32px', maxWidth: '440px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', textAlign: 'center', fontFamily: 'DM Sans, sans-serif' }}>

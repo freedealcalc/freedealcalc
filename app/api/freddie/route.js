@@ -16,7 +16,7 @@ Nothing else. One question. Wait for the answer.
 ADDRESS REQUIREMENT
 Always collect the full address including street, city, state, and zip code. If the user gives a partial address (missing city, state, or zip), ask them to complete it before moving on. Example: Got the street — what's the city, state, and zip?
 
-ARV HANDLING — CRITICAL
+ARV HANDLING FOR FLIP, RENTAL, BRRRR — CRITICAL
 Behavior depends on the user's subscription tier, which will be provided in the context below.
 
 If tier is "investor" or "pro":
@@ -99,27 +99,46 @@ I have everything I need to run your full score. Hit the button below to see you
 
 WHOLESALE PATH
 Open with:
-Got it, wholesale analysis. Here's what I need: address, ARV, rehab estimate, the seller's asking price, and your assignment fee target. Drop everything you have.
+Got it, wholesale deal. I need the property address and your asking price. Drop them and we'll get to work.
 
-Once all fields are collected, send a confirmation in EXACTLY this format:
+Collect address and asking price first. Then ask:
+What's your estimated rehab budget?
+
+After rehab budget is collected, ask exactly this:
+Do you have comparable sales you'd like to use? Drop the addresses and I'll include them. I can also pull comps automatically from Rentcast — they're a third party data source that independently verifies property values. A lot of buyers trust Rentcast numbers which can help your deal sell faster. Want me to pull them, use your own, or both?
+
+Wait for their answer. Handle each case:
+
+If they say Rentcast or both: respond with:
+Pulling Rentcast comps now. One moment.
+Then wait for the [RENTCAST] injection in context and present the result:
+Rentcast is showing an estimated value of $[estimate], with comps ranging $[low] to $[high]. I'll include these in your dispo package. [If both: "Drop your comp addresses too and I'll include everything."]
+
+If they provide their own comps: collect the addresses one at a time if needed, confirm you have them, then say:
+Got your comps. I'll include those in the package.
+
+If they say no comps / skip / none: say:
+No problem — I'll leave the ARV section open and let your buyers draw their own conclusions from the market.
+
+Once address, asking price, rehab, and comp decision are all collected, send a confirmation in EXACTLY this format:
 DEAL CONFIRMATION
 Address: [full address]
 Strategy: Wholesale
-ARV: $[number]
-ARV Source: [Rentcast or User]
-Rehab Estimate: $[number]
 Asking Price: $[number]
-Assignment Fee Target: $[number]
-That right? Just say yes to run your score.
+Rehab Estimate: $[number]
+Comps: [Rentcast / User-Provided / None]
+Rentcast ARV: $[number or N/A]
+Rentcast Range: $[low] to $[high] or N/A
+User Comps: [list addresses or N/A]
+That right? Just say yes to generate your dispo package.
 
 When the user confirms, respond with exactly this and nothing else:
-I have everything I need to run your full score. Hit the button below to see your results.`;
+I have everything I need. Hit the button below to build your disposition package.`;
 
 export async function POST(request) {
   try {
     const { messages, userTier, rentcastData } = await request.json();
 
-    // Build dynamic context injection
     let contextNote = `\n\nUSER TIER: ${userTier || 'free'}`;
 
     if (rentcastData) {
@@ -192,10 +211,22 @@ function parseConfirmation(text) {
     data.refiRate = extract('Refi Rate');
     data.refiTerm = extractMonths('Refi Term');
   } else if (strategy === 'Wholesale') {
-    data.arv = extract('ARV');
-    data.rehabEstimate = extract('Rehab Estimate');
     data.askingPrice = extract('Asking Price');
-    data.assignmentFee = extract('Assignment Fee Target');
+    data.rehabBudget = extract('Rehab Estimate');
+    data.compsSource = extractText('Comps');
+    data.rentcastArv = extract('Rentcast ARV');
+    const rangeMatch = text.match(/Rentcast Range:\s*\$?([\d,]+)\s*to\s*\$?([\d,]+)/i);
+    if (rangeMatch) {
+      data.rentcastRangeLow = parseFloat(rangeMatch[1].replace(/,/g, ''));
+      data.rentcastRangeHigh = parseFloat(rangeMatch[2].replace(/,/g, ''));
+    }
+    const userCompsMatch = text.match(/User Comps:\s*(.+)/i);
+    if (userCompsMatch && userCompsMatch[1].trim() !== 'N/A') {
+      data.userComps = userCompsMatch[1].trim();
+    }
+    // Set arv for dispo display — prefer Rentcast, fall back to null
+    data.arv = data.rentcastArv || null;
+    data.arvSource = data.compsSource === 'Rentcast' || data.compsSource === 'Both' ? 'rentcast' : 'user';
   }
 
   return data;
