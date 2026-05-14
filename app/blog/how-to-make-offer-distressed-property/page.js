@@ -11,6 +11,12 @@ export default async function OfferDistressed() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>10 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>How to Make an Offer on a Distressed Property</h1>
       <div style={s.intro}>Making an offer on a distressed property is different from buying a turnkey home. You're solving a seller's problem. The price matters less than the terms — speed, certainty, and simplicity are what motivate distressed sellers to accept below-market offers.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <p style={s.p}>After hundreds of offers on distressed properties in Northern Virginia, I've learned that the number matters but the story around the number matters just as much. Here's the full process.</p>
       <div style={s.divider}/><h2 style={s.h2}>Current Market</h2><MarketPulse market={market}/>
       <div style={s.divider}/>

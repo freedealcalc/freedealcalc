@@ -15,6 +15,12 @@ export default async function CashOnCash() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>8 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>Cash-on-Cash Return: What It Is and How to Calculate It</h1>
       <div style={s.intro}>Cash-on-cash return measures the annual pre-tax cash flow you receive relative to the total cash you invested. It's the most useful metric for leveraged rental property investors because it accounts for your financing — unlike cap rate, which assumes an all-cash purchase.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <div style={s.divider}/><h2 style={s.h2}>Northern Virginia Rental Market</h2><MarketPulse market={market}/>
       <div style={s.divider}/>
       <h2 style={s.h2}>The Formula</h2>

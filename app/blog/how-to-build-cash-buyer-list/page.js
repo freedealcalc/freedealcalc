@@ -11,6 +11,12 @@ export default async function BuildBuyerList() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>9 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>How to Build a Cash Buyer List for Wholesale Real Estate</h1>
       <div style={s.intro}>Your cash buyer list is the most valuable asset in your wholesale business. A strong list of 200–500 active, qualified buyers means you can move deals in 24–48 hours. Build it before you need it — not after you have a deal under contract with 21 days to close.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <p style={s.p}>The investors who close deals consistently aren't necessarily finding the best properties. They have buyers who trust them and respond fast. That trust is built over dozens of interactions before a single deal is sent.</p>
       <div style={s.divider}/><h2 style={s.h2}>Northern Virginia Investor Market</h2><MarketPulse market={market}/>
       <div style={s.divider}/>

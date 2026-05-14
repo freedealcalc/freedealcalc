@@ -11,6 +11,12 @@ export default async function HoldingCosts() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>9 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>Real Estate Holding Costs: What They Are and How to Calculate Them</h1>
       <div style={s.intro}>Holding costs are every dollar you spend from the day you close to the day you sell. New investors consistently underestimate them — and it's the single most common reason a deal that looked profitable on paper delivers thin or negative returns in practice.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <p style={s.p}>On a 9-month hold with 12% hard money, your financing cost alone is 9% of the loan amount. Add insurance, taxes, and utilities, and you're easily looking at 12–15% of purchase price in holding costs before you turn a screwdriver. Model these before you make an offer.</p>
       <div style={s.divider}/><h2 style={s.h2}>Northern Virginia Market</h2><MarketPulse market={market}/>
       <div style={s.divider}/>

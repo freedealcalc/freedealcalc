@@ -51,6 +51,12 @@ export default async function WhatIsBRRRR() {
         BRRRR stands for Buy, Rehab, Rent, Refinance, Repeat. It's the strategy that lets real estate investors recycle capital — instead of leaving equity locked in a rental, you pull it back out and deploy it on the next deal.
       </div>
 
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
+
       <p style={s.p}>The BRRRR method is one of the most powerful wealth-building strategies in real estate investing — but it only works if the numbers are right at every step. I've used this strategy multiple times in Northern Virginia and I'll walk you through exactly how it works, when it makes sense, and where it breaks down.</p>
 
       <div style={s.divider} />

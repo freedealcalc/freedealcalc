@@ -53,6 +53,12 @@ export default async function SeventyPercentRule() {
         The 70% rule is the most-quoted formula in house flipping. It's also the most-misapplied. Here's what it actually means, how to use it correctly, and when the full deal analysis matters more.
       </div>
 
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
+
       <p style={s.p}>If you've spent five minutes in any real estate investing forum, you've seen the 70% rule mentioned. New investors treat it like gospel. Experienced investors use it as a quick screen. Here's the difference — and why it matters for your offers.</p>
 
       <div style={s.divider} />

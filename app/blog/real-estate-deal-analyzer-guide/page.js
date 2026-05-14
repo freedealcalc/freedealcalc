@@ -11,6 +11,12 @@ export default async function DealAnalyzerGuide() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>12 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>How to Analyze a Real Estate Deal: Step-by-Step Guide</h1>
       <div style={s.intro}>Deal analysis is the core skill of real estate investing. Every other skill — negotiation, marketing, construction management — depends on knowing your numbers. Here is the exact framework I use on every deal before making an offer.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <p style={s.p}>New investors either skip analysis entirely (dangerous) or get paralyzed by over-analysis (also dangerous). The goal is a consistent process that takes 15–30 minutes and gives you a clear go/no-go with a maximum offer price.</p>
       <div style={s.divider}/><h2 style={s.h2}>Current Northern Virginia Market</h2><MarketPulse market={market}/>
       <div style={s.divider}/>

@@ -51,6 +51,12 @@ export default async function WhatIsHouseHacking() {
         House hacking is buying a property with multiple units — or extra rentable space — living in one unit, and collecting rent from the others to offset or eliminate your housing cost. It's one of the most accessible entry points into real estate investing.
       </div>
 
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
+
       <p style={s.p}>The classic house hack: buy a duplex with an FHA loan at 3.5% down, live in one unit, rent the other. In many markets, the rental income covers most or all of the mortgage. You build equity, learn landlording, and slash your cost of living simultaneously.</p>
 
       <div style={s.divider} />

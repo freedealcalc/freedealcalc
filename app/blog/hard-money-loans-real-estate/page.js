@@ -17,6 +17,12 @@ export default async function HardMoneyLoans() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>10 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>Hard Money Loans for Real Estate: How They Work in 2026</h1>
       <div style={s.intro}>Hard money loans are short-term, asset-based loans used primarily for fix-and-flip and value-add real estate investments. Unlike conventional mortgages, they're approved based on the property's value — not your income or credit score. Speed and flexibility are the trade-off for higher rates.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <p style={s.p}>I've used hard money on dozens of deals in Northern Virginia. It's the standard financing vehicle for distressed acquisitions because conventional lenders won't touch properties that need significant renovation. Here's exactly how it works.</p>
       <div style={s.divider}/>
       <h2 style={s.h2}>Northern Virginia Market</h2>

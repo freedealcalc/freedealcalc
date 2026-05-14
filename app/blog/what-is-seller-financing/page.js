@@ -11,6 +11,12 @@ export default async function SellerFinancing() {
       <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot}/><span style={s.metaText}>10 min read</span><span style={s.dot}/><span style={s.metaText}>Dan White</span></div>
       <h1 style={s.h1}>What is Seller Financing in Real Estate? How It Works</h1>
       <div style={s.intro}>Seller financing (also called owner financing) is when the seller acts as the lender — instead of you getting a bank mortgage, the seller carries a note and you make payments directly to them. No bank qualifying, no conventional loan process, fully negotiable terms.</div>
+
+      {/* Top CTA */}
+      <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8, padding: '16px 20px', margin: '24px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <span style={{ fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.9rem', color: '#065f46', fontWeight: 600 }}>Analyze any deal free — Freddie runs the numbers in 60 seconds.</span>
+        <a href="https://www.freedealcalc.com/freddie" style={{ display: 'inline-block', background: '#059669', color: '#ffffff', padding: '9px 18px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.85rem', textDecoration: 'none', whiteSpace: 'nowrap' }}>Try Freddie Free →</a>
+      </div>
       <p style={s.p}>Seller financing is most common when: the property has issues that disqualify it for conventional financing, the seller owns the property free-and-clear and wants passive income, or the buyer can't qualify for a traditional loan. In high-rate environments, sellers willing to carry financing at below-market rates become highly motivated sellers.</p>
       <div style={s.divider}/><h2 style={s.h2}>Northern Virginia Market</h2><MarketPulse market={market}/>
       <div style={s.divider}/>
