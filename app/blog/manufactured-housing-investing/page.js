@@ -20,7 +20,7 @@ export default async function Page() {
       <ul style={s.ul}>
         <li style={s.li}><strong>Individual manufactured homes on owned land:</strong> Treated similarly to stick-built homes. Can be financed conventionally (Fannie/Freddie now buy some manufactured home loans)</li>
         <li style={s.li}><strong>Individual homes in parks (lot rental):</strong> Home value is affected by park quality and monthly lot rent</li>
-        <li style={s.li}><strong>Mobile home parks (MHPs):</strong> Buying the land, not the homes — the most scalable approach covered in our <a href='/blog/how-to-analyze-mobile-home-park-deal' style='color:#059669'>MHP analysis guide</a></li>
+        <li style={s.li}><strong>Mobile home parks (MHPs):</strong> Buying the land, not the homes — the most scalable approach covered in our <a href='/blog/how-to-analyze-mobile-home-park-deal' style={{color:'#059669'}}>MHP analysis guide</a></li>
       </ul>
       <h2 style={s.h2}>Manufactured Home Appreciation Reality</h2>
       <p style={s.p}>Manufactured homes appreciate more slowly than stick-built in most markets. Homes on rented lots often depreciate. Manufactured homes on owned land in strong appreciation markets can match stick-built performance. Understanding which scenario you're in is critical to your investment thesis.</p>
