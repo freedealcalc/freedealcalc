@@ -1,8 +1,8 @@
 import Link from 'next/link';
 export const revalidate = 2592000;
 export const metadata = {
-  title: 'Real Estate Investing Blog | FreeDealCalc',
-  description: 'Free guides for house flippers, wholesalers, landlords, and BRRRR investors. Deal analysis, market guides, and tool tutorials from a 20-year Northern Virginia investor.',
+  title: \'Real Estate Investing Blog | FreeDealCalc',
+  description: \'Free guides for house flippers, wholesalers, landlords, and BRRRR investors. Deal analysis, market guides, and tool tutorials from a 20-year Northern Virginia investor.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog' },
 };
 
