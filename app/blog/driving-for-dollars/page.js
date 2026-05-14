@@ -1,0 +1,73 @@
+import { getNOVAMarketData } from '../../../lib/blog/marketData';
+import MarketPulse from '../MarketPulse';
+export const revalidate = 2592000;
+export const metadata = {
+  title: 'Driving for Dollars: How to Find Off-Market Deals | FreeDealCalc',
+  description: 'Driving for dollars is one of the most effective — and cheapest — ways to find distressed off-market properties. Here is exactly how to do it.',
+  alternates: { canonical: 'https://www.freedealcalc.com/blog/driving-for-dollars' },
+};
+const s = {
+  page: { maxWidth: 760, margin: '0 auto', padding: '80px 24px' },
+  meta: { display: 'flex', alignItems: 'center', gap: 16, marginBottom: 32 },
+  metaText: { fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '0.72rem', color: '#71717a', textTransform: 'uppercase', letterSpacing: '0.08em' },
+  dot: { width: 3, height: 3, background: '#d4d4d8', borderRadius: '50%', display: 'inline-block' },
+  h1: { fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 700, color: '#18181b', letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: 20 },
+  intro: { fontFamily: 'var(--font-sora, sans-serif)', fontSize: '1.05rem', color: '#3f3f46', lineHeight: 1.8, marginBottom: 48, padding: '20px 24px', background: '#f4f4f5', borderRadius: 8, borderLeft: '3px solid #059669' },
+  h2: { fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)', fontWeight: 700, color: '#18181b', letterSpacing: '-0.01em', lineHeight: 1.2, marginTop: 48, marginBottom: 16 },
+  h3: { fontFamily: 'var(--font-sora, sans-serif)', fontSize: '1rem', fontWeight: 700, color: '#18181b', marginTop: 32, marginBottom: 12 },
+  p: { fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.975rem', color: '#3f3f46', lineHeight: 1.85, marginBottom: 20 },
+  ul: { fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.975rem', color: '#3f3f46', lineHeight: 1.85, marginBottom: 20, paddingLeft: 24 },
+  li: { marginBottom: 8 },
+  cta: { background: 'linear-gradient(135deg, #059669, #047857)', borderRadius: 12, padding: '36px 40px', margin: '48px 0', color: '#ffffff' },
+  ctaTitle: { fontFamily: 'var(--font-cormorant, Georgia, serif)', fontSize: '1.5rem', fontWeight: 700, marginBottom: 10, lineHeight: 1.2 },
+  ctaText: { fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.95rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.7, marginBottom: 20 },
+  ctaBtn: { display: 'inline-block', background: '#ffffff', color: '#059669', padding: '12px 24px', borderRadius: 6, fontFamily: 'var(--font-sora, sans-serif)', fontWeight: 700, fontSize: '0.9rem', textDecoration: 'none' },
+  divider: { height: 1, background: '#e4e4e7', margin: '40px 0' },
+  byline: { fontFamily: 'var(--font-sora, sans-serif)', fontSize: '0.85rem', color: '#71717a', lineHeight: 1.7, marginTop: 48, padding: '24px 0', borderTop: '1px solid #e4e4e7' },
+};
+export default async function DrivingForDollars() {
+  const market = await getNOVAMarketData();
+  return (
+    <div style={s.page}>
+      <a href="/blog" style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '0.75rem', color: '#059669', textDecoration: 'none', textTransform: 'uppercase', letterSpacing: '0.08em', display: 'inline-block', marginBottom: 32 }}>← Back to Blog</a>
+      <div style={s.meta}><span style={s.metaText}>May 2026</span><span style={s.dot} /><span style={s.metaText}>9 min read</span><span style={s.dot} /><span style={s.metaText}>Dan White</span></div>
+      <h1 style={s.h1}>Driving for Dollars: How to Find Off-Market Deals</h1>
+      <div style={s.intro}>Driving for dollars means physically driving neighborhoods, identifying distressed properties, tracking down the owners, and reaching out directly. It costs almost nothing and targets properties that will never hit the MLS.</div>
+      <p style={s.p}>Every neighborhood has distressed properties. The owners are often overwhelmed, underwater, or unaware that investors would pay cash for a property they see as a burden. Driving for dollars puts you in front of those opportunities before anyone else knows they exist.</p>
+      <div style={s.divider} />
+      <h2 style={s.h2}>Current Market</h2>
+      <MarketPulse market={market} />
+      <div style={s.divider} />
+      <h2 style={s.h2}>What to Look For</h2>
+      <ul style={s.ul}>
+        <li style={s.li}><strong>Overgrown lawn or vegetation</strong> — often signals vacancy or an overwhelmed owner</li>
+        <li style={s.li}><strong>Boarded or broken windows</strong> — vacancy or fire/storm damage</li>
+        <li style={s.li}><strong>Peeling paint or rotting wood</strong> — deferred maintenance, often financially distressed owner</li>
+        <li style={s.li}><strong>Tarps on the roof</strong> — storm damage that hasn't been repaired</li>
+        <li style={s.li}><strong>Newspapers or mail piling up</strong> — possible vacancy</li>
+        <li style={s.li}><strong>Trash or junk in the yard</strong> — hoarder situation or overwhelmed owner</li>
+        <li style={s.li}><strong>For rent signs with old dates</strong> — landlord struggling to fill vacancy</li>
+      </ul>
+      <div style={s.divider} />
+      <h2 style={s.h2}>How to Track and Contact Owners</h2>
+      <h3 style={s.h3}>Document the Property</h3>
+      <p style={s.p}>Use an app like DealMachine or Batch Leads to log properties as you drive. Take photos, note the address, and tag the distress type. Apps automatically pull owner information and enable direct mail or skip-tracing from the same interface.</p>
+      <h3 style={s.h3}>Skip-Trace the Owner</h3>
+      <p style={s.p}>Skip-tracing services find owner contact information — phone numbers and emails — from property records. Cost: $0.10–$0.50 per record. Services: BatchSkipTracing, PropStream, or built-in features in DealMachine.</p>
+      <h3 style={s.h3}>Make Contact</h3>
+      <p style={s.p}>Three channels in order of effectiveness: cold call, text, direct mail. Most investors use all three. Your first message should be short: who you are, that you buy houses in the area, and that you're interested in theirs if they'd ever consider selling.</p>
+      <div style={s.cta}>
+        <div style={s.ctaTitle}>Analyze Deals as You Find Them</div>
+        <div style={s.ctaText}>FreeDealCalc lets you run a full deal analysis on any property in seconds — ARV, rehab estimate, max offer, and deal score. Free with Freddie.</div>
+        <a href="https://www.freedealcalc.com/freddie" style={s.ctaBtn}>Analyze My Deal Free →</a>
+      </div>
+      <div style={s.divider} />
+      <h2 style={s.h2}>How Many Properties to Target</h2>
+      <p style={s.p}>Plan for 100–200 contacts to generate 5–10 conversations and 1–2 serious leads. This is a volume game. Consistency matters more than any single session — 2 hours of driving per week, every week, compounds over time into a consistent deal pipeline.</p>
+      <div style={s.divider} />
+      <h2 style={s.h2}>Driving for Dollars vs. Direct Mail</h2>
+      <p style={s.p}>Driving is free and highly targeted — every property on your list is one you personally identified as distressed. Direct mail reaches more owners faster but is less targeted and costs $0.50–$1.00 per piece. Most serious investors do both: drive to build the list, mail to reach the owners.</p>
+      <p style={s.byline}><strong>Dan White</strong> is a licensed Virginia real estate agent at Pearson Smith Realty and founder of <a href="https://www.freedealcalc.com" style={{ color: '#059669' }}>FreeDealCalc.com</a>. He has been investing in Northern Virginia for 20+ years.</p>
+    </div>
+  );
+}
