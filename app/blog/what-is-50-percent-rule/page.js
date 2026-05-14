@@ -88,7 +88,7 @@ export default async function FiftyPercentRule() {
 
       <h2 style={s.h2}>When the 50% Rule Overstates Expenses</h2>
       <ul style={s.ul}>
-        <li style={s.li">New construction or recently renovated properties with low maintenance needs</li>
+        <li style={s.li}>New construction or recently renovated properties with low maintenance needs</li>
         <li style={s.li}>Self-managed properties in low-tax states (no PM fee)</li>
         <li style={s.li}>Properties in low-property-tax markets where taxes are 0.5% or less of value</li>
       </ul>
