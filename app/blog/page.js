@@ -301,18 +301,8 @@ export default function BlogIndex() {
                 borderRadius: 12,
                 padding: '24px',
                 height: '100%',
-                transition: 'box-shadow 0.2s, border-color 0.2s',
                 cursor: 'pointer',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.08)';
-                e.currentTarget.style.borderColor = '#059669';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.borderColor = '#e4e4e7';
-              }}
-              >
+              }}>
                 {/* Category tag */}
                 <div style={{ marginBottom: 14 }}>
                   <span style={{
