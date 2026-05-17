@@ -37,12 +37,9 @@ function DealResults() {
       supabase.from('deals').select('*').eq('id', id).single().then(({ data }) => {
         if (data) {
           const d = {
-            address: data.address,
-            strategy: data.strategy,
-            purchasePrice: data.purchase_price,
-            arv: data.arv,
-            rehabBudget: data.rehab_budget,
-            holdMonths: data.hold_months,
+            address: data.address, strategy: data.strategy,
+            purchasePrice: data.purchase_price, arv: data.arv,
+            rehabBudget: data.rehab_budget, holdMonths: data.hold_months,
             financing: data.financing,
           };
           setDealData(d);
@@ -73,12 +70,8 @@ function DealResults() {
 
     const demo = {
       address: '1245 Manassas Dr, Manassas Park, VA',
-      strategy: 'Flip',
-      purchasePrice: 295000,
-      arv: 500000,
-      rehabBudget: 39000,
-      holdMonths: 3,
-      financing: 'cash'
+      strategy: 'Flip', purchasePrice: 295000, arv: 500000,
+      rehabBudget: 39000, holdMonths: 3, financing: 'cash'
     };
     setDealData(demo);
     setSaved(true);
@@ -92,26 +85,19 @@ function DealResults() {
     }
   }, [score, dealData]);
 
-  // Fire soft-prompt modal ~1.8s after score loads, only for anonymous users
-  // who haven't dismissed it before, and not on the demo deal
   useEffect(() => {
     if (loading) return;
     if (user) return;
     if (softPromptDismissed) return;
     if (dealData?.address === '1245 Manassas Dr, Manassas Park, VA' && !sessionStorage.getItem('freddie_deal') && !searchParams.get('id') && !searchParams.get('data')) return;
-
-    const t = setTimeout(() => {
-      setShowSoftPrompt(true);
-    }, 1800);
+    const t = setTimeout(() => { setShowSoftPrompt(true); }, 1800);
     return () => clearTimeout(t);
   }, [loading, user, softPromptDismissed, dealData]);
 
   function dismissSoftPrompt() {
     setShowSoftPrompt(false);
     if (typeof window !== 'undefined') {
-      try {
-        localStorage.setItem('fdc_soft_prompt_dismissed', 'true');
-      } catch (e) {}
+      try { localStorage.setItem('fdc_soft_prompt_dismissed', 'true'); } catch (e) {}
     }
     setSoftPromptDismissed(true);
   }
@@ -120,88 +106,47 @@ function DealResults() {
     const { data: { user } } = await supabase.auth.getUser();
     await supabase.from('deals').insert({
       user_id: user?.id || null,
-      address: d.address || null,
-      strategy: d.strategy || 'Flip',
-      purchase_price: d.purchasePrice || null,
-      arv: d.arv || null,
-      rehab_budget: d.rehabBudget || null,
-      hold_months: d.holdMonths || null,
-      financing: d.financing || null,
-      score: s.total,
-      profit_estimate: s.profit,
-      roi: s.roi,
-      margin: s.margin,
-      status: 'Active',
+      address: d.address || null, strategy: d.strategy || 'Flip',
+      purchase_price: d.purchasePrice || null, arv: d.arv || null,
+      rehab_budget: d.rehabBudget || null, hold_months: d.holdMonths || null,
+      financing: d.financing || null, score: s.total,
+      profit_estimate: s.profit, roi: s.roi, margin: s.margin, status: 'Active',
     });
   }
 
   function calculateScore(data) {
     const { purchasePrice, arv, rehabBudget, holdMonths = 6 } = data;
-
     const financing = (data.financing || 'cash').toLowerCase().trim();
     const isHardMoney = financing.includes('hard');
-
     const closingCostsBuy = purchasePrice * 0.02;
     const closingCostsSell = arv * 0.015;
     const realtorComm = arv * 0.025;
     const holdingCosts = arv * 0.005 * holdMonths;
     const loanCosts = isHardMoney ? (purchasePrice * 0.04) + (purchasePrice * 0.12 * holdMonths / 12) : 0;
-
     const totalCosts = purchasePrice + rehabBudget + closingCostsBuy + closingCostsSell + realtorComm + holdingCosts + loanCosts;
     const profit = arv - totalCosts;
     const roi = (profit / (purchasePrice + rehabBudget)) * 100;
     const margin = (profit / arv) * 100;
     const rule70 = (arv * 0.70) - rehabBudget;
     const rule70Pass = purchasePrice <= rule70;
-
     let s = 0;
-
-    if (margin >= 20) s += 45;
-    else if (margin >= 15) s += 36;
-    else if (margin >= 10) s += 25;
-    else if (margin >= 7) s += 14;
-    else if (margin >= 3) s += 6;
-
-    if (roi >= 25) s += 35;
-    else if (roi >= 15) s += 26;
-    else if (roi >= 10) s += 17;
-    else if (roi >= 5) s += 8;
-
-    if (rehabBudget / arv <= 0.10) s += 20;
-    else if (rehabBudget / arv <= 0.15) s += 14;
-    else if (rehabBudget / arv <= 0.20) s += 8;
-    else if (rehabBudget / arv <= 0.25) s += 4;
-
-    if (profit > 0 && roi > 0 && margin > 0) {
-      s = Math.max(s, 45);
-    }
-
+    if (margin >= 20) s += 45; else if (margin >= 15) s += 36; else if (margin >= 10) s += 25; else if (margin >= 7) s += 14; else if (margin >= 3) s += 6;
+    if (roi >= 25) s += 35; else if (roi >= 15) s += 26; else if (roi >= 10) s += 17; else if (roi >= 5) s += 8;
+    if (rehabBudget / arv <= 0.10) s += 20; else if (rehabBudget / arv <= 0.15) s += 14; else if (rehabBudget / arv <= 0.20) s += 8; else if (rehabBudget / arv <= 0.25) s += 4;
+    if (profit > 0 && roi > 0 && margin > 0) s = Math.max(s, 45);
     const scoreObj = {
-      total: Math.min(s, 100),
-      profit: Math.round(profit),
-      roi: Math.round(roi * 10) / 10,
-      margin: Math.round(margin * 10) / 10,
-      rule70Pass,
-      rule70,
-      totalCosts: Math.round(totalCosts),
+      total: Math.min(s, 100), profit: Math.round(profit),
+      roi: Math.round(roi * 10) / 10, margin: Math.round(margin * 10) / 10,
+      rule70Pass, rule70, totalCosts: Math.round(totalCosts),
       breakdown: {
-        closingCostsBuy: Math.round(closingCostsBuy),
-        closingCostsSell: Math.round(closingCostsSell),
-        realtorComm: Math.round(realtorComm),
-        holdingCosts: Math.round(holdingCosts),
-        loanCosts: Math.round(loanCosts),
+        closingCostsBuy: Math.round(closingCostsBuy), closingCostsSell: Math.round(closingCostsSell),
+        realtorComm: Math.round(realtorComm), holdingCosts: Math.round(holdingCosts), loanCosts: Math.round(loanCosts),
       }
     };
-
     sessionStorage.setItem('freddie_score', JSON.stringify({
-      total: scoreObj.total,
-      profit: scoreObj.profit,
-      roi: scoreObj.roi,
-      margin: scoreObj.margin,
-      rule70Pass: scoreObj.rule70Pass,
-      rule70: scoreObj.rule70,
+      total: scoreObj.total, profit: scoreObj.profit, roi: scoreObj.roi,
+      margin: scoreObj.margin, rule70Pass: scoreObj.rule70Pass, rule70: scoreObj.rule70,
     }));
-
     setScore(scoreObj);
     setLoading(false);
   }
@@ -220,9 +165,7 @@ function DealResults() {
     return 'Needs Rework';
   }
 
-  function fmt(n) {
-    return '$' + Math.abs(n).toLocaleString();
-  }
+  function fmt(n) { return '$' + Math.abs(n).toLocaleString(); }
 
   const dealId = searchParams.get('id') || '';
   const signupUrl = (intent) => `/signup?intent=${intent}${dealId ? `&deal_id=${dealId}` : ''}`;
@@ -234,12 +177,11 @@ function DealResults() {
   );
 
   const color = getScoreColor(score.total);
-
   const softPromptHeadline = anonDealCount >= 2
     ? "You've run 2 deals — save them before you lose them."
     : "Save this deal to your dashboard.";
   const softPromptSubcopy = anonDealCount >= 2
-    ? "Create a free account to keep your deals in one place and unlock unlimited future analyses."
+    ? "Create a free account to keep your deals in one place and unlock Score Certificates, Seller Proposals, and Disposition Packages."
     : "Free account, takes 30 seconds. Unlock your Score Certificate, Seller Proposal, and Disposition Package.";
 
   return (
@@ -343,7 +285,7 @@ function DealResults() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📄 Get Score Certificate</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>AI-generated analysis · 10 credits</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>AI-generated deal analysis · Free</div>
                 </div>
                 <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Generate →</div>
               </div>
@@ -353,7 +295,7 @@ function DealResults() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📄 Get Score Certificate</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 10 credits</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock</div>
                 </div>
                 <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Unlock →</div>
               </div>
@@ -367,7 +309,7 @@ function DealResults() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📋 Get Seller Proposal</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Professional offer letter · 25 credits</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Professional offer letter · Free</div>
                 </div>
                 <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Generate →</div>
               </div>
@@ -377,7 +319,7 @@ function DealResults() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>📋 Get Seller Proposal</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 25 credits</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock</div>
                 </div>
                 <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Unlock →</div>
               </div>
@@ -391,7 +333,7 @@ function DealResults() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>🔥 Get Disposition Package</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Buyer-ready deal package · 50 credits</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Buyer-ready deal package · Free</div>
                 </div>
                 <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Generate →</div>
               </div>
@@ -401,7 +343,7 @@ function DealResults() {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: '600', color: 'white' }}>🔥 Get Disposition Package</div>
-                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock · 50 credits</div>
+                  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>Sign up free to unlock</div>
                 </div>
                 <div style={{ fontSize: '11px', color: '#00C27C', fontWeight: '600' }}>Unlock →</div>
               </div>
@@ -412,7 +354,6 @@ function DealResults() {
         {/* Move This Deal — Deal Blast Coming Soon */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '28px', marginBottom: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '16px' }}>Move This Deal</div>
-
           <div style={{ border: '1px solid #e4e8ed', borderLeft: '3px solid #00C27C', borderRadius: '12px', padding: '20px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
             <div style={{ flex: 1, minWidth: '200px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
@@ -437,23 +378,20 @@ function DealResults() {
         </div>
       </div>
 
-      {/* Soft Prompt Modal — fires ~1.8s after score loads for anonymous users */}
+      {/* Soft Prompt Modal */}
       {showSoftPrompt && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(15,28,45,0.7)', backdropFilter: 'blur(4px)', zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px', animation: 'fadeIn 0.2s ease forwards' }}>
           <div style={{ background: 'white', borderRadius: '20px', padding: '32px 28px', maxWidth: '420px', width: '100%', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', textAlign: 'center', position: 'relative', animation: 'scaleIn 0.25s ease forwards' }}>
             <button onClick={dismissSoftPrompt} aria-label="Close" style={{ position: 'absolute', top: '12px', right: '12px', background: 'none', border: 'none', cursor: 'pointer', width: '28px', height: '28px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a8b8' }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
-
             <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '52px', height: '52px', borderRadius: '50%', background: 'rgba(0,194,124,0.1)', marginBottom: '16px' }}>
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00C27C" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
               </svg>
             </div>
-
             <div style={{ fontSize: '20px', fontWeight: '700', color: '#0f1c2d', marginBottom: '8px', lineHeight: '1.3' }}>{softPromptHeadline}</div>
             <div style={{ fontSize: '14px', color: '#5a7184', lineHeight: '1.55', marginBottom: '22px' }}>{softPromptSubcopy}</div>
-
             <a href={signupUrl('save')} style={{ display: 'block', padding: '13px', background: '#00C27C', borderRadius: '11px', color: 'white', fontSize: '14.5px', fontWeight: '600', textDecoration: 'none', marginBottom: '8px' }}>
               Create Free Account →
             </a>
