@@ -402,8 +402,8 @@ function DispoPage() {
                 ← Back
               </button>
               <button onClick={handleGenerate}
-                disabled={!form.askingPrice || !form.condition || !form.closeBy}
-                style={{ flex: 2, padding: '14px', background: form.askingPrice && form.condition && form.closeBy ? '#00C27C' : '#e4e8ed', color: form.askingPrice && form.condition && form.closeBy ? 'white' : '#94a8b8', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: form.askingPrice && form.condition && form.closeBy ? 'pointer' : 'not-allowed' }}>
+                disabled={!form.askingPrice || (showConditionNotes && !form.condition) || !form.closeBy}
+                style={{ flex: 2, padding: '14px', background: form.askingPrice && (!showConditionNotes || form.condition) && form.closeBy ? '#00C27C' : '#e4e8ed', color: form.askingPrice && (!showConditionNotes || form.condition) && form.closeBy ? 'white' : '#94a8b8', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: form.askingPrice && (!showConditionNotes || form.condition) && form.closeBy ? 'pointer' : 'not-allowed' }}>
                 Generate Package →
               </button>
             </div>
