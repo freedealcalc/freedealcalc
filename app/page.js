@@ -154,6 +154,17 @@ export default function HomePage() {
           font-weight: 700;
           flex-shrink: 0;
         }
+        .giveaway-banner {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          background: linear-gradient(90deg, #00C27C 0%, #00a869 100%);
+          padding: 11px 20px;
+          text-decoration: none;
+          flex-wrap: wrap;
+        }
+        .giveaway-banner:hover { opacity: 0.95; }
         @keyframes pulse {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
@@ -209,6 +220,26 @@ export default function HomePage() {
           </div>
         </div>
       </nav>
+
+      {/* ── GIVEAWAY BANNER ── */}
+      <a href="/giveaway" className="giveaway-banner">
+        <span style={{ fontSize: '14px', fontWeight: '700', color: 'white', letterSpacing: '0.01em' }}>
+          🎉 Enter to Win: Lifetime Pro + $100 Cash
+        </span>
+        <span style={{
+          background: 'rgba(255,255,255,0.2)',
+          border: '1px solid rgba(255,255,255,0.35)',
+          borderRadius: '20px',
+          padding: '3px 12px',
+          fontSize: '12px',
+          fontWeight: '700',
+          color: 'white',
+          whiteSpace: 'nowrap',
+        }}>
+          Enter Now →
+        </span>
+      </a>
+      {/* ── END GIVEAWAY BANNER ── */}
 
       {/* Hero */}
       <section style={{ background: '#0f1c2d', padding: '40px 24px 60px' }}>

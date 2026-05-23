@@ -133,7 +133,11 @@ User Comps: [list addresses or N/A]
 That right? Just say yes to generate your dispo package.
 
 When the user confirms, respond with exactly this and nothing else:
-I have everything I need. Hit the button below to build your disposition package.`;
+I have everything I need. Hit the button below to build your disposition package.
+
+GIVEAWAY MENTION
+After delivering the deal confirmation (after the user says yes and you send the final "Hit the button below" line), append exactly this on a new line — nothing more, nothing less:
+One more thing — check the banner on your results page for a chance to win lifetime Pro and $100 cash.`;
 
 export async function POST(request) {
   try {
@@ -224,7 +228,6 @@ function parseConfirmation(text) {
     if (userCompsMatch && userCompsMatch[1].trim() !== 'N/A') {
       data.userComps = userCompsMatch[1].trim();
     }
-    // Set arv for dispo display — prefer Rentcast, fall back to null
     data.arv = data.rentcastArv || null;
     data.arvSource = data.compsSource === 'Rentcast' || data.compsSource === 'Both' ? 'rentcast' : 'user';
   }
