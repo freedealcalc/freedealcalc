@@ -11,12 +11,6 @@ const COPY_TEMPLATES = {
   facebook: `Sharing this because I've been using it and it's legitimately free — FreeDealCalc.com. AI deal analyzer for flips, wholesale, BRRRR, and rentals. Scores your deal A through F, pulls ARV, generates seller proposals and disposition packages. No credit card, no trial. Core tools are free forever. Check it out.`,
 };
 
-const EMAIL_TEMPLATE = `Subject: Contest Entry
-
-Platform: [TikTok / Instagram / Reddit / LinkedIn / Facebook / Review]
-Post link: [URL]
-FreeDealCalc username: [your username]`;
-
 function CopyButton({ text }) {
   const [copied, setCopied] = useState(false);
   function handleCopy() {
@@ -49,13 +43,11 @@ function CopyButton({ text }) {
 }
 
 function EntryCard({
-  number,
   platform,
   icon,
   entries,
   requirement,
   followLink,
-  followLabel,
   postLinks,
   copyKey,
   reviewMode,
@@ -88,7 +80,7 @@ function EntryCard({
         </div>
       </div>
 
-      {/* Step 1: Go to platform */}
+      {/* Step 1 */}
       <div style={{ marginBottom: '14px' }}>
         <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
           Step 1 — {reviewMode ? 'Write your review' : `Go to ${platform}`}
@@ -117,7 +109,7 @@ function EntryCard({
         </div>
       </div>
 
-      {/* Step 2: Copy or write post */}
+      {/* Step 2 */}
       {!reviewMode && copyKey && (
         <div style={{ marginBottom: '14px' }}>
           <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>
@@ -152,16 +144,16 @@ function EntryCard({
         </div>
       )}
 
-      {/* Step 3: Submit */}
+      {/* Step 3 */}
       <div style={{
         background: '#f7f9fb', borderRadius: '10px', padding: '12px 16px',
         border: '1px solid #e4e8ed',
       }}>
-        <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px' }}>
-          Step 3 — Submit your entry
+        <div style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>
+          Step 3 — Submit your entry below
         </div>
-        <div style={{ fontSize: '12.5px', color: '#5a7184', lineHeight: '1.5' }}>
-          Email <a href="mailto:contest@freedealcalc.com" style={{ color: '#00C27C', fontWeight: '600', textDecoration: 'none' }}>contest@freedealcalc.com</a> with subject line <strong style={{ color: '#0f1c2d' }}>"Contest Entry"</strong> + a link to your post.
+        <div style={{ fontSize: '12px', color: '#94a8b8' }}>
+          Paste your post link in the submission form at the bottom of this page.
         </div>
       </div>
     </div>
@@ -169,14 +161,53 @@ function EntryCard({
 }
 
 export default function GiveawayPage() {
-  const [emailCopied, setEmailCopied] = useState(false);
+  const [form, setForm] = useState({
+    email: '',
+    username: '',
+    platform: 'TikTok',
+    post_url: '',
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  function copyEmailTemplate() {
-    navigator.clipboard.writeText(EMAIL_TEMPLATE).then(() => {
-      setEmailCopied(true);
-      setTimeout(() => setEmailCopied(false), 2000);
-    });
+  async function handleSubmit() {
+    setError('');
+    if (!form.email.trim() || !form.post_url.trim()) {
+      setError('Email and post link are required.');
+      return;
+    }
+    if (!form.post_url.startsWith('http')) {
+      setError('Post link must be a full URL starting with http.');
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const res = await fetch('/api/contest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Submission failed.');
+      setSubmitted(true);
+    } catch (e) {
+      setError(e.message || 'Something went wrong. Try again.');
+    }
+    setSubmitting(false);
   }
+
+  const inputStyle = {
+    width: '100%',
+    padding: '11px 14px',
+    border: '1px solid #e4e8ed',
+    borderRadius: '9px',
+    fontSize: '13px',
+    color: '#0f1c2d',
+    fontFamily: 'DM Sans, sans-serif',
+    background: 'white',
+    boxSizing: 'border-box',
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: '#f0f2f5', fontFamily: 'DM Sans, sans-serif' }}>
@@ -211,8 +242,6 @@ export default function GiveawayPage() {
           <p style={{ fontSize: '16px', color: '#94a8b8', lineHeight: '1.6', maxWidth: '560px', margin: '0 auto 32px' }}>
             Share FreeDealCalc with other investors. Every platform post earns an entry. One winner takes home $100 (Venmo/PayPal) and a free Pro account — forever.
           </p>
-
-          {/* Prize pills */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
             {[
               { label: '$100 Cash', sub: 'Venmo or PayPal' },
@@ -239,8 +268,8 @@ export default function GiveawayPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
             {[
               { step: '1', title: 'Post on a platform', desc: 'Share FreeDealCalc on TikTok, Instagram, Reddit, LinkedIn, Facebook, or write a site review.' },
-              { step: '2', title: 'Email your entry', desc: 'Send the post link to contest@freedealcalc.com with subject line "Contest Entry".' },
-              { step: '3', title: 'Win the draw', desc: `One winner picked randomly on ${DEADLINE}. $100 cash + Lifetime Pro.` },
+              { step: '2', title: 'Copy your post link', desc: 'Grab the URL of your live post.' },
+              { step: '3', title: 'Submit the form below', desc: `Paste your link and hit Submit. One winner picked randomly on ${DEADLINE}.` },
             ].map((s, i) => (
               <div key={i} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
                 <div style={{
@@ -257,115 +286,28 @@ export default function GiveawayPage() {
           </div>
         </div>
 
-        {/* Entry methods header */}
+        {/* Entry methods */}
         <div style={{ fontSize: '13px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '16px' }}>
           6 Ways to Enter
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '32px' }}>
-
-          <EntryCard
-            number={1}
-            platform="TikTok"
-            icon="🎵"
-            entries={1}
-            requirement="Post a video + follow @freedealcalc"
-            followLink="tiktok.com/@freedealcalc"
-            followLabel="Follow @freedealcalc on TikTok"
-            postLinks={[{ label: 'Open TikTok', url: 'tiktok.com/@freedealcalc' }]}
-            copyKey="tiktok"
-          />
-
-          <EntryCard
-            number={2}
-            platform="Instagram"
-            icon="📸"
-            entries={1}
-            requirement="Post + follow @freedealcalc"
-            followLink="instagram.com/freedealcalc"
-            followLabel="Follow @freedealcalc on Instagram"
-            postLinks={[{ label: 'Open Instagram', url: 'instagram.com/freedealcalc' }]}
-            copyKey="instagram"
-          />
-
-          <EntryCard
-            number={3}
-            platform="Reddit"
-            icon="🤖"
-            entries={1}
-            requirement="Post in a real estate investing subreddit"
+          <EntryCard platform="TikTok" icon="🎵" entries={1} requirement="Post a video + follow @freedealcalc"
+            followLink="tiktok.com/@freedealcalc" postLinks={[{ label: 'Open TikTok', url: 'tiktok.com/@freedealcalc' }]} copyKey="tiktok" />
+          <EntryCard platform="Instagram" icon="📸" entries={1} requirement="Post + follow @freedealcalc"
+            followLink="instagram.com/freedealcalc" postLinks={[{ label: 'Open Instagram', url: 'instagram.com/freedealcalc' }]} copyKey="instagram" />
+          <EntryCard platform="Reddit" icon="🤖" entries={1} requirement="Post in a real estate investing subreddit"
             postLinks={[
               { label: 'r/realestateinvesting', url: 'reddit.com/r/realestateinvesting' },
               { label: 'r/wholesaling', url: 'reddit.com/r/wholesaling' },
               { label: 'r/fixandflip', url: 'reddit.com/r/fixandflip' },
-            ]}
-            copyKey="reddit"
-          />
-
-          <EntryCard
-            number={4}
-            platform="LinkedIn"
-            icon="💼"
-            entries={1}
-            requirement="Post on your LinkedIn feed"
-            postLinks={[{ label: 'Create LinkedIn Post', url: 'linkedin.com/feed' }]}
-            copyKey="linkedin"
-          />
-
-          <EntryCard
-            number={5}
-            platform="Facebook Group"
-            icon="👥"
-            entries={1}
-            requirement="Post in a real estate investing group"
-            postLinks={[{ label: 'Open Facebook', url: 'facebook.com' }]}
-            copyKey="facebook"
-          />
-
-          <EntryCard
-            number={6}
-            platform="FreeDealCalc Review"
-            icon="⭐"
-            entries={1}
-            requirement="Write a review on FreeDealCalc.com"
-            postLinks={[{ label: 'Write a Review', url: 'freedealcalc.com/reviews' }]}
-            reviewMode={true}
-          />
-
-        </div>
-
-        {/* Email template */}
-        <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '24px 28px', marginBottom: '24px' }}>
-          <div style={{ fontSize: '13px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '14px' }}>
-            Entry Email Format
-          </div>
-          <div style={{
-            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '10px', padding: '16px', fontFamily: 'monospace',
-            fontSize: '13px', color: '#e2e8f0', lineHeight: '1.7', marginBottom: '12px',
-            whiteSpace: 'pre',
-          }}>{EMAIL_TEMPLATE}</div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-            <button
-              onClick={copyEmailTemplate}
-              style={{
-                padding: '8px 16px',
-                background: emailCopied ? 'rgba(0,194,124,0.15)' : 'rgba(255,255,255,0.08)',
-                border: `1px solid ${emailCopied ? '#00C27C' : 'rgba(255,255,255,0.12)'}`,
-                borderRadius: '8px',
-                color: emailCopied ? '#00C27C' : '#94a8b8',
-                fontSize: '12px', fontWeight: '600', cursor: 'pointer',
-                fontFamily: 'DM Sans, sans-serif',
-              }}>
-              {emailCopied ? '✓ Copied' : 'Copy Template'}
-            </button>
-            <span style={{ fontSize: '12px', color: '#5a7184' }}>
-              Send to{' '}
-              <a href="mailto:contest@freedealcalc.com" style={{ color: '#00C27C', textDecoration: 'none', fontWeight: '600' }}>
-                contest@freedealcalc.com
-              </a>
-            </span>
-          </div>
+            ]} copyKey="reddit" />
+          <EntryCard platform="LinkedIn" icon="💼" entries={1} requirement="Post on your LinkedIn feed"
+            postLinks={[{ label: 'Create LinkedIn Post', url: 'linkedin.com/feed' }]} copyKey="linkedin" />
+          <EntryCard platform="Facebook Group" icon="👥" entries={1} requirement="Post in a real estate investing group"
+            postLinks={[{ label: 'Open Facebook', url: 'facebook.com' }]} copyKey="facebook" />
+          <EntryCard platform="FreeDealCalc Review" icon="⭐" entries={1} requirement="Write a review on FreeDealCalc.com"
+            postLinks={[{ label: 'Write a Review', url: 'freedealcalc.com/reviews' }]} reviewMode={true} />
         </div>
 
         {/* Integrity disclaimer */}
@@ -380,7 +322,109 @@ export default function GiveawayPage() {
           </p>
         </div>
 
-        {/* Rules summary */}
+        {/* ── SUBMISSION FORM ── */}
+        <div style={{ background: '#0f1c2d', borderRadius: '16px', padding: '28px', marginBottom: '32px' }} id="submit">
+          <div style={{ fontSize: '13px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '6px' }}>
+            Submit Your Entry
+          </div>
+          <div style={{ fontSize: '13px', color: '#5a7184', marginBottom: '20px' }}>
+            Made your post? Paste the link below and you're in.
+          </div>
+
+          {submitted ? (
+            <div style={{
+              background: 'rgba(0,194,124,0.12)', border: '1px solid rgba(0,194,124,0.3)',
+              borderRadius: '12px', padding: '20px 24px', textAlign: 'center',
+            }}>
+              <div style={{ fontSize: '24px', marginBottom: '8px' }}>🎉</div>
+              <div style={{ fontSize: '16px', fontWeight: '700', color: '#00C27C', marginBottom: '6px' }}>Entry submitted!</div>
+              <div style={{ fontSize: '13px', color: '#94a8b8' }}>You're in the draw. Winner announced {DEADLINE}. Good luck.</div>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                    Your Email *
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="you@email.com"
+                    value={form.email}
+                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                    FreeDealCalc Username
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="optional"
+                    value={form.username}
+                    onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
+                    style={inputStyle}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                  Platform
+                </label>
+                <select
+                  value={form.platform}
+                  onChange={e => setForm(f => ({ ...f, platform: e.target.value }))}
+                  style={inputStyle}
+                >
+                  <option>TikTok</option>
+                  <option>Instagram</option>
+                  <option>Reddit</option>
+                  <option>LinkedIn</option>
+                  <option>Facebook</option>
+                  <option>Review</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '11px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1px', textTransform: 'uppercase', display: 'block', marginBottom: '6px' }}>
+                  Link to Your Post *
+                </label>
+                <input
+                  type="url"
+                  placeholder="https://..."
+                  value={form.post_url}
+                  onChange={e => setForm(f => ({ ...f, post_url: e.target.value }))}
+                  style={inputStyle}
+                />
+              </div>
+
+              {error && (
+                <div style={{ fontSize: '13px', color: '#ff5050', padding: '4px 0' }}>{error}</div>
+              )}
+
+              <button
+                onClick={handleSubmit}
+                disabled={submitting}
+                style={{
+                  padding: '13px', background: submitting ? '#00a869' : '#00C27C',
+                  color: 'white', border: 'none', borderRadius: '10px',
+                  fontSize: '14px', fontWeight: '700', cursor: submitting ? 'not-allowed' : 'pointer',
+                  fontFamily: 'DM Sans, sans-serif', marginTop: '4px',
+                  opacity: submitting ? 0.8 : 1,
+                }}>
+                {submitting ? 'Submitting...' : 'Submit Entry →'}
+              </button>
+
+              <div style={{ fontSize: '11px', color: '#5a7184', textAlign: 'center' }}>
+                Max 6 entries per person — one per platform. Deadline {DEADLINE}.
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Rules */}
         <div style={{ background: 'white', borderRadius: '16px', padding: '24px 28px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginBottom: '40px' }}>
           <div style={{ fontSize: '13px', fontWeight: '700', color: '#94a8b8', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '16px' }}>Contest Rules</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -389,7 +433,7 @@ export default function GiveawayPage() {
               `Contest ends ${DEADLINE}. Entries submitted after the deadline are not eligible.`,
               'Winner selected using a random number generator from all verified entries.',
               'Prize: $100 cash (Venmo or PayPal) + Lifetime Pro membership on FreeDealCalc.com.',
-              'Entries must include a link to the live post. Posts may be verified before the draw.',
+              'Post links may be verified before the draw.',
               'Winner will be contacted via the email used to submit their entry.',
             ].map((rule, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', fontSize: '13px', color: '#374151' }}>
@@ -405,7 +449,6 @@ export default function GiveawayPage() {
         </div>
 
       </div>
-
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');`}</style>
     </div>
   );
