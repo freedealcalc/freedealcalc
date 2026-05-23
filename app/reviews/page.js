@@ -30,7 +30,7 @@ const SEED_REVIEWS = [
   },
 ];
 
-function StarRating({ score }: { score: number }) {
+function StarRating({ score }) {
   const stars = score >= 75 ? 5 : score >= 55 ? 4 : score >= 35 ? 3 : 2;
   return (
     <div style={{ display: 'flex', gap: '2px' }}>
@@ -41,7 +41,7 @@ function StarRating({ score }: { score: number }) {
   );
 }
 
-function ScoreBadge({ score, strategy }: { score: number; strategy: string }) {
+function ScoreBadge({ score, strategy }) {
   const color = score >= 75 ? '#00C27C' : score >= 55 ? '#3badff' : score >= 35 ? '#ffb700' : '#ff5050';
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

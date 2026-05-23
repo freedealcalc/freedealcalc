@@ -17,7 +17,7 @@ Platform: [TikTok / Instagram / Reddit / LinkedIn / Facebook / Review]
 Post link: [URL]
 FreeDealCalc username: [your username]`;
 
-function CopyButton({ text }: { text: string }) {
+function CopyButton({ text }) {
   const [copied, setCopied] = useState(false);
   function handleCopy() {
     navigator.clipboard.writeText(text).then(() => {
@@ -59,17 +59,6 @@ function EntryCard({
   postLinks,
   copyKey,
   reviewMode,
-}: {
-  number: number;
-  platform: string;
-  icon: string;
-  entries: number;
-  requirement: string;
-  followLink?: string;
-  followLabel?: string;
-  postLinks: { label: string; url: string }[];
-  copyKey?: keyof typeof COPY_TEMPLATES;
-  reviewMode?: boolean;
 }) {
   return (
     <div style={{
