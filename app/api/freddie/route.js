@@ -1,6 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { createClient } from '@supabase/supabase-js';
 
 const client = new Anthropic();
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const SYSTEM_PROMPT = `You are Freddie, the AI deal analyst for FreeDealCalc.com. You help real estate investors analyze fix-and-flip deals, wholesale deals, rental properties, and BRRRR strategies. You talk like a seasoned investor texting a colleague. Direct. No fluff. Average 2-4 sentences per response. More when needed for grouped questions or explanations, but never pad a response.
 
@@ -139,9 +145,69 @@ GIVEAWAY MENTION
 After delivering the deal confirmation (after the user says yes and you send the final "Hit the button below" line), append exactly this on a new line — nothing more, nothing less:
 One more thing — check the banner on your results page for a chance to win lifetime Pro and $100 cash.`;
 
+async function saveMessages(conversationId, userMessage, assistantReply) {
+  try {
+    await supabaseAdmin.from('freddie_messages').insert([
+      { conversation_id: conversationId, role: 'user', content: userMessage },
+      { conversation_id: conversationId, role: 'assistant', content: assistantReply },
+    ]);
+  } catch (e) {
+    console.error('Failed to save messages:', e);
+  }
+}
+
+async function getOrCreateConversation(sessionId, userId, strategy) {
+  try {
+    // Try to find existing conversation for this session
+    const { data: existing } = await supabaseAdmin
+      .from('freddie_conversations')
+      .select('id, strategy')
+      .eq('session_id', sessionId)
+      .single();
+
+    if (existing) {
+      // Update strategy if we just detected it
+      if (strategy && !existing.strategy) {
+        await supabaseAdmin
+          .from('freddie_conversations')
+          .update({ strategy })
+          .eq('id', existing.id);
+      }
+      return existing.id;
+    }
+
+    // Create new conversation
+    const { data: created } = await supabaseAdmin
+      .from('freddie_conversations')
+      .insert({
+        session_id: sessionId,
+        user_id: userId || null,
+        strategy: strategy || null,
+      })
+      .select('id')
+      .single();
+
+    return created?.id || null;
+  } catch (e) {
+    console.error('Failed to get/create conversation:', e);
+    return null;
+  }
+}
+
+function detectStrategy(messages) {
+  // Look at early user messages to detect strategy
+  const earlyMessages = messages.slice(0, 4).filter(m => m.role === 'user');
+  const text = earlyMessages.map(m => m.content).join(' ').toLowerCase();
+  if (text.includes('flip') || text.includes('fix')) return 'Flip';
+  if (text.includes('wholesale') || text.includes('assignment')) return 'Wholesale';
+  if (text.includes('brrrr')) return 'BRRRR';
+  if (text.includes('rental') || text.includes('buy and hold') || text.includes('landlord')) return 'Rental';
+  return null;
+}
+
 export async function POST(request) {
   try {
-    const { messages, userTier, rentcastData } = await request.json();
+    const { messages, userTier, rentcastData, sessionId, conversationId, userId } = await request.json();
 
     let contextNote = `\n\nUSER TIER: ${userTier || 'free'}`;
 
@@ -163,10 +229,30 @@ export async function POST(request) {
       dealData = parseConfirmation(reply);
     }
 
+    // Save to Supabase — fire and forget, never block the response
+    if (sessionId && messages.length > 0) {
+      const userMessage = messages[messages.length - 1];
+      if (userMessage.role === 'user') {
+        const strategy = dealData?.strategy || detectStrategy(messages);
+        const convId = conversationId || await getOrCreateConversation(sessionId, userId, strategy);
+        if (convId) {
+          saveMessages(convId, userMessage.content, reply);
+        }
+        // Return conversationId so page can pass it back on next message
+        return Response.json({
+          content: reply,
+          dealData,
+          conversationId: convId,
+        });
+      }
+    }
+
     return Response.json({
       content: reply,
-      dealData: dealData,
+      dealData,
+      conversationId: conversationId || null,
     });
+
   } catch (error) {
     console.error('Freddie API error:', error);
     return Response.json({ error: 'Something went wrong' }, { status: 500 });

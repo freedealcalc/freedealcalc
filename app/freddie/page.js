@@ -2,6 +2,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
 
+function generateSessionId() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 export default function FreddiePage() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -16,8 +24,12 @@ export default function FreddiePage() {
   const [showHardGate, setShowHardGate] = useState(false);
   const messagesEndRef = useRef(null);
   const seedConsumedRef = useRef(false);
+  const sessionIdRef = useRef(null);
+  const conversationIdRef = useRef(null);
 
   useEffect(() => {
+    // Generate session ID once per page load
+    sessionIdRef.current = generateSessionId();
     startConversation();
     loadUser();
     loadAnonDealCount();
@@ -74,6 +86,7 @@ export default function FreddiePage() {
     setShowRunScore(false);
     setIsWholesale(false);
     setRentcastData(null);
+    conversationIdRef.current = null;
     sessionStorage.removeItem('freddie_deal');
     const opening = "Hey, I'm Freddie. Are you analyzing a flip, a rental, a BRRRR, or a wholesale deal?";
     setMessages([{ role: 'assistant', content: opening }]);
@@ -123,27 +136,33 @@ export default function FreddiePage() {
           messages: newMessages,
           userTier: userTier,
           rentcastData: rc,
+          sessionId: sessionIdRef.current,
+          conversationId: conversationIdRef.current,
+          userId: user?.id || null,
         }),
       });
       const data = await res.json();
       const reply = data.content;
+
+      // Store conversation ID returned from API for subsequent messages
+      if (data.conversationId) {
+        conversationIdRef.current = data.conversationId;
+      }
+
       const updatedMessages = [...newMessages, { role: 'assistant', content: reply }];
       setMessages(updatedMessages);
 
       if (data.dealData) {
         sessionStorage.setItem('freddie_deal', JSON.stringify(data.dealData));
-        // Detect wholesale strategy as soon as deal data is confirmed
         if (data.dealData.strategy === 'Wholesale') {
           setIsWholesale(true);
         }
       }
 
-      // Wholesale complete trigger
       if (reply.includes('Hit the button below to build your disposition package')) {
         setShowRunScore(true);
       }
 
-      // Flip/Rental/BRRRR complete trigger
       if (reply.includes('Hit the button below to see your results')) {
         if (!user && anonDealCount >= 2) {
           setShowHardGate(true);
@@ -164,7 +183,6 @@ export default function FreddiePage() {
 
   function handleRunScore() {
     if (isWholesale) {
-      // Wholesale goes straight to dispo — no anon gate, registration happens there
       window.location.href = '/dispo';
       return;
     }
@@ -225,7 +243,6 @@ export default function FreddiePage() {
     >{label}</a>
   );
 
-  // Button label and sublabel change based on strategy
   const buttonLabel = isWholesale ? 'Build Dispo Package →' : 'Run My Score →';
   const buttonSublabel = isWholesale ? 'Disposition Package' : 'Deal Analysis';
 
