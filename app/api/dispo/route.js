@@ -97,6 +97,18 @@ Write the summary now:`
       .update({ dispos_used_this_period: disposUsed + 1 })
       .eq('id', userId);
 
+    // Save deal record
+    await supabase.from('deals').insert({
+      user_id: userId,
+      address: dealData.address || null,
+      strategy: 'Wholesale',
+      purchase_price: dealData.purchasePrice || null,
+      arv: dealData.arv || null,
+      rehab_budget: dealData.rehabBudget || null,
+      score: null,
+      status: 'Dispo Generated',
+    });
+
     return Response.json({
       pitch: pitchRes.content[0].text,
       scopeSummary: scopeRes.content[0].text,
