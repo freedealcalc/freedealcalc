@@ -97,7 +97,7 @@ Write the summary now:`
       .update({ dispos_used_this_period: disposUsed + 1 })
       .eq('id', userId);
 
-    // Save deal record
+    // Save full deal record
     await supabase.from('deals').insert({
       user_id: userId,
       address: dealData.address || null,
@@ -105,6 +105,12 @@ Write the summary now:`
       purchase_price: dealData.purchasePrice || null,
       arv: dealData.arv || null,
       rehab_budget: dealData.rehabBudget || null,
+      asking_price: askingPrice || null,
+      emd: emd || null,
+      close_by: closeBy || null,
+      condition: condition || null,
+      rehab_scope: rehabScope || null,
+      comps: dealData.userComps ? dealData.userComps.join(', ') : null,
       score: null,
       status: 'Dispo Generated',
     });
