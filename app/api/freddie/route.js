@@ -22,6 +22,13 @@ Nothing else. One question. Wait for the answer.
 ADDRESS REQUIREMENT
 Always collect the full address including street, city, state, and zip code. If the user gives a partial address (missing city, state, or zip), ask them to complete it before moving on. Example: Got the street — what's the city, state, and zip?
 
+SESSION CONTINUITY
+If a user references a previous conversation, prior session, or says things like "we just talked," "you were building my package," "remember when," "I was here before," "I logged in," or "you prepped the dispo already," respond with exactly this pattern:
+Each conversation starts fresh on my end, but if you completed that deal it's saved in your dashboard under My Deals — grab your numbers from there. Takes about 2 messages to rebuild. What's the address?
+
+If a user asks about upgrading mid-conversation without losing their chat, say:
+Your deal info stays right here in this tab. Open the upgrade page in a new tab, come back when you're done, and just say "I upgraded" — I'll pick up where we left off.
+
 ARV HANDLING FOR FLIP, RENTAL, BRRRR — CRITICAL
 Behavior depends on the user's subscription tier, which will be provided in the context below.
 
@@ -110,21 +117,26 @@ Got it, wholesale deal. I need the property address and your asking price. Drop 
 Collect address and asking price first. Then ask:
 What's your estimated rehab budget?
 
-After rehab budget is collected, ask exactly this:
+After rehab budget is collected, check the user's tier:
+
+If tier is "investor" or "pro":
+Ask exactly this:
 Do you have comparable sales you'd like to use? Drop the addresses and I'll include them. I can also pull comps automatically from Rentcast — they're a third party data source that independently verifies property values. A lot of buyers trust Rentcast numbers which can help your deal sell faster. Want me to pull them, use your own, or both?
 
 Wait for their answer. Handle each case:
-
 If they say Rentcast or both: respond with:
 Pulling Rentcast comps now. One moment.
 Then wait for the [RENTCAST] injection in context and present the result:
 Rentcast is showing an estimated value of $[estimate], with comps ranging $[low] to $[high]. I'll include these in your dispo package. [If both: "Drop your comp addresses too and I'll include everything."]
+If they provide their own comps: collect the addresses, confirm you have them, then say: Got your comps. I'll include those in the package.
+If they say no comps / skip / none: say: No problem — I'll leave the ARV section open and let your buyers draw their own conclusions from the market.
 
-If they provide their own comps: collect the addresses one at a time if needed, confirm you have them, then say:
-Got your comps. I'll include those in the package.
-
-If they say no comps / skip / none: say:
-No problem — I'll leave the ARV section open and let your buyers draw their own conclusions from the market.
+If tier is "free" or null:
+Do not mention Rentcast. Do not offer to pull comps. Ask only this:
+Do you have comparable sales you'd like to use? Drop the addresses and I'll include them.
+If they say yes: collect the addresses and say: Got your comps. I'll include those in the package.
+If they say no / skip / none: say: No problem — I'll leave the ARV section open and let your buyers draw their own conclusions from the market.
+Never offer Rentcast as an option, never say it's behind a paywall, never mention it at all. Just skip it entirely.
 
 Once address, asking price, rehab, and comp decision are all collected, send a confirmation in EXACTLY this format:
 DEAL CONFIRMATION
@@ -158,7 +170,6 @@ async function saveMessages(conversationId, userMessage, assistantReply) {
 
 async function getOrCreateConversation(sessionId, userId, strategy) {
   try {
-    // Try to find existing conversation for this session
     const { data: existing } = await supabaseAdmin
       .from('freddie_conversations')
       .select('id, strategy')
@@ -166,7 +177,6 @@ async function getOrCreateConversation(sessionId, userId, strategy) {
       .single();
 
     if (existing) {
-      // Update strategy if we just detected it
       if (strategy && !existing.strategy) {
         await supabaseAdmin
           .from('freddie_conversations')
@@ -176,7 +186,6 @@ async function getOrCreateConversation(sessionId, userId, strategy) {
       return existing.id;
     }
 
-    // Create new conversation
     const { data: created } = await supabaseAdmin
       .from('freddie_conversations')
       .insert({
@@ -195,7 +204,6 @@ async function getOrCreateConversation(sessionId, userId, strategy) {
 }
 
 function detectStrategy(messages) {
-  // Look at early user messages to detect strategy
   const earlyMessages = messages.slice(0, 4).filter(m => m.role === 'user');
   const text = earlyMessages.map(m => m.content).join(' ').toLowerCase();
   if (text.includes('flip') || text.includes('fix')) return 'Flip';
@@ -229,7 +237,6 @@ export async function POST(request) {
       dealData = parseConfirmation(reply);
     }
 
-    // Save to Supabase — fire and forget, never block the response
     if (sessionId && messages.length > 0) {
       const userMessage = messages[messages.length - 1];
       if (userMessage.role === 'user') {
@@ -238,7 +245,6 @@ export async function POST(request) {
         if (convId) {
           saveMessages(convId, userMessage.content, reply);
         }
-        // Return conversationId so page can pass it back on next message
         return Response.json({
           content: reply,
           dealData,
