@@ -18,43 +18,46 @@ export async function POST(request) {
     const { dealData, userId, askingPrice, emd, closeBy, condition, rehabScope, extras,
       showComps, showRentcastBadge, showBuyerSpread, showRehabEstimate } = await request.json();
 
-    if (!userId) {
-      return Response.json({ error: 'auth_required' }, { status: 401 });
-    }
+    // Resolve ARV — wholesale deals may have rentcastArv or no ARV at all
+    const resolvedArv = dealData.arv || dealData.rentcastArv || null;
 
-    // Load profile
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('tier, dispos_used_this_period, usage_period_reset_at')
-      .eq('id', userId)
-      .single();
+    // Profile + limit check — only for authenticated users
+    let disposUsed = 0;
+    let tier = 'free';
 
-    if (profileError || !profile) {
-      return Response.json({ error: 'profile_not_found' }, { status: 404 });
-    }
+    if (userId) {
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('tier, dispos_used_this_period, usage_period_reset_at')
+        .eq('id', userId)
+        .single();
 
-    const tier = profile.tier || 'free';
-    const limit = DISPO_LIMITS[tier] ?? 3;
+      if (profileError || !profile) {
+        return Response.json({ error: 'profile_not_found' }, { status: 404 });
+      }
 
-    // Check if usage period needs reset
-    const now = new Date();
-    const resetAt = profile.usage_period_reset_at ? new Date(profile.usage_period_reset_at) : null;
-    let disposUsed = profile.dispos_used_this_period || 0;
+      tier = profile.tier || 'free';
+      const limit = DISPO_LIMITS[tier] ?? 3;
 
-    if (!resetAt || now > resetAt) {
-      // Reset period
-      const nextReset = new Date(now);
-      nextReset.setMonth(nextReset.getMonth() + 1);
-      await supabase.from('profiles').update({
-        dispos_used_this_period: 0,
-        usage_period_reset_at: nextReset.toISOString(),
-      }).eq('id', userId);
-      disposUsed = 0;
-    }
+      // Check if usage period needs reset
+      const now = new Date();
+      const resetAt = profile.usage_period_reset_at ? new Date(profile.usage_period_reset_at) : null;
+      disposUsed = profile.dispos_used_this_period || 0;
 
-    // Check limit
-    if (limit !== Infinity && disposUsed >= limit) {
-      return Response.json({ error: 'limit_reached', used: disposUsed, limit }, { status: 402 });
+      if (!resetAt || now > resetAt) {
+        const nextReset = new Date(now);
+        nextReset.setMonth(nextReset.getMonth() + 1);
+        await supabase.from('profiles').update({
+          dispos_used_this_period: 0,
+          usage_period_reset_at: nextReset.toISOString(),
+        }).eq('id', userId);
+        disposUsed = 0;
+      }
+
+      // Check limit
+      if (limit !== Infinity && disposUsed >= limit) {
+        return Response.json({ error: 'limit_reached', used: disposUsed, limit }, { status: 402 });
+      }
     }
 
     // Generate deal pitch
@@ -67,7 +70,7 @@ export async function POST(request) {
 
 Property: ${dealData.address}
 Buy It Now Price: $${askingPrice?.toLocaleString()}
-ARV: $${dealData.arv?.toLocaleString()}
+ARV: $${resolvedArv?.toLocaleString() ?? 'Not provided'}
 Rehab Budget: $${dealData.rehabBudget?.toLocaleString()}
 Condition: ${condition}
 Close By: ${closeBy}
@@ -92,18 +95,20 @@ Write the summary now:`
       }]
     });
 
-    // Increment usage counter
-    await supabase.from('profiles')
-      .update({ dispos_used_this_period: disposUsed + 1 })
-      .eq('id', userId);
+    // Increment usage counter — authenticated users only
+    if (userId) {
+      await supabase.from('profiles')
+        .update({ dispos_used_this_period: disposUsed + 1 })
+        .eq('id', userId);
+    }
 
-    // Save full deal record
+    // Save full deal record — anon and authenticated
     await supabase.from('deals').insert({
-      user_id: userId,
+      user_id: userId || null,
       address: dealData.address || null,
       strategy: 'Wholesale',
       purchase_price: dealData.purchasePrice || null,
-      arv: dealData.arv || null,
+      arv: resolvedArv || null,
       rehab_budget: dealData.rehabBudget || null,
       asking_price: askingPrice || null,
       emd: emd || null,
