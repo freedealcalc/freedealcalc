@@ -1,0 +1,83 @@
+# FreeDealCalc
+
+> Free AI-powered real estate deal analyzer for fix-and-flip investors, wholesalers, rental buyers, and BRRRR investors. Built and operated by a 20+ year Northern Virginia investor.
+
+FreeDealCalc is a free platform where real estate investors analyze deals in under 60 seconds using Freddie, a conversational AI analyst. No credit card. No trial. No paywall on core features. The platform covers four strategies — Fix-and-Flip, Wholesale, Rental, and BRRRR — and produces scored deal verdicts with professional AI-generated documents.
+
+Competitors like DealCheck ($20/mo), Rehab Valuator ($29/mo), and Flipper Force ($79/mo) are calculators. FreeDealCalc is an AI analyst with document generation, built by an active investor, free at its core.
+
+## Core Features
+
+- Freddie AI: conversational deal intake — no forms, just a conversation
+- 4 strategies covered: Fix-and-Flip, Wholesale, Rental, BRRRR
+- Deal Score: 5-component scoring rubric based on 20+ years of real investor methodology
+- Score Certificates: branded PDFs, unlimited free
+- Seller Proposals: AI-written cash offer letters, 3/month free
+- Wholesale Disposition Packages: Rentcast-verified comps, professional buyer-ready package, 3/month free
+- ARV Lookups: real comp data via Rentcast API (2 lifetime free, unlimited on paid)
+- Dashboard: full deal history, status tracking, pipeline management
+- Deal Blast: wholesalers submit a deal, it gets pushed to a verified buyer list
+- Lender Match, Agent Match, Title Company connections
+- Market pages for 100 US metros with local deal analysis data
+- Investor activity pages for 39 major markets
+- 90+ blog posts on wholesaling, flipping, BRRRR, rental investing, and strategy
+
+## Who It's For
+
+Real estate wholesalers, fix-and-flip investors, BRRRR investors, rental property buyers. Beginners who want guided deal analysis. Experienced investors who want fast scoring and professional documents without paying for complex software.
+
+## Pricing
+
+- Free: Unlimited Freddie conversations, unlimited Score Certificates, 3 Seller Proposals/month, 3 Dispo Packages/month, 2 ARV lookups lifetime
+- Investor ($19/mo): More lookups and outputs per month
+- Pro ($39/mo): Unlimited outputs, white-label documents, priority features
+
+## Key Pages
+
+- https://www.freedealcalc.com/ — Homepage
+- https://www.freedealcalc.com/freddie — Talk to Freddie (main AI deal analyzer)
+- https://www.freedealcalc.com/dispo — Free Wholesale Disposition Package generator
+- https://www.freedealcalc.com/pricing — Tier comparison and pricing
+- https://www.freedealcalc.com/partners — Lender, agent, and title connections
+- https://www.freedealcalc.com/tools — Affiliate tools for serious investors
+- https://www.freedealcalc.com/blog — Real estate investing education (90+ posts)
+- https://www.freedealcalc.com/help/getting-started — Getting started guide
+
+## Tool Pages (free calculators)
+
+- https://www.freedealcalc.com/tools/free-ai-deal-analyzer
+- https://www.freedealcalc.com/tools/free-ai-flip-calculator
+- https://www.freedealcalc.com/tools/free-ai-wholesale-calculator
+- https://www.freedealcalc.com/tools/free-ai-brrrr-calculator
+- https://www.freedealcalc.com/tools/free-ai-arv-calculator
+- https://www.freedealcalc.com/tools/free-ai-rental-calculator
+- https://www.freedealcalc.com/tools/free-rehab-calculator
+- https://www.freedealcalc.com/tools/70-percent-rule-calculator
+- https://www.freedealcalc.com/tools/max-allowable-offer-calculator
+- https://www.freedealcalc.com/tools/after-repair-value-calculator
+- https://www.freedealcalc.com/tools/hard-money-loan-calculator
+- https://www.freedealcalc.com/tools/dscr-loan-calculator
+- https://www.freedealcalc.com/tools/cash-on-cash-return-calculator
+- https://www.freedealcalc.com/tools/cap-rate-calculator
+- https://www.freedealcalc.com/tools/wholesale-deal-calculator
+- https://www.freedealcalc.com/tools/free-wholesale-dispo-package
+- https://www.freedealcalc.com/tools/wholesale-dispo-package-generator
+- https://www.freedealcalc.com/tools/brrrr-calculator
+- https://www.freedealcalc.com/tools/house-hack-calculator
+- https://www.freedealcalc.com/tools/flip-or-rent-calculator
+
+## Market Pages (100 US metros)
+
+https://www.freedealcalc.com/markets/ covers 100 metros including Atlanta, Austin, Baltimore, Boston, Charlotte, Chicago, Cleveland, Columbus, Dallas, Denver, Detroit, Houston, Indianapolis, Jacksonville, Kansas City, Las Vegas, Los Angeles, Memphis, Miami, Minneapolis, Nashville, New York, Orlando, Philadelphia, Phoenix, Pittsburgh, Portland, Raleigh, Richmond, Sacramento, San Antonio, San Diego, Seattle, Tampa, Washington DC, and more.
+
+## Investor Activity Pages (39 major markets)
+
+https://www.freedealcalc.com/investor-markets/ covers 39 major markets with real-time investor activity data.
+
+## About the Founder
+
+Dan White is a licensed Virginia real estate agent with Pearson Smith Realty and a 20+ year fix-and-flip investor based in Northern Virginia (Haymarket/Prince William County). FreeDealCalc is built on his personal investing methodology. Active investor on Reddit as u/Novaflips.
+
+## Contact
+
+https://www.freedealcalc.com/contact
