@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Max Allowable Offer Calculator — Free Real Estate Tool | FreeDealCalc",
+  title: "Max Allowable Offer Calculator — Free Real Estate Tool",
   description: "Calculate the max allowable offer (MAO) for any investment property free. The formula, what it covers, and how to use it before making an offer.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/max-allowable-offer-calculator' },
 };

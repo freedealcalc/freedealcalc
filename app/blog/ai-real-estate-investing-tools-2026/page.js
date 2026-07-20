@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "AI Real Estate Investing Tools in 2026: What Actually Works | FreeDealCalc",
+  title: "AI Real Estate Investing Tools in 2026: What Actually Works",
   description: "The best AI tools for real estate investors in 2026 — deal analysis, lead generation, property research, and what to use vs. what to skip.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/ai-real-estate-investing-tools-2026' },
 };

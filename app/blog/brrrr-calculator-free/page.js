@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Free BRRRR Calculator — Does Your Deal Recycle Capital? | FreeDealCalc",
+  title: "Free BRRRR Calculator — Does Your Deal Recycle Capital?",
   description: "Calculate BRRRR returns free — purchase, rehab, rent, refinance proceeds, and cash-on-cash return. See if your deal recycles capital before you close.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/brrrr-calculator-free' },
 };

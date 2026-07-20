@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Real Estate Investing in 2026: Market Outlook and Opportunities | FreeDealCalc",
+  title: "Real Estate Investing in 2026: Market | FreeDealCalc",
   description: "Real estate investing outlook for 2026 — interest rates, inventory, price trends, and where the opportunities are for flippers, landlords, and wholesalers.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/real-estate-investing-2026-outlook' },
 };

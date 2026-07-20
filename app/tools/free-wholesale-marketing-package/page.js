@@ -1,8 +1,8 @@
 import PageClient from './Client';
 
 export const metadata = {
-  title: 'Free Wholesale Marketing Package Generator — FreeDealCalc',
-  description: 'Free wholesale marketing package generator with Rentcast verified comps. Professional design, no designer required. Built for real estate wholesalers. No monthly fee.',
+  title: { absolute: 'Free Wholesale Marketing Package Generator — FreeDealCalc' },
+  description: 'Free wholesale marketing package generator with verified comps. Professional design, no designer required, built for real estate wholesalers.',
   alternates: { canonical: 'https://www.freedealcalc.com/tools/free-wholesale-marketing-package' },
 };
 

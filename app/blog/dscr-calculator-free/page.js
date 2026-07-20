@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Free DSCR Calculator — Does Your Rental Qualify for Financing? | FreeDealCalc",
+  title: "Free DSCR Calculator — Does Your Rental | FreeDealCalc",
   description: "Calculate DSCR free for any rental property. Enter rent and PITIA — see if you hit the 1.25 threshold lenders require for DSCR loans.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/dscr-calculator-free' },
 };

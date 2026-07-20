@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'House Flip Taxes in 2026: What Every Flipper Needs to Know | FreeDealCalc',
+  title: 'House Flip Taxes in 2026: What Every Flipper Needs to Know',
   description: 'How house flip income is taxed in 2026 — dealer vs investor status, cost basis, self-employment tax, deductions, and when taxes are due.',
   alternates: { canonical: 'https://freedealcalc.com/blog/house-flip-taxes-2026' },
   openGraph: {

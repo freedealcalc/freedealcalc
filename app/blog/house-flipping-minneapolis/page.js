@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Minneapolis House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Minneapolis House Flipping: Market Guide for Investors",
   description: "House flipping in Minneapolis — seasonal market dynamics, strong neighborhoods, rental demand from university population. Current investor conditions.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-minneapolis' },
 };

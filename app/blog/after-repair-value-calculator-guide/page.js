@@ -2,7 +2,7 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: 'How to Calculate After Repair Value (ARV) for Any Property | FreeDealCalc',
+  title: 'How to Calculate After Repair Value (ARV) for Any Property',
   description: 'How to find ARV — the after-repair value — using comparable sales. Step-by-step from a 20-year flipper who runs comps before every offer.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/after-repair-value-calculator-guide' },
 };

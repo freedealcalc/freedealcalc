@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Sell an Inherited House: Your Options Explained | FreeDealCalc",
+  title: "How to Sell an Inherited House: Your Options Explained",
   description: "How to sell an inherited house — cash sale, list on MLS, or rent it. What to do first, how to handle probate, and how to split proceeds with heirs.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-sell-inherited-house' },
 };

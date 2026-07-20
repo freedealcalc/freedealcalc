@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Sell a House As-Is Without Making Repairs | FreeDealCalc",
+  title: "How to Sell a House As-Is Without Making Repairs",
   description: "How to sell a house as-is — what it means, what buyers expect, how pricing works, and whether cash investor or MLS is the right path for your situation.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/sell-house-as-is-without-repairs' },
 };

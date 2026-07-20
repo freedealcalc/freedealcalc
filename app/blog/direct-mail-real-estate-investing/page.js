@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Direct Mail for Real Estate Investing: A Complete Guide | FreeDealCalc",
+  title: "Direct Mail for Real Estate Investing: A Complete Guide",
   description: "How to run an effective direct mail campaign to find motivated sellers. Lists, letters, frequency, and what response rates to expect.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/direct-mail-real-estate-investing' },
 };

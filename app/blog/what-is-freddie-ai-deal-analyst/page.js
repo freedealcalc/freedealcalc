@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "What is Freddie? FreeDealCalc's AI Real Estate Deal Analyst | FreeDealCalc",
+  title: "What is Freddie? FreeDealCalc's AI Real Estate Deal Analyst",
   description: "Freddie is FreeDealCalc's AI deal analyst — how it works, what it analyzes, and why it's different from generic AI for real estate deal analysis.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-is-freddie-ai-deal-analyst' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Tampa House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Tampa House Flipping: Market Guide for Investors",
   description: "House flipping in Tampa — one of the strongest growth markets in Florida. Current conditions, active submarkets, and flip margins in 2026.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-tampa' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Find Real Estate Investment Deals on the MLS | FreeDealCalc",
+  title: "How to Find Real Estate Investment Deals on the MLS",
   description: "MLS deal-finding strategies for real estate investors. What to look for, how to filter, and when MLS deals actually pencil.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/mls-deals-for-investors' },
 };

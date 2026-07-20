@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Memphis House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Memphis House Flipping: Market Guide for Investors",
   description: "House flipping in Memphis — high rental yields, affordable acquisitions, active investor community. Current market conditions and deal flow.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-memphis' },
 };

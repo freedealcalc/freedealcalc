@@ -2,7 +2,7 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: 'Cash-on-Cash Return: What It Is and How to Calculate It | FreeDealCalc',
+  title: 'Cash-on-Cash Return: What It Is and How to Calculate It',
   description: 'Cash-on-cash return explained — the formula, what counts as good, and how it differs from cap rate and total ROI for rental property investors.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/cash-on-cash-return-explained' },
 };

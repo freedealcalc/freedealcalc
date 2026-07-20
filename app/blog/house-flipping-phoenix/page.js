@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Phoenix House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Phoenix House Flipping: Market Guide for Investors",
   description: "House flipping in Phoenix — current market data, where investors are active, typical ARVs, and what the Phoenix market looks like for flippers in 2026.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-phoenix' },
 };

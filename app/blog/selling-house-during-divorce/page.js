@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Selling a House During Divorce: What You Need to Know | FreeDealCalc",
+  title: "Selling a House During Divorce: What You Need to Know",
   description: "How to sell a house during divorce — your options, how proceeds are split, what happens if one spouse wants to keep it, and how to move fast.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/selling-house-during-divorce' },
 };

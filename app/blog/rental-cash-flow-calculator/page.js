@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Rental Cash Flow Calculator — Free Tool for Investors | FreeDealCalc",
+  title: "Rental Cash Flow Calculator — Free Tool for Investors",
   description: "Calculate rental property cash flow free. Monthly income, expenses, NOI, and net cash flow — see if your rental actually makes money.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/rental-cash-flow-calculator' },
 };

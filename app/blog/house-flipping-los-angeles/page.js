@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Los Angeles: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Los Angeles: 2026 Market Guide",
   description: "How to flip houses in Los Angeles in 2026. High ARVs, high competition, best submarkets, and how to make the numbers work in an expensive market.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-los-angeles' },
 };

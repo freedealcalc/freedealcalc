@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Best Renovations for House Flip ROI: What Actually Pays | FreeDealCalc",
+  title: "Best Renovations for House Flip ROI: What Actually Pays",
   description: "Which renovations have the best ROI on a house flip — kitchen, bathrooms, flooring, curb appeal. What buyers pay extra for and what's over-improving.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/best-renovations-roi-house-flip' },
 };

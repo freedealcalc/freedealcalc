@@ -2,7 +2,7 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: 'Driving for Dollars: How to Find Off-Market Deals | FreeDealCalc',
+  title: 'Driving for Dollars: How to Find Off-Market Deals',
   description: 'Driving for dollars is one of the most effective — and cheapest — ways to find distressed off-market properties. Here is exactly how to do it.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/driving-for-dollars' },
 };

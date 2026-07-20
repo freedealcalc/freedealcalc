@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Houston House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Houston House Flipping: Market Guide for Investors",
   description: "House flipping in Houston — market conditions, flood zone considerations, active investor neighborhoods, and current flip margins in the Houston metro.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-houston' },
 };

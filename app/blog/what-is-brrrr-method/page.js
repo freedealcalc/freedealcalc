@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'What is the BRRRR Method? Complete Guide for 2026 | FreeDealCalc',
+  title: 'What is the BRRRR Method? Complete Guide for 2026',
   description: 'The BRRRR method explained — Buy, Rehab, Rent, Refinance, Repeat. How it works, the math, and when it makes sense in 2026.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-is-brrrr-method' },
   openGraph: {

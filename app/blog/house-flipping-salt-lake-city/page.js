@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Salt Lake City: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Salt Lake City: 2026 Market Guide",
   description: "Guide to house flipping in Salt Lake City in 2026. Tech job growth, limited land supply, best neighborhoods, and realistic flip profit numbers.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-salt-lake-city' },
 };

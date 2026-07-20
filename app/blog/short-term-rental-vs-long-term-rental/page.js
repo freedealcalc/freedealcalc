@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Short-Term Rental vs Long-Term Rental: Which Is Better? | FreeDealCalc",
+  title: "Short-Term Rental vs Long-Term Rental: Which Is Better?",
   description: "Short-term rental vs long-term rental — income potential, management intensity, risk, regulation risk, and how to decide which strategy fits your property.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/short-term-rental-vs-long-term-rental' },
 };

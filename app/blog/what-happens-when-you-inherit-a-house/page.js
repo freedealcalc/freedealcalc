@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "What Happens When You Inherit a House? Complete Guide | FreeDealCalc",
+  title: "What Happens When You Inherit a House? Complete Guide",
   description: "What happens when you inherit a house — probate process, tax implications, your options, and how to decide whether to sell, rent, or keep it.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-happens-when-you-inherit-a-house' },
 };

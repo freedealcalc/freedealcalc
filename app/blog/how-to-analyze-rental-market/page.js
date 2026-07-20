@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Analyze a Rental Market Before Investing | FreeDealCalc",
+  title: "How to Analyze a Rental Market Before Investing",
   description: "How to evaluate a rental market — vacancy rates, rent trends, job growth, population, and the metrics that predict strong landlord returns.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-analyze-rental-market' },
 };

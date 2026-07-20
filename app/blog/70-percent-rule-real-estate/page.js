@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'The 70% Rule in Real Estate: What It Is and When to Use It | FreeDealCalc',
+  title: 'The 70% Rule in Real Estate: What It Is and When to Use It',
   description: 'The 70% rule explained — the formula, what it covers, when to use it, and when to ignore it. From a 20+ year house flipper.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/70-percent-rule-real-estate' },
   openGraph: {

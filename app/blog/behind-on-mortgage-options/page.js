@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Behind on Mortgage Payments: Your Options Explained | FreeDealCalc",
+  title: "Behind on Mortgage Payments: Your Options Explained",
   description: "What to do if you are behind on your mortgage — forbearance, loan modification, short sale, cash sale, and what happens if you do nothing.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/behind-on-mortgage-options' },
 };

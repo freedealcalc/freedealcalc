@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "1031 Exchange Explained for Real Estate Investors | FreeDealCalc",
+  title: "1031 Exchange Explained for Real Estate Investors",
   description: "Complete guide to 1031 exchanges — how to defer capital gains taxes when selling investment property, timeline rules, and common mistakes.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/1031-exchange-explained' },
 };

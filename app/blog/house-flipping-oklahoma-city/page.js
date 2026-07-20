@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Oklahoma City: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Oklahoma City: 2026 Market Guide",
   description: "House flipping guide for Oklahoma City in 2026. Low entry prices, energy sector buyers, best neighborhoods, and how to profit in this underrated market.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-oklahoma-city' },
 };

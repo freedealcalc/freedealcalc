@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Single Family vs Multifamily Real Estate Investing | FreeDealCalc",
+  title: "Single Family vs Multifamily Real Estate Investing",
   description: "Single family vs multifamily investment — cash flow, appreciation, management, financing, and which makes more sense at different experience levels.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/single-family-vs-multifamily-investment' },
 };

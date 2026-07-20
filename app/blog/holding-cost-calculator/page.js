@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Holding Cost Calculator — What Your Flip Really Costs Per Month | FreeDealCalc",
+  title: "Holding Cost Calculator — What Your Flip | FreeDealCalc",
   description: "Calculate real estate holding costs free. Financing, taxes, insurance, utilities — see what your flip costs per month and for your full hold period.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/holding-cost-calculator' },
 };

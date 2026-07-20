@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Transactional Funding for Real Estate: How Double Closes Work | FreeDealCalc",
+  title: "Transactional Funding for Real Estate: How | FreeDealCalc",
   description: "Transactional funding explained — how same-day double close funding works for wholesalers, what it costs, and when you need it.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/transactional-funding-explained' },
 };

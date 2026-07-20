@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Cold Calling Motivated Sellers for Real Estate | FreeDealCalc",
+  title: "Cold Calling Motivated Sellers for Real Estate",
   description: "How to cold call motivated sellers effectively. Scripts, lists, objection handling, and how to build a cold calling system that produces deals.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/cold-calling-motivated-sellers' },
 };

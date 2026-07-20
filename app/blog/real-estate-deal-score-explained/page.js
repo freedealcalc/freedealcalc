@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Real Estate Deal Score: How FreeDealCalc Scores Deals | FreeDealCalc",
+  title: "Real Estate Deal Score: How FreeDealCalc Scores Deals",
   description: "How FreeDealCalc's deal score works — what factors it considers, what the numbers mean, and how to interpret your score when evaluating an investment.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/real-estate-deal-score-explained' },
 };

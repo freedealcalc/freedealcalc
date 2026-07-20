@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'How to Estimate Rehab Costs for House Flippers in 2026 | FreeDealCalc',
+  title: 'How to Estimate Rehab Costs for House Flippers in 2026',
   description: 'A room-by-room breakdown of renovation costs for house flips — with specific 2026 Northern Virginia pricing for every component from roof to HVAC.',
   alternates: { canonical: 'https://freedealcalc.com/blog/how-to-estimate-rehab-costs-2026' },
   openGraph: {

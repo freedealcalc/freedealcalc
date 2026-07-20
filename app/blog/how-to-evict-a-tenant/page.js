@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Evict a Tenant: The Legal Process Step by Step | FreeDealCalc",
+  title: "How to Evict a Tenant: The Legal Process Step by Step",
   description: "How to evict a tenant legally — notice requirements, filing the lawsuit, the court hearing, writ of possession, and how long it takes in Virginia.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-evict-a-tenant' },
 };

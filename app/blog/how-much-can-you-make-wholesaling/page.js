@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How Much Can You Make Wholesaling Real Estate? | FreeDealCalc",
+  title: "How Much Can You Make Wholesaling Real Estate?",
   description: "Real income numbers from wholesaling real estate — average assignment fees, deals per year, and what separates low earners from high earners.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-much-can-you-make-wholesaling' },
 };

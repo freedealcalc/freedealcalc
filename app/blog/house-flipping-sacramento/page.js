@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Sacramento: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Sacramento: 2026 Market Guide",
   description: "House flipping guide for Sacramento in 2026. Bay Area overflow demand, best neighborhoods, rehab tips, and realistic flip numbers.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-sacramento' },
 };

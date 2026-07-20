@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Virginia Beach: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Virginia Beach: 2026 Market Guide",
   description: "House flipping guide for Virginia Beach in 2026. Military buyer demand, resort market dynamics, best neighborhoods, and realistic flip numbers.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-virginia-beach' },
 };

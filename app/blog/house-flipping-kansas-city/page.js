@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Kansas City House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Kansas City House Flipping: Market Guide for Investors",
   description: "House flipping in Kansas City — affordable prices, strong rental demand, active wholesale market. What KC looks like for flippers in 2026.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-kansas-city' },
 };

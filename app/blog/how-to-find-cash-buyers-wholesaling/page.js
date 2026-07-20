@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Find Cash Buyers for Wholesaling Real Estate | FreeDealCalc",
+  title: "How to Find Cash Buyers for Wholesaling Real Estate",
   description: "Proven strategies to build a cash buyers list for real estate wholesaling. Where to find active investors and how to qualify them fast.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-find-cash-buyers-wholesaling' },
 };

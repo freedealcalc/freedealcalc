@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Philadelphia: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Philadelphia: 2026 Market Guide",
   description: "Guide to house flipping in Philadelphia in 2026. Row home strategy, best neighborhoods, ARV ranges, and the 10-year tax abatement advantage.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-philadelphia' },
 };

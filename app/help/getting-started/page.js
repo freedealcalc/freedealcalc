@@ -2,7 +2,7 @@ export const revalidate = 2592000;
 
 export const metadata = {
   title: 'Getting Started | FreeDealCalc Help',
-  description: 'Run your first real estate deal analysis in 5 minutes. Step-by-step guide to using Freddie, deal scoring, Score Certificates, Seller Proposals, and Disposition Packages.',
+  description: 'Run your first real estate deal analysis in 5 minutes — a guide to Freddie, deal scoring, Score Certificates, Seller Proposals, and Disposition Packages.',
   alternates: { canonical: 'https://www.freedealcalc.com/help/getting-started' },
 };
 

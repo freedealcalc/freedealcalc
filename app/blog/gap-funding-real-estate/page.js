@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Gap Funding in Real Estate: What It Is and How to Use It | FreeDealCalc",
+  title: "Gap Funding in Real Estate: What It Is and How to Use It",
   description: "Gap funding explained — how investors cover the gap between hard money LTV and purchase price. Sources, structure, and when it makes sense.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/gap-funding-real-estate' },
 };

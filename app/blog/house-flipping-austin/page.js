@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Austin, TX: 2026 Investor Guide | FreeDealCalc",
+  title: "House Flipping in Austin, TX: 2026 Investor Guide",
   description: "Everything you need to know about flipping houses in Austin. ARV ranges, rehab costs, best neighborhoods, and how to run your numbers before you buy.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-austin' },
 };

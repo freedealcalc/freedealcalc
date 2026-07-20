@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Sell a House in Foreclosure: Options Before You Lose It | FreeDealCalc",
+  title: "How to Sell a House in Foreclosure: Options | FreeDealCalc",
   description: "How to sell a house in foreclosure — short sale, cash sale to investor, or loan modification. What your options are and how fast you need to move.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-sell-house-in-foreclosure' },
 };

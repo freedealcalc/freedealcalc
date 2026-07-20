@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Free Rental Property Calculator — Cash Flow, Cap Rate, Cash-on-Cash | FreeDealCalc",
+  title: "Free Rental Property Calculator — Cash Flow | FreeDealCalc",
   description: "Calculate rental property cash flow, cap rate, and cash-on-cash return free. Enter your numbers — get the full rental analysis instantly.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/free-rental-property-calculator' },
 };

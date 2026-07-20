@@ -4,8 +4,8 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000; // refresh monthly
 
 export const metadata = {
-  title: 'How to Flip Houses in 2026: A Real Guide from a Full-Time Flipper | FreeDealCalc',
-  description: 'The complete step-by-step guide to flipping houses in 2026 — building your team, sourcing deals, analyzing offers, and closing. Written by a 20+ year NoVA flipper.',
+  title: 'How to Flip Houses in 2026: A Real Guide | FreeDealCalc',
+  description: 'The complete step-by-step guide to flipping houses in 2026 — building your team, sourcing deals, analyzing offers, and closing.',
   alternates: { canonical: 'https://freedealcalc.com/blog/how-to-flip-houses-2026' },
   openGraph: {
     title: 'How to Flip Houses in 2026: A Real Guide from a Full-Time Flipper',

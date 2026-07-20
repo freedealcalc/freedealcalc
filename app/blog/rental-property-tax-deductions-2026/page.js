@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Rental Property Tax Deductions in 2026: Complete Landlord Guide | FreeDealCalc",
+  title: "Rental Property Tax Deductions in 2026 | FreeDealCalc",
   description: "Rental property tax deductions for 2026 — depreciation, mortgage interest, repairs, property management, and all the deductions landlords miss.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/rental-property-tax-deductions-2026' },
 };

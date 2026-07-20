@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Calculate Equity in Your Home or Investment Property | FreeDealCalc",
+  title: "How to Calculate Equity in Your Home or Investment Property",
   description: "How to calculate home equity, what affects it, and how real estate investors use equity to fund new deals.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-calculate-equity-in-home' },
 };

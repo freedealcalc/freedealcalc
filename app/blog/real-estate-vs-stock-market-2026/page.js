@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Real Estate vs Stock Market in 2026: Where Should You Invest? | FreeDealCalc",
+  title: "Real Estate vs Stock Market in 2026: Where | FreeDealCalc",
   description: "Real estate vs stocks in 2026 — returns, risk, liquidity, leverage, and how to think about allocation between the two as an investor.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/real-estate-vs-stock-market-2026' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Build a Rental Property Portfolio Step by Step | FreeDealCalc",
+  title: "How to Build a Rental Property Portfolio Step by Step",
   description: "How to build a rental portfolio — acquisition strategy, financing as you scale, managing multiple properties, and the milestones that define each stage.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-build-rental-portfolio' },
 };

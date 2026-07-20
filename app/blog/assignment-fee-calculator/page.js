@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Assignment Fee Calculator — How Much Can You Make Wholesaling? | FreeDealCalc",
+  title: "Assignment Fee Calculator — How Much Can You | FreeDealCalc",
   description: "Calculate your potential wholesale assignment fee free. Enter ARV, rehab, and contract price — see your spread and what a buyer will pay.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/assignment-fee-calculator' },
 };

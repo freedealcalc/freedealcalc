@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Avoid Foreclosure: 6 Options That Actually Work | FreeDealCalc",
+  title: "How to Avoid Foreclosure: 6 Options That Actually Work",
   description: "How to avoid foreclosure — forbearance, loan modification, refinance, short sale, deed in lieu, and cash sale. What each means and when it makes sense.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-avoid-foreclosure' },
 };

@@ -2,8 +2,8 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: 'Hard Money Loans for Real Estate: How They Work in 2026 | FreeDealCalc',
-  description: 'Hard money loans explained — rates, terms, points, LTV limits, and when to use them. Written by an active fix-and-flip investor who uses hard money regularly.',
+  title: 'Hard Money Loans for Real Estate: How They Work in 2026',
+  description: 'Hard money loans explained — rates, terms, points, LTV limits, and when to use them.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/hard-money-loans-real-estate' },
 };
 const s = {

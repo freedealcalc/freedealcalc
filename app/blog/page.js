@@ -1,7 +1,7 @@
 export const revalidate = 2592000;
 export const metadata = {
   title: "Real Estate Investing Blog | FreeDealCalc",
-  description: "Expert guides on house flipping, rental investing, BRRRR, wholesaling, deal analysis, and real estate tax strategy — from an active Northern Virginia investor with 20+ years experience.",
+  description: "Expert guides on house flipping, rental investing, BRRRR, wholesaling, deal analysis, and real estate tax strategy — from an active Northern Virginia",
   alternates: { canonical: 'https://www.freedealcalc.com/blog' },
 };
 

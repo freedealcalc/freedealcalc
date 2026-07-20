@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Real Estate ROI Calculator — Free Tool for Investors | FreeDealCalc",
+  title: "Real Estate ROI Calculator — Free Tool for Investors",
   description: "Calculate ROI on any real estate investment free — flip, rental, BRRRR, or wholesale. See your return on invested capital before you close.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/real-estate-roi-calculator' },
 };

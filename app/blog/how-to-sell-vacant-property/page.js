@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Sell a Vacant Property: Investor and Retail Options | FreeDealCalc",
+  title: "How to Sell a Vacant Property: Investor and Retail Options",
   description: "How to sell a vacant property fast — cash investor, MLS as-is, or rent it first. What vacant properties are worth and how to protect them while you decide.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-sell-vacant-property' },
 };

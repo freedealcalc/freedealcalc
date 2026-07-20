@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping vs Wholesaling: Which Makes More Money? | FreeDealCalc",
+  title: "House Flipping vs Wholesaling: Which Makes More Money?",
   description: "A real comparison of income potential between house flipping and wholesaling. Per-deal profit, deals per year, capital requirements, and risk profiles.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-vs-wholesaling-income' },
 };

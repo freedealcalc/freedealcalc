@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'How to Wholesale Real Estate: Step-by-Step Guide for 2026 | FreeDealCalc',
+  title: 'How to Wholesale Real Estate: Step-by-Step Guide for 2026',
   description: 'How to start wholesaling real estate in 2026 — finding deals, analyzing numbers, building a buyer list, and closing your first assignment.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-wholesale-real-estate' },
   openGraph: {

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Raleigh House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Raleigh House Flipping: Market Guide for Investors",
   description: "House flipping in Raleigh NC — Research Triangle growth market, strong appreciation, competitive investor landscape. Current conditions for flippers.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-raleigh' },
 };

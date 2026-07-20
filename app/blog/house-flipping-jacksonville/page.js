@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Jacksonville House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Jacksonville House Flipping: Market Guide for Investors",
   description: "House flipping in Jacksonville FL — growing market, affordable acquisitions, and strong retail buyer demand. What investors need to know in 2026.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-jacksonville' },
 };

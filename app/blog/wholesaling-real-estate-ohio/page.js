@@ -2,7 +2,7 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Wholesaling Real Estate in Ohio: 2026 Legal Guide | FreeDealCalc",
+  title: "Wholesaling Real Estate in Ohio: 2026 Legal Guide",
   description: "Everything you need to know about wholesaling real estate in Ohio. Learn how to find deals, build a buyer list, calculate assignment fees, and stay legal.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/wholesaling-real-estate-ohio' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Find Absentee Owners for Real Estate Investing | FreeDealCalc",
+  title: "How to Find Absentee Owners for Real Estate Investing",
   description: "How to build and market to absentee owner lists. Why they are motivated sellers and how to reach them effectively.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-find-absentee-owners' },
 };

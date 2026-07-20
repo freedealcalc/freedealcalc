@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'What is House Hacking? How to Live for Free with Real Estate | FreeDealCalc',
+  title: 'What is House Hacking? How to Live for Free with Real Estate',
   description: 'House hacking explained — buying a small multifamily or single family with extra units, living in one, and having tenants pay your mortgage.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-is-house-hacking' },
   openGraph: {

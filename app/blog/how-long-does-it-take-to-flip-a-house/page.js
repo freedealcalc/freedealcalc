@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How Long Does It Take to Flip a House? Real Timelines | FreeDealCalc",
+  title: "How Long Does It Take to Flip a House? Real Timelines",
   description: "How long does a house flip take? Acquisition, renovation, and sale timelines — what's realistic, what causes delays, and how to stay on schedule.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-long-does-it-take-to-flip-a-house' },
 };

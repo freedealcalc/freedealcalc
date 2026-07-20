@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Buy and Hold vs Fix and Flip: Which Strategy Is Right for You? | FreeDealCalc",
+  title: "Buy and Hold vs Fix and Flip: Which Strategy | FreeDealCalc",
   description: "A direct comparison of buy-and-hold rental investing vs house flipping. Income, wealth building, time commitment, and which fits your goals.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/buy-and-hold-vs-fix-and-flip' },
 };

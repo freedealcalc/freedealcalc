@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Pittsburgh: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Pittsburgh: 2026 Market Guide",
   description: "House flipping guide for Pittsburgh in 2026. Affordable entry prices, tech job growth, best neighborhoods, and realistic profit expectations.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-pittsburgh' },
 };

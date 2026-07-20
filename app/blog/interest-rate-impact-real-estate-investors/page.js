@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How Interest Rates Affect Real Estate Investors | FreeDealCalc",
+  title: "How Interest Rates Affect Real Estate Investors",
   description: "How rising and falling interest rates impact flippers, landlords, and BRRRR investors differently — and how to adjust your strategy.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/interest-rate-impact-real-estate-investors' },
 };

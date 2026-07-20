@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'The 50% Rule in Real Estate: What It Is and How to Use It | FreeDealCalc',
+  title: 'The 50% Rule in Real Estate: What It Is and How to Use It',
   description: 'The 50% rule for rental properties explained — what it covers, when it works, and when to run a real cash flow analysis instead.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-is-50-percent-rule' },
   openGraph: {

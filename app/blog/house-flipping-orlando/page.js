@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Orlando House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Orlando House Flipping: Market Guide for Investors",
   description: "House flipping in Orlando — strong population growth, tourism economy, active retail buyer market. Current flip margins and investor activity.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-orlando' },
 };

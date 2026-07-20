@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Talk to Motivated Sellers in Real Estate | FreeDealCalc",
+  title: "How to Talk to Motivated Sellers in Real Estate",
   description: "A practical guide to motivated seller conversations — what to say, what to ask, and how to build enough rapport to get a deal under contract.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-talk-to-motivated-sellers' },
 };

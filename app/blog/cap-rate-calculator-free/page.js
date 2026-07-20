@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Cap Rate Calculator — Free Tool for Real Estate Investors | FreeDealCalc",
+  title: "Cap Rate Calculator — Free Tool for Real Estate Investors",
   description: "Calculate cap rate free for any investment property. Enter NOI and purchase price — get cap rate, what it means, and how your property compares to market.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/cap-rate-calculator-free' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Free Wholesale Deal Calculator — MAO and Assignment Fee | FreeDealCalc",
+  title: "Free Wholesale Deal Calculator — MAO and Assignment Fee",
   description: "Calculate max allowable offer and assignment fee for any wholesale deal free. Enter ARV and rehab — get your MAO and potential profit instantly.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/wholesale-deal-calculator-free' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Calculate Cash Flow on a Rental Property | FreeDealCalc",
+  title: "How to Calculate Cash Flow on a Rental Property",
   description: "Step-by-step guide to calculating rental property cash flow. Every income and expense line item, with a worked example and free calculator.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-calculate-cash-flow-rental-property' },
 };

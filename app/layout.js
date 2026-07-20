@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "FreeDealCalc — Free AI Deal Analyzer for Real Estate Investors",
+  title: "FreeDealCalc — Free AI Deal Analyzer for Real Estate",
   description: "Analyze fix-and-flip, wholesale, rental, and BRRRR deals in seconds. Free AI-powered deal scoring, reports, and seller proposals. Talk to Freddie.",
   metadataBase: new URL("https://www.freedealcalc.com"),
   alternates: { canonical: "https://www.freedealcalc.com" },

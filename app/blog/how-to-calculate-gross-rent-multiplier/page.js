@@ -2,7 +2,7 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Calculate Gross Rent Multiplier (GRM) for Investment Property | FreeDealCalc",
+  title: "How to Calculate Gross Rent Multiplier (GRM) | FreeDealCalc",
   description: "GRM is a quick rental property screening tool. Learn the formula, how to calculate it, how to interpret it, and when to use GRM versus cap rate.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-calculate-gross-rent-multiplier' },
 };

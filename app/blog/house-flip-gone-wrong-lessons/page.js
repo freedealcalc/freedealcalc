@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flip Gone Wrong: Real Lessons From Failed Deals | FreeDealCalc",
+  title: "House Flip Gone Wrong: Real Lessons From Failed Deals",
   description: "Real lessons from house flips that went wrong — what caused them, what it cost, and what experienced investors do differently to avoid the same mistakes.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flip-gone-wrong-lessons' },
 };

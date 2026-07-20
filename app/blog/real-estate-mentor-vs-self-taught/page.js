@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Real Estate Mentor vs Self-Taught: Which Path Is Better? | FreeDealCalc",
+  title: "Real Estate Mentor vs Self-Taught: Which Path Is Better?",
   description: "The real tradeoffs between finding a real estate mentor and teaching yourself. When mentorship accelerates results and when it is an expensive shortcut.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/real-estate-mentor-vs-self-taught' },
 };

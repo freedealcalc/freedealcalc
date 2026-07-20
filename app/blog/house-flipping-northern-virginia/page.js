@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Northern Virginia: 2026 Investor Guide | FreeDealCalc",
+  title: "House Flipping in Northern Virginia: 2026 Investor Guide",
   description: "Complete guide to flipping houses in Northern Virginia in 2026. Best markets, ARV ranges, contractor tips, and deal analysis from a 20-year NoVA investor.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-northern-virginia' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Self-Managing vs Property Manager: Which Is Right for You? | FreeDealCalc",
+  title: "Self-Managing vs Property Manager: Which Is Right for You?",
   description: "Landlord vs property manager — what a PM actually does, what it costs, when to hire one, and when self-managing makes more sense.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/landlord-vs-property-manager' },
 };

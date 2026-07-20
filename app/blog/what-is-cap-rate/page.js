@@ -2,7 +2,7 @@ import { getNOVAMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: 'What is Cap Rate? How to Calculate It for Investment Properties | FreeDealCalc',
+  title: 'What is Cap Rate? How to Calculate It for | FreeDealCalc',
   description: 'Cap rate explained — the formula, what it means, how to use it to compare investment properties, and when it matters less than cash-on-cash return.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-is-cap-rate' },
 };

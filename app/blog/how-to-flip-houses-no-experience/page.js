@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Flip Houses With No Experience: A Realistic Guide | FreeDealCalc",
+  title: "How to Flip Houses With No Experience: A Realistic Guide",
   description: "How to start flipping houses with no experience — what to learn first, how to find mentors, what your first deal should look like, and mistakes to avoid.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-flip-houses-no-experience' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "BRRRR Financing Options: How to Fund Each Phase | FreeDealCalc",
+  title: "BRRRR Financing Options: How to Fund Each Phase",
   description: "A complete guide to financing the BRRRR method — hard money for acquisition and rehab, DSCR loans for refinance, and alternative options.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/brrrr-financing-options' },
 };

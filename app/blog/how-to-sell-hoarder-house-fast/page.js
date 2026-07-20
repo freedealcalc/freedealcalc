@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Sell a Hoarder House Fast: Your Best Options | FreeDealCalc",
+  title: "How to Sell a Hoarder House Fast: Your Best Options",
   description: "How to sell a hoarder house fast — cash to investor, wholetail after cleanout, or full renovation. The pros, cons, and realistic timelines for each.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-sell-hoarder-house-fast' },
 };

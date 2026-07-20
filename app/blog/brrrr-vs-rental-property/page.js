@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "BRRRR vs Rental Property: Which Strategy Is Better? | FreeDealCalc",
+  title: "BRRRR vs Rental Property: Which Strategy Is Better?",
   description: "Compare the BRRRR method to buying turnkey rentals. Which builds wealth faster, which requires more work, and which fits your situation.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/brrrr-vs-rental-property' },
 };

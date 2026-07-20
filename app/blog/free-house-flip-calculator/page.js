@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Free House Flip Calculator — Profit, ROI, and Max Offer | FreeDealCalc",
+  title: "Free House Flip Calculator — Profit, ROI, and Max Offer",
   description: "Calculate flip profit, ROI, and max offer free. Enter ARV, rehab cost, and financing — get your full deal analysis instantly.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/free-house-flip-calculator' },
 };

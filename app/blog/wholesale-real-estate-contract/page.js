@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'Wholesale Real Estate Contract: What It Is and What It Needs | FreeDealCalc',
+  title: 'Wholesale Real Estate Contract: What It Is and What It Needs',
   description: 'What goes in a wholesale real estate contract — the purchase agreement, assignment clause, inspection period, and what to watch out for.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/wholesale-real-estate-contract' },
   openGraph: {

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flip Profit Calculator — See Your Net Before You Buy | FreeDealCalc",
+  title: "House Flip Profit Calculator — See Your Net Before You Buy",
   description: "Calculate house flip profit before you make an offer. Full cost breakdown — purchase, rehab, financing, holding, selling — and your net in seconds.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flip-profit-calculator' },
 };

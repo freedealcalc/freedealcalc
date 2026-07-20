@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Find Reliable Contractors for House Flipping | FreeDealCalc",
+  title: "How to Find Reliable Contractors for House Flipping",
   description: "How to find, vet, and manage contractors for a house flip — where to look, what to ask, contract terms that protect you, and red flags to avoid.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-find-contractors-house-flip' },
 };

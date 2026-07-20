@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Get a Hard Money Loan for Your First Deal | FreeDealCalc",
+  title: "How to Get a Hard Money Loan for Your First Deal",
   description: "How to qualify for hard money on your first flip — what lenders look for, how to present your deal, and what to expect if you have no track record.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-get-hard-money-loan-first-deal' },
 };

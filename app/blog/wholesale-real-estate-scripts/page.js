@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Wholesale Real Estate Scripts That Actually Work | FreeDealCalc",
+  title: "Wholesale Real Estate Scripts That Actually Work",
   description: "Real cold call and follow-up scripts for wholesale real estate. What to say to motivated sellers and how to move conversations toward contracts.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/wholesale-real-estate-scripts' },
 };

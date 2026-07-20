@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "San Antonio House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "San Antonio House Flipping: Market Guide for Investors",
   description: "House flipping in San Antonio — affordable acquisitions, military-driven demand, steady appreciation. What investors need to know about the SA market.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-san-antonio' },
 };

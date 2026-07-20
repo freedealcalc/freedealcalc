@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping Mistakes Beginners Make (And How to Avoid Them) | FreeDealCalc",
+  title: "House Flipping Mistakes Beginners Make (And | FreeDealCalc",
   description: "The most common house flipping mistakes new investors make — overpaying, bad contractors, poor budgeting — and exactly how to avoid each one.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-mistakes-beginners' },
 };

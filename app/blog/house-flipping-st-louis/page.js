@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in St. Louis: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in St. Louis: 2026 Market Guide",
   description: "Guide to house flipping in St. Louis in 2026. Low entry prices, high deal volume, best neighborhoods, and realistic profit numbers.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-st-louis' },
 };

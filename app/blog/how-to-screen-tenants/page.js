@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How to Screen Tenants: A Landlord's Complete Guide | FreeDealCalc",
+  title: "How to Screen Tenants: A Landlord's Complete Guide",
   description: "How to screen tenants properly — credit check, income verification, rental history, and background check. What to look for and what the law requires.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-to-screen-tenants' },
 };

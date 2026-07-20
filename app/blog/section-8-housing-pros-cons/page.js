@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Section 8 Housing for Landlords: Pros, Cons, and How It Works | FreeDealCalc",
+  title: "Section 8 Housing for Landlords: Pros, Cons | FreeDealCalc",
   description: "Section 8 landlord guide — guaranteed rent, inspection requirements, tenant screening, and whether HUD voucher tenants are right for your rental strategy.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/section-8-housing-pros-cons' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Private Money Lenders for Real Estate: How to Find and Use Them | FreeDealCalc",
+  title: "Private Money Lenders for Real Estate: How | FreeDealCalc",
   description: "How to find private money lenders for real estate deals — who they are, typical terms, how to structure the relationship, and what they look for.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/private-money-lenders-real-estate' },
 };

@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Columbus Ohio House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Columbus Ohio House Flipping: Market Guide for Investors",
   description: "House flipping in Columbus Ohio — steady market, reasonable acquisition costs, and active investor community. Current conditions and deal opportunities.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-columbus' },
 };

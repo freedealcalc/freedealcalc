@@ -2,7 +2,7 @@ import { getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "House Flipping in Baltimore: 2026 Market Guide | FreeDealCalc",
+  title: "House Flipping in Baltimore: 2026 Market Guide",
   description: "Complete guide to flipping houses in Baltimore in 2026. ARV ranges, rehab costs, best neighborhoods, and live market data.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-baltimore' },
 };

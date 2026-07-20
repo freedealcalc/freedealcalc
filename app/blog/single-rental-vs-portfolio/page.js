@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Single Rental Property vs Portfolio: Which Strategy Is Better? | FreeDealCalc",
+  title: "Single Rental Property vs Portfolio: Which | FreeDealCalc",
   description: "Should you own one great rental or build a portfolio? The math, the management, and which approach builds more wealth.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/single-rental-vs-portfolio' },
 };

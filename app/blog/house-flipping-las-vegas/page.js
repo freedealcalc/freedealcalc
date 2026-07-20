@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Las Vegas House Flipping: Market Guide for Investors | FreeDealCalc",
+  title: "Las Vegas House Flipping: Market Guide for Investors",
   description: "House flipping in Las Vegas — boom and bust market dynamics, current conditions, what the numbers look like for flippers and investors in 2026.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/house-flipping-las-vegas' },
 };

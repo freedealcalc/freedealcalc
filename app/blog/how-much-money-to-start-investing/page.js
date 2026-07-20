@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "How Much Money Do You Need to Start Investing in Real Estate? | FreeDealCalc",
+  title: "How Much Money Do You Need to Start | FreeDealCalc",
   description: "Realistic capital requirements for every real estate investing strategy. How much you actually need to get started and how to start with less.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/how-much-money-to-start-investing' },
 };

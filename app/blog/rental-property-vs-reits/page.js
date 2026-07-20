@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Rental Property vs REITs: Which Is the Better Investment? | FreeDealCalc",
+  title: "Rental Property vs REITs: Which Is the Better Investment?",
   description: "A direct comparison of direct rental property ownership vs REIT investing. Returns, liquidity, taxes, and which fits different investor profiles.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/rental-property-vs-reits' },
 };

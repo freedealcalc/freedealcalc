@@ -2,7 +2,7 @@ import { getNOVAMarketData, getMarketData } from '../../../lib/blog/marketData';
 import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 export const metadata = {
-  title: "Tax Delinquent Properties: A Guide for Real Estate Investors | FreeDealCalc",
+  title: "Tax Delinquent Properties: A Guide for Real Estate Investors",
   description: "How to find and buy tax delinquent properties. Understanding the tax lien and tax deed process and where the real opportunities are.",
   alternates: { canonical: 'https://www.freedealcalc.com/blog/tax-delinquent-properties-investing' },
 };

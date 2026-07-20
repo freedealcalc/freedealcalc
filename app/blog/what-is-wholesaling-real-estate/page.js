@@ -4,7 +4,7 @@ import MarketPulse from '../MarketPulse';
 export const revalidate = 2592000;
 
 export const metadata = {
-  title: 'What is Wholesaling Real Estate? How It Works in 2026 | FreeDealCalc',
+  title: 'What is Wholesaling Real Estate? How It Works in 2026',
   description: 'Wholesaling real estate explained — how wholesalers find deals, get them under contract, and assign them to buyers for a fee. No renovation required.',
   alternates: { canonical: 'https://www.freedealcalc.com/blog/what-is-wholesaling-real-estate' },
   openGraph: {
